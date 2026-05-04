@@ -1,0 +1,50 @@
+{
+  "site": {
+    "founded": "2026",
+    "location": "Seoul",
+    "tagline": "Pear Type Foundry. Seoul, 2026.",
+    "fontsReleased": 2,
+    "fontsInDevelopment": 2,
+    "heroImage": "./hero1.png",
+    "email": "ppearwayy@gmail.com",
+    "instagram": "https://www.instagram.com/thisispearway/",
+    "noonnu": ""
+  },
+  "fonts": [
+    {
+      "id": "font-1777889220548",
+      "number": "PTF · 01",
+      "year": "2026",
+      "name": "우아한세리프",
+      "nameEn": "",
+      "preview": "우아하고 싶다면 이 폰트를",
+      "image": "./grace.png",
+      "category": "Display",
+      "weights": "1 weight",
+      "status": "출시",
+      "statusDetail": "",
+      "style": "default",
+      "theme": "",
+      "link": "https://noonnu.cc/font_page/1800",
+      "coming": false
+    },
+    {
+      "id": "font-1777889248307",
+      "number": "PTF · 02",
+      "year": "2026",
+      "name": "삐딱한글",
+      "nameEn": "",
+      "preview": "글자",
+      "image": "./croked.png",
+      "category": "Display",
+      "weights": "3 weight",
+      "status": "개발 중",
+      "statusDetail": "",
+      "style": "default",
+      "theme": "",
+      "link": "#",
+      "coming": false
+    }
+  ],
+  "graphics": []
+}
