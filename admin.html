@@ -25,7 +25,6 @@
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
-
     html { -webkit-font-smoothing: antialiased; }
 
     body {
@@ -41,7 +40,7 @@
 
     /* HEADER */
     header {
-      padding: 24px 32px;
+      padding: 20px 32px;
       background: var(--panel);
       border-bottom: 1px solid var(--line);
       display: flex;
@@ -67,11 +66,7 @@
       margin-left: 8px;
     }
 
-    .header-actions {
-      display: flex;
-      gap: 12px;
-      align-items: center;
-    }
+    .header-actions { display: flex; gap: 10px; align-items: center; }
 
     .btn {
       padding: 10px 16px;
@@ -100,19 +95,15 @@
       color: var(--danger);
       border-color: rgba(200, 40, 28, 0.2);
     }
-
     .btn-danger:hover { background: rgba(200, 40, 28, 0.05); }
 
-    .btn-mini {
-      padding: 4px 10px;
-      font-size: 12px;
-    }
+    .btn-mini { padding: 4px 10px; font-size: 12px; }
 
     /* TABS */
     .tabs {
       display: flex;
       gap: 4px;
-      padding: 16px 32px 0;
+      padding: 12px 32px 0;
       background: var(--panel);
       border-bottom: 1px solid var(--line);
     }
@@ -134,18 +125,10 @@
     }
 
     .tab:hover { color: var(--ink); }
-
-    .tab.active {
-      color: var(--ink);
-      border-bottom-color: var(--ink);
-    }
+    .tab.active { color: var(--ink); border-bottom-color: var(--ink); }
 
     /* MAIN */
-    main {
-      padding: 32px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
+    main { padding: 32px; max-width: 1200px; margin: 0 auto; }
 
     .panel-section { display: none; }
     .panel-section.active { display: block; }
@@ -161,7 +144,7 @@
     .panel-desc {
       color: var(--muted);
       font-size: 14px;
-      margin-bottom: 32px;
+      margin-bottom: 24px;
       line-height: 1.6;
     }
 
@@ -170,26 +153,29 @@
       background: var(--panel);
       border: 1px solid var(--line);
       border-radius: 12px;
-      padding: 28px;
-      margin-bottom: 24px;
+      padding: 24px;
+      margin-bottom: 16px;
     }
 
     .form-card h3 {
       font-family: var(--en);
       font-weight: 600;
-      font-size: 16px;
+      font-size: 15px;
       letter-spacing: -0.01em;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 12px;
     }
+
+    .form-card h3 .head-actions { display: flex; gap: 6px; }
 
     .form-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      margin-bottom: 16px;
+      gap: 14px;
+      margin-bottom: 14px;
     }
 
     .form-row.full { grid-template-columns: 1fr; }
@@ -224,6 +210,11 @@
       letter-spacing: -0.01em;
     }
 
+    .form-field input.path-input {
+      font-family: var(--mono);
+      font-size: 13px;
+    }
+
     .form-field input:focus,
     .form-field select:focus,
     .form-field textarea:focus {
@@ -232,53 +223,8 @@
     }
 
     .form-field textarea {
-      min-height: 80px;
+      min-height: 70px;
       resize: vertical;
-      font-family: var(--mono);
-    }
-
-    /* LIST */
-    .list-card {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      padding: 20px 24px;
-      margin-bottom: 12px;
-      display: grid;
-      grid-template-columns: 60px 1fr auto auto;
-      gap: 20px;
-      align-items: center;
-    }
-
-    .list-card-num {
-      font-family: var(--mono);
-      font-size: 12px;
-      color: var(--muted);
-    }
-
-    .list-card-name {
-      font-family: var(--kr);
-      font-weight: 500;
-      font-size: 16px;
-      letter-spacing: -0.02em;
-    }
-
-    .list-card-meta {
-      font-family: var(--mono);
-      font-size: 11px;
-      color: var(--muted);
-      margin-top: 4px;
-    }
-
-    .list-card-status {
-      font-family: var(--mono);
-      font-size: 11px;
-      color: var(--muted);
-    }
-
-    .list-card-actions {
-      display: flex;
-      gap: 8px;
     }
 
     /* TOAST */
@@ -299,11 +245,7 @@
       pointer-events: none;
     }
 
-    .toast.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
+    .toast.show { opacity: 1; transform: translateY(0); }
     .toast.success { background: var(--success); }
     .toast.error { background: var(--danger); }
 
@@ -335,20 +277,31 @@
 
     .info-box strong { color: var(--accent); }
 
+    .info-box code {
+      background: rgba(10, 10, 9, 0.06);
+      padding: 1px 6px;
+      border-radius: 3px;
+      font-family: var(--mono);
+      font-size: 12px;
+    }
+
     .empty-state {
       text-align: center;
       padding: 60px 20px;
       color: var(--muted);
       font-size: 14px;
+      background: var(--panel);
+      border: 1px dashed var(--line);
+      border-radius: 12px;
     }
 
     @media (max-width: 700px) {
       header { padding: 16px 20px; flex-direction: column; gap: 12px; align-items: flex-start; }
       .header-actions { width: 100%; }
-      .tabs { padding: 12px 20px 0; overflow-x: auto; }
+      .tabs { padding: 8px 20px 0; overflow-x: auto; }
       main { padding: 24px 20px; }
       .form-row { grid-template-columns: 1fr; }
-      .list-card { grid-template-columns: 1fr; gap: 12px; }
+      .toast { left: 20px; right: 20px; bottom: 20px; }
     }
   </style>
 </head>
@@ -375,10 +328,12 @@
     <!-- SITE INFO -->
     <section class="panel-section active" id="panel-site">
       <h1 class="panel-title">사이트 정보</h1>
-      <p class="panel-desc">Hero 영역, 푸터, 연락처 등에 노출되는 사이트 전반 정보입니다.</p>
+      <p class="panel-desc">Hero 영역, 푸터, 연락처에 노출되는 사이트 전반 정보입니다.</p>
 
       <div class="info-box">
-        <strong>이미지 경로 안내:</strong> Hero 이미지는 <code>images/hero.jpg</code> 같은 상대 경로로 입력하세요. 실제 이미지는 GitHub 저장소의 같은 경로에 업로드해야 표시됩니다.
+        <strong>이미지 사용법</strong><br>
+        이미지 파일은 GitHub 저장소의 <code>images/</code> 폴더에 직접 업로드하시고,<br>
+        여기서는 그 경로만 입력하면 됩니다. 예: <code>images/hero.jpg</code>
       </div>
 
       <div class="form-card">
@@ -411,8 +366,8 @@
         </div>
         <div class="form-row full">
           <div class="form-field">
-            <label>Hero 이미지 경로 <span class="hint">(images/hero.jpg)</span></label>
-            <input type="text" id="site-heroImage" placeholder="images/hero.jpg">
+            <label>Hero 이미지 경로 <span class="hint">(권장: 2400 × 1600px 이상)</span></label>
+            <input type="text" id="site-heroImage" class="path-input" placeholder="images/hero.jpg">
           </div>
         </div>
       </div>
@@ -444,8 +399,9 @@
       <p class="panel-desc">사이트의 폰트 카드로 표시되는 항목입니다. 위에서 아래 순서로 노출됩니다.</p>
 
       <div class="info-box">
-        스타일 옵션 — <strong>serif</strong>: 우아한세리프류 (이태릭 표시), <strong>display</strong>: 삐딱한글류 (skew 표시), <strong>default</strong>: 일반.<br>
-        테마 옵션 — <strong>light</strong>: 베이지 배경, <strong>dark</strong>: 검정 배경, <strong>dim</strong>: 진행 중 (어두운 회색).
+        <strong>대표 이미지 사용 시</strong>: <code>images/fonts/elegant-serif.jpg</code> 같은 경로 입력. 비워두면 미리보기 글자가 표시됩니다.<br>
+        <strong>스타일</strong> — serif (이태릭 표시) / display (skew 표시) / default (일반)<br>
+        <strong>테마</strong> — light (베이지 배경) / dark (검정 배경) / dim (어두운 회색, 진행 중)
       </div>
 
       <div id="fonts-list"></div>
@@ -456,11 +412,10 @@
     <!-- GRAPHICS -->
     <section class="panel-section" id="panel-graphics">
       <h1 class="panel-title">그래픽 작업</h1>
-      <p class="panel-desc">사이트의 그래픽 카드로 표시되는 작업물입니다. 이미지 경로를 입력하면 텍스트 대신 이미지가 표시됩니다.</p>
+      <p class="panel-desc">사이트의 그래픽 카드로 표시되는 작업물입니다.</p>
 
       <div class="info-box">
-        <strong>이미지 사용 시</strong>: <code>images/works/poster1.jpg</code> 같은 경로 입력. GitHub에 같은 경로로 이미지 업로드 필수.<br>
-        <strong>이미지 비워둘 시</strong>: 미리보기 텍스트와 옵션(skew, serif)으로 표시됩니다.
+        <strong>대표 이미지 사용 시</strong>: <code>images/works/poster1.jpg</code> 같은 경로 입력. 비워두면 미리보기 텍스트가 표시됩니다.
       </div>
 
       <div id="graphics-list"></div>
@@ -470,17 +425,17 @@
 
     <!-- PREVIEW -->
     <section class="panel-section" id="panel-preview">
-      <h1 class="panel-title">JSON 미리보기</h1>
-      <p class="panel-desc">현재 입력된 데이터의 JSON 형태입니다. 아래 다운로드 버튼으로 받아 GitHub에 업로드하세요.</p>
+      <h1 class="panel-title">배포 가이드</h1>
+      <p class="panel-desc">현재 입력된 데이터의 JSON 형태입니다.</p>
 
       <div class="info-box">
         <strong>배포 워크플로우</strong>
         <ol style="margin-top: 8px; padding-left: 20px;">
-          <li>이 페이지에서 콘텐츠 수정</li>
-          <li>"data.json 다운로드" 버튼 클릭</li>
-          <li>다운받은 파일을 GitHub 저장소 루트에 업로드 (또는 덮어쓰기)</li>
-          <li>이미지가 새로 추가됐다면 <code>images/</code> 폴더에 함께 업로드</li>
-          <li>커밋 → Vercel이 자동 배포</li>
+          <li>이미지 파일을 GitHub 저장소의 <code>images/</code> 폴더에 직접 업로드</li>
+          <li>이 어드민에서 콘텐츠 입력 + 이미지 경로 작성</li>
+          <li>상단 <strong>"data.json 다운로드"</strong> 클릭</li>
+          <li>다운받은 <code>data.json</code>을 GitHub 저장소 루트에 업로드 (덮어쓰기)</li>
+          <li>커밋 → Vercel 자동 배포 (1~2분)</li>
         </ol>
       </div>
 
@@ -499,7 +454,7 @@
         tagline: 'Pear Type Foundry. Seoul, 2026.',
         fontsReleased: 2,
         fontsInDevelopment: 2,
-        heroImage: 'images/hero.jpg',
+        heroImage: '',
         email: 'ppearwayy@gmail.com',
         instagram: '',
         noonnu: ''
@@ -537,7 +492,7 @@
         toast('data.json을 불러왔습니다', 'success');
       } catch (e) {
         renderAll();
-        toast('data.json을 찾을 수 없어 빈 상태로 시작합니다', 'error');
+        toast('빈 상태로 시작합니다');
       }
     }
 
@@ -584,66 +539,90 @@
         list.innerHTML = '<div class="empty-state">아직 폰트가 없습니다. 아래 버튼으로 추가하세요.</div>';
         return;
       }
-      list.innerHTML = state.fonts.map((f, idx) => `
+      list.innerHTML = state.fonts.map((f, idx) => fontCardHTML(f, idx)).join('');
+      bindFontInputs();
+    }
+
+    function fontCardHTML(f, idx) {
+      return `
         <div class="form-card">
           <h3>
-            <span>${f.number || 'PTF · ?'} — ${f.name || '이름 없음'}</span>
-            <div style="display: flex; gap: 8px;">
+            <span>${escapeText(f.number || 'PTF · ?')} — ${escapeText(f.name || '이름 없음')}</span>
+            <div class="head-actions">
               ${idx > 0 ? `<button class="btn btn-mini" onclick="moveFont(${idx}, -1)">↑</button>` : ''}
               ${idx < state.fonts.length - 1 ? `<button class="btn btn-mini" onclick="moveFont(${idx}, 1)">↓</button>` : ''}
               <button class="btn btn-mini btn-danger" onclick="removeFont(${idx})">삭제</button>
             </div>
           </h3>
+
           <div class="form-row">
             <div class="form-field">
               <label>번호 <span class="hint">(PTF · 01)</span></label>
-              <input type="text" data-font="${idx}" data-key="number" value="${f.number || ''}">
+              <input type="text" data-font="${idx}" data-key="number" value="${escapeAttr(f.number)}">
             </div>
             <div class="form-field">
               <label>연도</label>
-              <input type="text" data-font="${idx}" data-key="year" value="${f.year || ''}">
+              <input type="text" data-font="${idx}" data-key="year" value="${escapeAttr(f.year)}">
             </div>
           </div>
+
           <div class="form-row">
             <div class="form-field">
               <label>한글명</label>
-              <input type="text" data-font="${idx}" data-key="name" value="${f.name || ''}">
+              <input type="text" data-font="${idx}" data-key="name" value="${escapeAttr(f.name)}">
             </div>
             <div class="form-field">
               <label>영문명</label>
-              <input type="text" data-font="${idx}" data-key="nameEn" value="${f.nameEn || ''}">
+              <input type="text" data-font="${idx}" data-key="nameEn" value="${escapeAttr(f.nameEn)}">
             </div>
           </div>
+
           <div class="form-row">
             <div class="form-field">
-              <label>미리보기 글자 <span class="hint">(카드 중앙)</span></label>
-              <input type="text" data-font="${idx}" data-key="preview" value="${f.preview || ''}">
+              <label>고유 ID <span class="hint">(영문, 하이픈)</span></label>
+              <input type="text" data-font="${idx}" data-key="id" value="${escapeAttr(f.id)}">
             </div>
             <div class="form-field">
-              <label>고유 ID <span class="hint">(영문, 하이픈)</span></label>
-              <input type="text" data-font="${idx}" data-key="id" value="${f.id || ''}">
+              <label>미리보기 글자 <span class="hint">(이미지 없을 때 표시)</span></label>
+              <input type="text" data-font="${idx}" data-key="preview" value="${escapeAttr(f.preview)}">
             </div>
           </div>
+
+          <div class="form-row full">
+            <div class="form-field">
+              <label>대표 이미지 경로 <span class="hint">(있으면 미리보기 글자 대신 표시)</span></label>
+              <input type="text" class="path-input" data-font="${idx}" data-key="image" value="${escapeAttr(f.image)}" placeholder="images/fonts/elegant-serif.jpg">
+            </div>
+          </div>
+
           <div class="form-row">
             <div class="form-field">
               <label>분류 <span class="hint">(Serif, Display 등)</span></label>
-              <input type="text" data-font="${idx}" data-key="category" value="${f.category || ''}">
+              <input type="text" data-font="${idx}" data-key="category" value="${escapeAttr(f.category)}">
             </div>
             <div class="form-field">
               <label>웨이트 정보</label>
-              <input type="text" data-font="${idx}" data-key="weights" value="${f.weights || ''}">
+              <input type="text" data-font="${idx}" data-key="weights" value="${escapeAttr(f.weights)}">
             </div>
           </div>
+
           <div class="form-row">
             <div class="form-field">
               <label>상태</label>
-              <input type="text" data-font="${idx}" data-key="status" value="${f.status || ''}" placeholder="Released, Coming Soon, TBA">
+              <select data-font="${idx}" data-key="status">
+                <option value="출시" ${f.status === '출시' ? 'selected' : ''}>출시</option>
+                <option value="출시 예정" ${f.status === '출시 예정' ? 'selected' : ''}>출시 예정</option>
+                <option value="개발 중" ${f.status === '개발 중' ? 'selected' : ''}>개발 중</option>
+                <option value="예정" ${f.status === '예정' ? 'selected' : ''}>예정</option>
+                <option value="미정" ${f.status === '미정' ? 'selected' : ''}>미정</option>
+              </select>
             </div>
             <div class="form-field">
-              <label>상태 부연 설명</label>
-              <input type="text" data-font="${idx}" data-key="statusDetail" value="${f.statusDetail || ''}" placeholder="Download ↗, 2026 Q3">
+              <label>상태 부연 설명 <span class="hint">(상태 아래 작은 글씨)</span></label>
+              <input type="text" data-font="${idx}" data-key="statusDetail" value="${escapeAttr(f.statusDetail)}" placeholder="예: 다운로드 ↗ / 2026년 가을">
             </div>
           </div>
+
           <div class="form-row">
             <div class="form-field">
               <label>스타일</label>
@@ -662,24 +641,26 @@
               </select>
             </div>
           </div>
+
           <div class="form-row">
             <div class="form-field">
               <label>링크 <span class="hint">(상세 페이지 또는 외부 URL)</span></label>
-              <input type="text" data-font="${idx}" data-key="link" value="${f.link || ''}">
+              <input type="text" data-font="${idx}" data-key="link" value="${escapeAttr(f.link)}">
             </div>
             <div class="form-field">
               <label>진행 중 표시</label>
               <select data-font="${idx}" data-key="coming">
                 <option value="false" ${!f.coming ? 'selected' : ''}>아니오 (출시/예정)</option>
-                <option value="true" ${f.coming ? 'selected' : ''}>예 (TBA)</option>
+                <option value="true" ${f.coming ? 'selected' : ''}>예 (흐릿하게 표시)</option>
               </select>
             </div>
           </div>
         </div>
-      `).join('');
+      `;
+    }
 
-      // Bind inputs
-      list.querySelectorAll('[data-font]').forEach(el => {
+    function bindFontInputs() {
+      document.querySelectorAll('[data-font]').forEach(el => {
         el.addEventListener('input', e => {
           const idx = parseInt(el.dataset.font);
           const key = el.dataset.key;
@@ -687,6 +668,14 @@
           if (key === 'coming') v = v === 'true';
           state.fonts[idx][key] = v;
           updatePreview();
+          // re-render header if name/number changed
+          if (key === 'name' || key === 'number') {
+            const card = el.closest('.form-card');
+            if (card) {
+              const h3 = card.querySelector('h3 span');
+              if (h3) h3.textContent = `${state.fonts[idx].number || 'PTF · ?'} — ${state.fonts[idx].name || '이름 없음'}`;
+            }
+          }
         });
       });
     }
@@ -700,12 +689,13 @@
         name: '새 폰트',
         nameEn: 'New Font',
         preview: '글자',
+        image: '',
         category: 'Display',
         weights: '1 weight',
-        status: 'TBA',
+        status: '미정',
         statusDetail: '',
         style: 'default',
-        theme: 'dark',
+        theme: '',
         link: '#',
         coming: false
       });
@@ -737,48 +727,58 @@
         list.innerHTML = '<div class="empty-state">아직 그래픽 작업이 없습니다. 아래 버튼으로 추가하세요.</div>';
         return;
       }
-      list.innerHTML = state.graphics.map((g, idx) => `
+      list.innerHTML = state.graphics.map((g, idx) => graphicCardHTML(g, idx)).join('');
+      bindGraphicInputs();
+    }
+
+    function graphicCardHTML(g, idx) {
+      return `
         <div class="form-card">
           <h3>
-            <span>${g.title || '제목 없음'} — ${g.year || ''}</span>
-            <div style="display: flex; gap: 8px;">
+            <span>${escapeText(g.title || '제목 없음')} — ${escapeText(g.year || '')}</span>
+            <div class="head-actions">
               ${idx > 0 ? `<button class="btn btn-mini" onclick="moveGraphic(${idx}, -1)">↑</button>` : ''}
               ${idx < state.graphics.length - 1 ? `<button class="btn btn-mini" onclick="moveGraphic(${idx}, 1)">↓</button>` : ''}
               <button class="btn btn-mini btn-danger" onclick="removeGraphic(${idx})">삭제</button>
             </div>
           </h3>
+
           <div class="form-row">
             <div class="form-field">
               <label>제목</label>
-              <input type="text" data-graphic="${idx}" data-key="title" value="${g.title || ''}">
+              <input type="text" data-graphic="${idx}" data-key="title" value="${escapeAttr(g.title)}">
             </div>
             <div class="form-field">
               <label>고유 ID</label>
-              <input type="text" data-graphic="${idx}" data-key="id" value="${g.id || ''}">
+              <input type="text" data-graphic="${idx}" data-key="id" value="${escapeAttr(g.id)}">
             </div>
           </div>
+
           <div class="form-row">
             <div class="form-field">
               <label>연도</label>
-              <input type="text" data-graphic="${idx}" data-key="year" value="${g.year || ''}">
+              <input type="text" data-graphic="${idx}" data-key="year" value="${escapeAttr(g.year)}">
             </div>
             <div class="form-field">
               <label>분야 <span class="hint">(Branding, Editorial 등)</span></label>
-              <input type="text" data-graphic="${idx}" data-key="category" value="${g.category || ''}">
+              <input type="text" data-graphic="${idx}" data-key="category" value="${escapeAttr(g.category)}">
             </div>
           </div>
+
           <div class="form-row full">
             <div class="form-field">
-              <label>이미지 경로 <span class="hint">(비우면 텍스트로 표시)</span></label>
-              <input type="text" data-graphic="${idx}" data-key="image" value="${g.image || ''}" placeholder="images/works/poster1.jpg">
+              <label>대표 이미지 경로 <span class="hint">(있으면 텍스트 대신 표시)</span></label>
+              <input type="text" class="path-input" data-graphic="${idx}" data-key="image" value="${escapeAttr(g.image)}" placeholder="images/works/poster1.jpg">
             </div>
           </div>
+
           <div class="form-row full">
             <div class="form-field">
-              <label>미리보기 텍스트 <span class="hint">(이미지 없을 때 표시. 줄바꿈 가능)</span></label>
-              <textarea data-graphic="${idx}" data-key="previewText">${g.previewText || ''}</textarea>
+              <label>미리보기 텍스트 <span class="hint">(이미지 없을 때 사용. 줄바꿈 가능)</span></label>
+              <textarea data-graphic="${idx}" data-key="previewText">${escapeText(g.previewText)}</textarea>
             </div>
           </div>
+
           <div class="form-row">
             <div class="form-field">
               <label>테마</label>
@@ -796,16 +796,19 @@
               </select>
             </div>
           </div>
+
           <div class="form-row full">
             <div class="form-field">
               <label>링크 <span class="hint">(상세 페이지 또는 외부 URL)</span></label>
-              <input type="text" data-graphic="${idx}" data-key="link" value="${g.link || ''}">
+              <input type="text" data-graphic="${idx}" data-key="link" value="${escapeAttr(g.link)}">
             </div>
           </div>
         </div>
-      `).join('');
+      `;
+    }
 
-      list.querySelectorAll('[data-graphic]').forEach(el => {
+    function bindGraphicInputs() {
+      document.querySelectorAll('[data-graphic]').forEach(el => {
         el.addEventListener('input', e => {
           const idx = parseInt(el.dataset.graphic);
           const key = el.dataset.key;
@@ -817,6 +820,14 @@
             state.graphics[idx][key] = el.value;
           }
           updatePreview();
+          // re-render header if title/year changed
+          if (key === 'title' || key === 'year') {
+            const card = el.closest('.form-card');
+            if (card) {
+              const h3 = card.querySelector('h3 span');
+              if (h3) h3.textContent = `${state.graphics[idx].title || '제목 없음'} — ${state.graphics[idx].year || ''}`;
+            }
+          }
         });
       });
     }
@@ -855,11 +866,23 @@
       updatePreview();
     }
 
-    // ===== PREVIEW & DOWNLOAD =====
+    // ===== UTILITIES =====
+    function escapeAttr(v) {
+      if (v == null) return '';
+      return String(v).replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    function escapeText(v) {
+      if (v == null) return '';
+      return String(v).replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    // ===== PREVIEW =====
     function updatePreview() {
       document.getElementById('json-preview').textContent = JSON.stringify(state, null, 2);
     }
 
+    // ===== DOWNLOAD =====
     function downloadJSON() {
       const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
       const url = URL.createObjectURL(blob);

@@ -248,6 +248,23 @@
       line-height: 0.95;
       letter-spacing: -0.04em;
       transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      overflow: hidden;
+    }
+
+    .type-card-preview.has-image {
+      position: absolute;
+      inset: 0;
+      padding: 0;
+    }
+
+    .type-card-preview.has-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .type-card-image {
+      position: relative;
     }
 
     .type-card[data-style="serif"] .type-card-preview {
@@ -643,6 +660,7 @@ Seoul, 2026.</p>
       <div class="footer-col">
         <h4>스튜디오</h4>
         <ul>
+          <li><a href="https://pearway.kr" target="_blank" rel="noopener">Pearway 브랜딩 ↗</a></li>
           <li><a href="#graphic">그래픽</a></li>
           <li><a href="#custom">의뢰</a></li>
         </ul>
@@ -726,14 +744,21 @@ Seoul, 2026.</p>
 
       // Type cards
       const typeGrid = document.getElementById('typeGrid');
-      typeGrid.innerHTML = data.fonts.map((f, i) => `
+      typeGrid.innerHTML = data.fonts.map((f, i) => {
+        const useImage = f.image && f.image.trim();
+        const previewContent = useImage
+          ? `<img src="${f.image}" alt="${f.name}">`
+          : f.preview;
+        const previewClass = useImage ? 'type-card-preview has-image' : 'type-card-preview';
+
+        return `
         <a href="${f.coming ? '#' : (f.link || '#')}" class="type-card reveal ${i % 2 === 1 ? 'reveal-delay-1' : ''} ${f.coming ? 'coming' : ''}" data-style="${f.style}">
           <div class="type-card-image ${f.theme || ''}">
             <div class="type-card-meta-top">
               <span>${f.number}</span>
               <span>${f.year}</span>
             </div>
-            <div class="type-card-preview">${f.preview}</div>
+            <div class="${previewClass}">${previewContent}</div>
             <div class="type-card-meta-bottom">
               <span>${f.category}</span>
               <span>${f.weights}</span>
@@ -749,7 +774,8 @@ Seoul, 2026.</p>
             </div>
           </div>
         </a>
-      `).join('');
+      `;
+      }).join('');
 
       // Graphic cards
       const graphicGrid = document.getElementById('graphicGrid');
