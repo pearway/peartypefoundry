@@ -11,6 +11,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
 
+  <!-- Lenis smooth scroll -->
+  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+
   <style>
     :root {
       --bg: #FCFCFA;
@@ -31,10 +34,12 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     html {
-      scroll-behavior: smooth;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
+
+    html.lenis-smooth { scroll-behavior: auto; }
+    html.lenis-smooth, html.lenis-smooth body { overscroll-behavior: contain; }
 
     body {
       background: var(--bg);
@@ -46,22 +51,109 @@
       letter-spacing: -0.012em;
     }
 
+    body.loading { overflow: hidden; height: 100vh; }
+
     .kr { font-family: var(--kr); letter-spacing: -0.02em; }
     .mono { font-family: var(--mono); letter-spacing: 0; }
 
     a { color: inherit; text-decoration: none; transition: color 0.3s ease; }
     a:hover { color: var(--hover); }
 
-    .reveal {
-      opacity: 0;
-      transform: translateY(40px);
-      transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+    /* ====================================
+       LOADER — Dark Minimal
+       ==================================== */
+    .loader {
+      position: fixed;
+      inset: 0;
+      background: var(--ink);
+      color: var(--bg);
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      transition: opacity 1.2s cubic-bezier(0.7, 0, 0.3, 1), visibility 1.2s;
     }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
-    .reveal-delay-1 { transition-delay: 0.1s; }
-    .reveal-delay-2 { transition-delay: 0.2s; }
 
-    /* NAV */
+    .loader.done {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .loader-header {
+      padding: 32px var(--pad);
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: rgba(252, 252, 250, 0.5);
+      letter-spacing: 0;
+    }
+
+    .loader-header .brand {
+      font-family: var(--en);
+      font-weight: 500;
+      font-size: 15px;
+      color: var(--bg);
+      letter-spacing: -0.02em;
+    }
+
+    .loader-stage {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .loader-footer {
+      padding: 40px var(--pad);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 40px;
+      font-family: var(--mono);
+      letter-spacing: 0;
+    }
+
+    .loader-footer-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .loader-spinner {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(252, 252, 250, 0.15);
+      border-top-color: var(--bg);
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .loader-footer-label {
+      font-size: 11px;
+      color: rgba(252, 252, 250, 0.5);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .loader-percent {
+      font-family: var(--mono);
+      font-size: clamp(48px, 6vw, 80px);
+      font-weight: 400;
+      color: var(--bg);
+      line-height: 0.9;
+      letter-spacing: -0.04em;
+      text-align: right;
+    }
+
+    /* ====================================
+       NAV
+       ==================================== */
     nav {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -113,7 +205,9 @@
       letter-spacing: -0.02em;
     }
 
-    /* HERO */
+    /* ====================================
+       HERO — clean
+       ==================================== */
     .hero {
       position: relative;
       width: 100%;
@@ -121,6 +215,7 @@
       min-height: 600px;
       overflow: hidden;
       color: #FFFFFF;
+      background: #0F0F0E;
     }
 
     .hero-image {
@@ -132,21 +227,14 @@
       z-index: 1;
     }
 
-    .hero-image-placeholder {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, #1a1a18 0%, #2a2a26 50%, #1a1a18 100%);
-      z-index: 1;
-    }
-
     .hero-overlay {
       position: absolute;
       inset: 0;
       background: linear-gradient(
         180deg,
-        rgba(0,0,0,0.25) 0%,
-        rgba(0,0,0,0.05) 30%,
-        rgba(0,0,0,0.05) 70%,
+        rgba(0,0,0,0.35) 0%,
+        rgba(0,0,0,0.1) 30%,
+        rgba(0,0,0,0.1) 70%,
         rgba(0,0,0,0.4) 100%
       );
       z-index: 2;
@@ -195,8 +283,28 @@
       line-height: 1.7;
     }
 
-    /* SECTIONS */
-    section { padding: 100px var(--pad); }
+    /* ====================================
+       SCROLL ANIMATIONS
+       ==================================== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: opacity, transform;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+
+    /* ====================================
+       SECTIONS
+       ==================================== */
+    section {
+      padding: 100px var(--pad);
+      position: relative;
+    }
 
     .section-tag {
       font-family: var(--mono);
@@ -263,10 +371,6 @@
       object-fit: cover;
     }
 
-    .type-card-image {
-      position: relative;
-    }
-
     .type-card[data-style="serif"] .type-card-preview {
       font-family: 'Geist', serif;
       font-weight: 300;
@@ -291,7 +395,6 @@
     }
 
     .type-card-meta-bottom {
-      font-size: 11px;
       text-transform: uppercase;
       opacity: 0.7;
     }
@@ -460,7 +563,7 @@
     .custom-cta .arrow { transition: transform 0.3s ease; }
     .custom-cta:hover .arrow { transform: translateX(4px); }
 
-    /* CONTACT */
+    /* CONTACT — clean */
     .contact { padding: 140px var(--pad); text-align: center; }
 
     .contact-eyebrow {
@@ -499,6 +602,9 @@
     footer {
       padding: 60px var(--pad) 32px;
       border-top: 1px solid var(--line);
+      position: relative;
+      z-index: 2;
+      background: var(--bg);
     }
 
     .footer-grid {
@@ -575,11 +681,39 @@
       .footer-grid { grid-template-columns: 1fr 1fr; margin-bottom: 32px; }
       .footer-brand-col { grid-column: 1 / -1; }
       .footer-bottom { flex-direction: column; gap: 8px; }
+
+      .loader-header, .loader-footer { padding: 20px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal {
+        opacity: 1 !important;
+        transform: none !important;
+      }
     }
   </style>
 </head>
-<body>
+<body class="loading">
 
+  <!-- LOADER — Minimal -->
+  <div class="loader" id="loader">
+    <div class="loader-header">
+      <div class="brand">Pear Type Foundry</div>
+      <div>EST. 2026 — Seoul</div>
+    </div>
+
+    <div class="loader-stage"></div>
+
+    <div class="loader-footer">
+      <div class="loader-footer-left">
+        <div class="loader-spinner"></div>
+        <span class="loader-footer-label">Loading</span>
+      </div>
+      <span class="loader-percent" id="loaderPercent">000</span>
+    </div>
+  </div>
+
+  <!-- NAV -->
   <nav class="over-hero" id="mainNav">
     <a href="/" class="logo">
       Pear Type Foundry<span class="small">PTF</span>
@@ -592,8 +726,8 @@
     </div>
   </nav>
 
+  <!-- HERO — clean -->
   <header class="hero">
-    <div class="hero-image-placeholder" id="heroPlaceholder"></div>
     <img class="hero-image" id="heroImage" src="" alt="" style="display:none;">
     <div class="hero-overlay"></div>
 
@@ -610,16 +744,19 @@ Seoul, 2026.</p>
     </div>
   </header>
 
+  <!-- TYPE -->
   <section id="type">
     <div class="section-tag reveal">— 폰트 라이브러리</div>
     <div class="type-grid" id="typeGrid"></div>
   </section>
 
+  <!-- GRAPHIC -->
   <section id="graphic">
     <div class="section-tag reveal">— 그래픽 작업</div>
     <div class="graphic-grid" id="graphicGrid"></div>
   </section>
 
+  <!-- CUSTOM -->
   <section id="custom">
     <div class="custom-content">
       <div class="section-tag reveal">— 의뢰</div>
@@ -639,12 +776,14 @@ Seoul, 2026.</p>
     </div>
   </section>
 
+  <!-- CONTACT — clean -->
   <section id="contact" class="contact">
     <div class="contact-eyebrow reveal">문의</div>
     <a href="" class="contact-mail reveal reveal-delay-1" id="contactMail"></a>
     <div class="contact-channels reveal reveal-delay-2" id="contactChannels"></div>
   </section>
 
+  <!-- FOOTER -->
   <footer>
     <div class="footer-grid">
       <div class="footer-brand-col">
@@ -679,62 +818,111 @@ Seoul, 2026.</p>
   </footer>
 
   <script>
-    // ====== LOAD DATA & RENDER ======
-    fetch('data.json')
-      .then(r => r.json())
-      .then(data => {
-        renderSite(data);
-      })
-      .catch(err => {
-        console.error('data.json을 불러올 수 없습니다:', err);
+    // ============================================
+    // LOADER — Minimal
+    // ============================================
+    const LOAD_DURATION = 3000;
+    const startTime = performance.now();
+
+    const pct = document.getElementById('loaderPercent');
+
+    function tick() {
+      const elapsed = performance.now() - startTime;
+      const progress = Math.min(elapsed / LOAD_DURATION, 1);
+
+      const value = Math.floor(progress * 100);
+      pct.textContent = String(value).padStart(3, '0');
+
+      if (progress < 1) {
+        requestAnimationFrame(tick);
+      } else {
+        pct.textContent = '100';
+
+        setTimeout(() => {
+          document.getElementById('loader').classList.add('done');
+          document.body.classList.remove('loading');
+          startSite();
+        }, 400);
+      }
+    }
+
+    requestAnimationFrame(tick);
+
+    // ============================================
+    // SITE INIT
+    // ============================================
+    function startSite() {
+      const lenis = new Lenis({
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        smoothWheel: true,
       });
 
+      function raf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+      }
+      requestAnimationFrame(raf);
+
+      document.documentElement.classList.add('lenis-smooth');
+
+      fetch('data.json')
+        .then(r => r.json())
+        .then(data => renderSite(data))
+        .catch(err => console.error('data.json 로드 실패:', err));
+
+      const nav = document.getElementById('mainNav');
+      const hero = document.querySelector('.hero');
+
+      function updateNav() {
+        const heroBottom = hero.offsetHeight - 80;
+        if (window.scrollY > heroBottom) {
+          nav.classList.remove('over-hero');
+          nav.classList.add('scrolled');
+        } else {
+          nav.classList.add('over-hero');
+          nav.classList.remove('scrolled');
+        }
+      }
+
+      window.addEventListener('scroll', updateNav, { passive: true });
+      window.addEventListener('resize', updateNav);
+      updateNav();
+    }
+
+    // ============================================
+    // RENDER SITE
+    // ============================================
     function renderSite(data) {
-      // Hero
       const { site } = data;
+
       document.getElementById('heroEyebrow').textContent = `EST. ${site.founded} — ${site.location}`;
       document.getElementById('heroTagline').textContent = site.tagline;
       document.getElementById('heroMeta').innerHTML = `${site.fontsReleased} fonts released<br>${site.fontsInDevelopment} in development`;
 
-      // Hero image
       if (site.heroImage) {
         const img = document.getElementById('heroImage');
-        const placeholder = document.getElementById('heroPlaceholder');
         img.src = site.heroImage;
-        img.onload = () => {
-          img.style.display = 'block';
-          placeholder.style.display = 'none';
-        };
-        img.onerror = () => {
-          img.style.display = 'none';
-          placeholder.style.display = 'block';
-        };
+        img.onload = () => { img.style.display = 'block'; };
+        img.onerror = () => { img.style.display = 'none'; };
       }
 
-      // Contact
       document.getElementById('contactMail').textContent = site.email;
       document.getElementById('contactMail').href = `mailto:${site.email}`;
 
       const channels = document.getElementById('contactChannels');
       channels.innerHTML = '';
-      if (site.instagram) {
-        channels.innerHTML += `<a href="${site.instagram}" target="_blank" rel="noopener">Instagram ↗</a>`;
-      }
-      if (site.noonnu) {
-        channels.innerHTML += `<a href="${site.noonnu}" target="_blank" rel="noopener">눈누마켓 ↗</a>`;
-      }
+      if (site.instagram) channels.innerHTML += `<a href="${site.instagram}" target="_blank" rel="noopener">Instagram ↗</a>`;
+      if (site.noonnu) channels.innerHTML += `<a href="${site.noonnu}" target="_blank" rel="noopener">눈누마켓 ↗</a>`;
 
-      // Footer
       document.getElementById('footerTag').textContent = site.tagline;
 
-      // Footer fonts list
       const footerFonts = document.getElementById('footerFonts');
       footerFonts.innerHTML = data.fonts
         .filter(f => !f.coming)
         .map(f => `<li><a href="${f.link || '#'}">${f.name}</a></li>`)
         .join('') + `<li><a href="#type">전체 보기 ↗</a></li>`;
 
-      // Footer connect
       const footerConnect = document.getElementById('footerConnect');
       footerConnect.innerHTML = `
         <li><a href="mailto:${site.email}">Email</a></li>
@@ -742,7 +930,6 @@ Seoul, 2026.</p>
         ${site.noonnu ? `<li><a href="${site.noonnu}" target="_blank" rel="noopener">눈누마켓</a></li>` : ''}
       `;
 
-      // Type cards
       const typeGrid = document.getElementById('typeGrid');
       typeGrid.innerHTML = data.fonts.map((f, i) => {
         const useImage = f.image && f.image.trim();
@@ -774,10 +961,9 @@ Seoul, 2026.</p>
             </div>
           </div>
         </a>
-      `;
+        `;
       }).join('');
 
-      // Graphic cards
       const graphicGrid = document.getElementById('graphicGrid');
       graphicGrid.innerHTML = data.graphics.map((g, i) => {
         const useImage = g.image && g.image.trim();
@@ -799,7 +985,6 @@ Seoul, 2026.</p>
         `;
       }).join('');
 
-      // Init scroll observers after DOM update
       initScrollReveal();
     }
 
@@ -808,29 +993,10 @@ Seoul, 2026.</p>
         entries.forEach(entry => {
           if (entry.isIntersecting) entry.target.classList.add('visible');
         });
-      }, { threshold: 0.1, rootMargin: '0px 0px -80px 0px' });
+      }, { threshold: 0.1, rootMargin: '0px 0px -100px 0px' });
 
       document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
     }
-
-    // Nav scroll behavior
-    const nav = document.getElementById('mainNav');
-    const hero = document.querySelector('.hero');
-
-    function updateNav() {
-      const heroBottom = hero.offsetHeight - 80;
-      if (window.scrollY > heroBottom) {
-        nav.classList.remove('over-hero');
-        nav.classList.add('scrolled');
-      } else {
-        nav.classList.add('over-hero');
-        nav.classList.remove('scrolled');
-      }
-    }
-
-    window.addEventListener('scroll', updateNav, { passive: true });
-    window.addEventListener('resize', updateNav);
-    updateNav();
   </script>
 
 </body>
