@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PTF Admin</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #FAFAF7;
+      --panel: #FFFFFF;
+      --ink: #0A0A09;
+      --muted: #75736E;
+      --line: rgba(10, 10, 9, 0.1);
+      --accent: #2840E8;
+      --danger: #C8281C;
+      --success: #1FA34A;
+
+      --en: 'Geist', sans-serif;
+      --mono: 'Geist Mono', monospace;
+      --kr: 'Pretendard', sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { -webkit-font-smoothing: antialiased; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--kr);
+      font-size: 14px;
+      line-height: 1.5;
+      letter-spacing: -0.01em;
+    }
+
+    a { color: inherit; }
+
+    /* HEADER */
+    header {
+      padding: 24px 32px;
+      background: var(--panel);
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .header-title {
+      font-family: var(--en);
+      font-weight: 600;
+      font-size: 18px;
+      letter-spacing: -0.02em;
+    }
+
+    .header-title span {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 400;
+      margin-left: 8px;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .btn {
+      padding: 10px 16px;
+      font-family: var(--kr);
+      font-size: 13px;
+      font-weight: 500;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      color: var(--ink);
+    }
+
+    .btn:hover { background: var(--bg); }
+
+    .btn-primary {
+      background: var(--ink);
+      color: var(--panel);
+      border-color: var(--ink);
+    }
+
+    .btn-primary:hover { background: var(--accent); border-color: var(--accent); }
+
+    .btn-danger {
+      color: var(--danger);
+      border-color: rgba(200, 40, 28, 0.2);
+    }
+
+    .btn-danger:hover { background: rgba(200, 40, 28, 0.05); }
+
+    .btn-mini {
+      padding: 4px 10px;
+      font-size: 12px;
+    }
+
+    /* TABS */
+    .tabs {
+      display: flex;
+      gap: 4px;
+      padding: 16px 32px 0;
+      background: var(--panel);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .tab {
+      padding: 12px 20px;
+      font-family: var(--kr);
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--muted);
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      background: none;
+      border-top: none;
+      border-left: none;
+      border-right: none;
+      margin-bottom: -1px;
+    }
+
+    .tab:hover { color: var(--ink); }
+
+    .tab.active {
+      color: var(--ink);
+      border-bottom-color: var(--ink);
+    }
+
+    /* MAIN */
+    main {
+      padding: 32px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .panel-section { display: none; }
+    .panel-section.active { display: block; }
+
+    .panel-title {
+      font-family: var(--en);
+      font-weight: 600;
+      font-size: 24px;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+
+    .panel-desc {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 32px;
+      line-height: 1.6;
+    }
+
+    /* FORM */
+    .form-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 28px;
+      margin-bottom: 24px;
+    }
+
+    .form-card h3 {
+      font-family: var(--en);
+      font-weight: 600;
+      font-size: 16px;
+      letter-spacing: -0.01em;
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .form-row.full { grid-template-columns: 1fr; }
+
+    .form-field { display: flex; flex-direction: column; gap: 6px; }
+
+    .form-field label {
+      font-family: var(--kr);
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--muted);
+      letter-spacing: -0.01em;
+    }
+
+    .form-field label .hint {
+      font-weight: 400;
+      color: var(--muted);
+      opacity: 0.7;
+    }
+
+    .form-field input,
+    .form-field select,
+    .form-field textarea {
+      padding: 10px 12px;
+      font-family: var(--kr);
+      font-size: 14px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--panel);
+      color: var(--ink);
+      transition: border-color 0.2s ease;
+      letter-spacing: -0.01em;
+    }
+
+    .form-field input:focus,
+    .form-field select:focus,
+    .form-field textarea:focus {
+      outline: none;
+      border-color: var(--ink);
+    }
+
+    .form-field textarea {
+      min-height: 80px;
+      resize: vertical;
+      font-family: var(--mono);
+    }
+
+    /* LIST */
+    .list-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-bottom: 12px;
+      display: grid;
+      grid-template-columns: 60px 1fr auto auto;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .list-card-num {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .list-card-name {
+      font-family: var(--kr);
+      font-weight: 500;
+      font-size: 16px;
+      letter-spacing: -0.02em;
+    }
+
+    .list-card-meta {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .list-card-status {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .list-card-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    /* TOAST */
+    .toast {
+      position: fixed;
+      bottom: 32px;
+      right: 32px;
+      padding: 14px 20px;
+      background: var(--ink);
+      color: var(--panel);
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.3s ease;
+      z-index: 200;
+      pointer-events: none;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .toast.success { background: var(--success); }
+    .toast.error { background: var(--danger); }
+
+    /* JSON PREVIEW */
+    .json-preview {
+      background: #1a1a18;
+      color: #e8e6dd;
+      padding: 24px;
+      border-radius: 12px;
+      font-family: var(--mono);
+      font-size: 12px;
+      line-height: 1.6;
+      max-height: 500px;
+      overflow: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .info-box {
+      background: rgba(40, 64, 232, 0.06);
+      border: 1px solid rgba(40, 64, 232, 0.15);
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 24px;
+      font-size: 13px;
+      color: var(--ink);
+      line-height: 1.7;
+    }
+
+    .info-box strong { color: var(--accent); }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    @media (max-width: 700px) {
+      header { padding: 16px 20px; flex-direction: column; gap: 12px; align-items: flex-start; }
+      .header-actions { width: 100%; }
+      .tabs { padding: 12px 20px 0; overflow-x: auto; }
+      main { padding: 24px 20px; }
+      .form-row { grid-template-columns: 1fr; }
+      .list-card { grid-template-columns: 1fr; gap: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-title">
+      PTF Admin<span>콘텐츠 관리 도구</span>
+    </div>
+    <div class="header-actions">
+      <button class="btn" onclick="loadJSON()">불러오기</button>
+      <button class="btn-primary btn" onclick="downloadJSON()">data.json 다운로드</button>
+    </div>
+  </header>
+
+  <div class="tabs">
+    <button class="tab active" data-tab="site">사이트 정보</button>
+    <button class="tab" data-tab="fonts">폰트</button>
+    <button class="tab" data-tab="graphics">그래픽 작업</button>
+    <button class="tab" data-tab="preview">JSON 미리보기</button>
+  </div>
+
+  <main>
+    <!-- SITE INFO -->
+    <section class="panel-section active" id="panel-site">
+      <h1 class="panel-title">사이트 정보</h1>
+      <p class="panel-desc">Hero 영역, 푸터, 연락처 등에 노출되는 사이트 전반 정보입니다.</p>
+
+      <div class="info-box">
+        <strong>이미지 경로 안내:</strong> Hero 이미지는 <code>images/hero.jpg</code> 같은 상대 경로로 입력하세요. 실제 이미지는 GitHub 저장소의 같은 경로에 업로드해야 표시됩니다.
+      </div>
+
+      <div class="form-card">
+        <h3>기본 정보</h3>
+        <div class="form-row">
+          <div class="form-field">
+            <label>설립 연도</label>
+            <input type="text" id="site-founded" placeholder="2026">
+          </div>
+          <div class="form-field">
+            <label>지역</label>
+            <input type="text" id="site-location" placeholder="Seoul">
+          </div>
+        </div>
+        <div class="form-row full">
+          <div class="form-field">
+            <label>태그라인 <span class="hint">(Hero 좌하단 + Footer)</span></label>
+            <input type="text" id="site-tagline" placeholder="Pear Type Foundry. Seoul, 2026.">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label>출시 폰트 수</label>
+            <input type="number" id="site-fontsReleased" placeholder="2">
+          </div>
+          <div class="form-field">
+            <label>개발 중 폰트 수</label>
+            <input type="number" id="site-fontsInDevelopment" placeholder="2">
+          </div>
+        </div>
+        <div class="form-row full">
+          <div class="form-field">
+            <label>Hero 이미지 경로 <span class="hint">(images/hero.jpg)</span></label>
+            <input type="text" id="site-heroImage" placeholder="images/hero.jpg">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-card">
+        <h3>연락처 / 소셜</h3>
+        <div class="form-row full">
+          <div class="form-field">
+            <label>이메일</label>
+            <input type="email" id="site-email" placeholder="ppearwayy@gmail.com">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label>Instagram URL</label>
+            <input type="url" id="site-instagram" placeholder="https://instagram.com/...">
+          </div>
+          <div class="form-field">
+            <label>눈누마켓 URL</label>
+            <input type="url" id="site-noonnu" placeholder="https://noonnu.cc/...">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FONTS -->
+    <section class="panel-section" id="panel-fonts">
+      <h1 class="panel-title">폰트 라이브러리</h1>
+      <p class="panel-desc">사이트의 폰트 카드로 표시되는 항목입니다. 위에서 아래 순서로 노출됩니다.</p>
+
+      <div class="info-box">
+        스타일 옵션 — <strong>serif</strong>: 우아한세리프류 (이태릭 표시), <strong>display</strong>: 삐딱한글류 (skew 표시), <strong>default</strong>: 일반.<br>
+        테마 옵션 — <strong>light</strong>: 베이지 배경, <strong>dark</strong>: 검정 배경, <strong>dim</strong>: 진행 중 (어두운 회색).
+      </div>
+
+      <div id="fonts-list"></div>
+
+      <button class="btn-primary btn" onclick="addFont()" style="margin-top: 12px;">+ 폰트 추가</button>
+    </section>
+
+    <!-- GRAPHICS -->
+    <section class="panel-section" id="panel-graphics">
+      <h1 class="panel-title">그래픽 작업</h1>
+      <p class="panel-desc">사이트의 그래픽 카드로 표시되는 작업물입니다. 이미지 경로를 입력하면 텍스트 대신 이미지가 표시됩니다.</p>
+
+      <div class="info-box">
+        <strong>이미지 사용 시</strong>: <code>images/works/poster1.jpg</code> 같은 경로 입력. GitHub에 같은 경로로 이미지 업로드 필수.<br>
+        <strong>이미지 비워둘 시</strong>: 미리보기 텍스트와 옵션(skew, serif)으로 표시됩니다.
+      </div>
+
+      <div id="graphics-list"></div>
+
+      <button class="btn-primary btn" onclick="addGraphic()" style="margin-top: 12px;">+ 그래픽 작업 추가</button>
+    </section>
+
+    <!-- PREVIEW -->
+    <section class="panel-section" id="panel-preview">
+      <h1 class="panel-title">JSON 미리보기</h1>
+      <p class="panel-desc">현재 입력된 데이터의 JSON 형태입니다. 아래 다운로드 버튼으로 받아 GitHub에 업로드하세요.</p>
+
+      <div class="info-box">
+        <strong>배포 워크플로우</strong>
+        <ol style="margin-top: 8px; padding-left: 20px;">
+          <li>이 페이지에서 콘텐츠 수정</li>
+          <li>"data.json 다운로드" 버튼 클릭</li>
+          <li>다운받은 파일을 GitHub 저장소 루트에 업로드 (또는 덮어쓰기)</li>
+          <li>이미지가 새로 추가됐다면 <code>images/</code> 폴더에 함께 업로드</li>
+          <li>커밋 → Vercel이 자동 배포</li>
+        </ol>
+      </div>
+
+      <pre class="json-preview" id="json-preview"></pre>
+    </section>
+  </main>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // ===== STATE =====
+    let state = {
+      site: {
+        founded: '2026',
+        location: 'Seoul',
+        tagline: 'Pear Type Foundry. Seoul, 2026.',
+        fontsReleased: 2,
+        fontsInDevelopment: 2,
+        heroImage: 'images/hero.jpg',
+        email: 'ppearwayy@gmail.com',
+        instagram: '',
+        noonnu: ''
+      },
+      fonts: [],
+      graphics: []
+    };
+
+    // ===== INIT =====
+    document.addEventListener('DOMContentLoaded', () => {
+      loadJSON();
+      setupTabs();
+    });
+
+    function setupTabs() {
+      document.querySelectorAll('.tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+          document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+          document.querySelectorAll('.panel-section').forEach(p => p.classList.remove('active'));
+          tab.classList.add('active');
+          document.getElementById('panel-' + tab.dataset.tab).classList.add('active');
+          if (tab.dataset.tab === 'preview') updatePreview();
+        });
+      });
+    }
+
+    // ===== LOAD =====
+    async function loadJSON() {
+      try {
+        const r = await fetch('data.json');
+        if (!r.ok) throw new Error('not found');
+        const data = await r.json();
+        state = data;
+        renderAll();
+        toast('data.json을 불러왔습니다', 'success');
+      } catch (e) {
+        renderAll();
+        toast('data.json을 찾을 수 없어 빈 상태로 시작합니다', 'error');
+      }
+    }
+
+    function renderAll() {
+      renderSite();
+      renderFonts();
+      renderGraphics();
+      updatePreview();
+      bindSiteInputs();
+    }
+
+    // ===== SITE =====
+    function renderSite() {
+      const s = state.site;
+      document.getElementById('site-founded').value = s.founded || '';
+      document.getElementById('site-location').value = s.location || '';
+      document.getElementById('site-tagline').value = s.tagline || '';
+      document.getElementById('site-fontsReleased').value = s.fontsReleased || 0;
+      document.getElementById('site-fontsInDevelopment').value = s.fontsInDevelopment || 0;
+      document.getElementById('site-heroImage').value = s.heroImage || '';
+      document.getElementById('site-email').value = s.email || '';
+      document.getElementById('site-instagram').value = s.instagram || '';
+      document.getElementById('site-noonnu').value = s.noonnu || '';
+    }
+
+    function bindSiteInputs() {
+      const fields = ['founded','location','tagline','fontsReleased','fontsInDevelopment','heroImage','email','instagram','noonnu'];
+      fields.forEach(f => {
+        const el = document.getElementById('site-' + f);
+        if (!el) return;
+        el.addEventListener('input', () => {
+          let v = el.value;
+          if (f === 'fontsReleased' || f === 'fontsInDevelopment') v = parseInt(v) || 0;
+          state.site[f] = v;
+          updatePreview();
+        });
+      });
+    }
+
+    // ===== FONTS =====
+    function renderFonts() {
+      const list = document.getElementById('fonts-list');
+      if (state.fonts.length === 0) {
+        list.innerHTML = '<div class="empty-state">아직 폰트가 없습니다. 아래 버튼으로 추가하세요.</div>';
+        return;
+      }
+      list.innerHTML = state.fonts.map((f, idx) => `
+        <div class="form-card">
+          <h3>
+            <span>${f.number || 'PTF · ?'} — ${f.name || '이름 없음'}</span>
+            <div style="display: flex; gap: 8px;">
+              ${idx > 0 ? `<button class="btn btn-mini" onclick="moveFont(${idx}, -1)">↑</button>` : ''}
+              ${idx < state.fonts.length - 1 ? `<button class="btn btn-mini" onclick="moveFont(${idx}, 1)">↓</button>` : ''}
+              <button class="btn btn-mini btn-danger" onclick="removeFont(${idx})">삭제</button>
+            </div>
+          </h3>
+          <div class="form-row">
+            <div class="form-field">
+              <label>번호 <span class="hint">(PTF · 01)</span></label>
+              <input type="text" data-font="${idx}" data-key="number" value="${f.number || ''}">
+            </div>
+            <div class="form-field">
+              <label>연도</label>
+              <input type="text" data-font="${idx}" data-key="year" value="${f.year || ''}">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-field">
+              <label>한글명</label>
+              <input type="text" data-font="${idx}" data-key="name" value="${f.name || ''}">
+            </div>
+            <div class="form-field">
+              <label>영문명</label>
+              <input type="text" data-font="${idx}" data-key="nameEn" value="${f.nameEn || ''}">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-field">
+              <label>미리보기 글자 <span class="hint">(카드 중앙)</span></label>
+              <input type="text" data-font="${idx}" data-key="preview" value="${f.preview || ''}">
+            </div>
+            <div class="form-field">
+              <label>고유 ID <span class="hint">(영문, 하이픈)</span></label>
+              <input type="text" data-font="${idx}" data-key="id" value="${f.id || ''}">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-field">
+              <label>분류 <span class="hint">(Serif, Display 등)</span></label>
+              <input type="text" data-font="${idx}" data-key="category" value="${f.category || ''}">
+            </div>
+            <div class="form-field">
+              <label>웨이트 정보</label>
+              <input type="text" data-font="${idx}" data-key="weights" value="${f.weights || ''}">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-field">
+              <label>상태</label>
+              <input type="text" data-font="${idx}" data-key="status" value="${f.status || ''}" placeholder="Released, Coming Soon, TBA">
+            </div>
+            <div class="form-field">
+              <label>상태 부연 설명</label>
+              <input type="text" data-font="${idx}" data-key="statusDetail" value="${f.statusDetail || ''}" placeholder="Download ↗, 2026 Q3">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-field">
+              <label>스타일</label>
+              <select data-font="${idx}" data-key="style">
+                <option value="default" ${f.style === 'default' ? 'selected' : ''}>default</option>
+                <option value="serif" ${f.style === 'serif' ? 'selected' : ''}>serif</option>
+                <option value="display" ${f.style === 'display' ? 'selected' : ''}>display</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label>테마</label>
+              <select data-font="${idx}" data-key="theme">
+                <option value="" ${!f.theme ? 'selected' : ''}>dark (기본)</option>
+                <option value="light" ${f.theme === 'light' ? 'selected' : ''}>light</option>
+                <option value="dim" ${f.theme === 'dim' ? 'selected' : ''}>dim (진행 중)</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-field">
+              <label>링크 <span class="hint">(상세 페이지 또는 외부 URL)</span></label>
+              <input type="text" data-font="${idx}" data-key="link" value="${f.link || ''}">
+            </div>
+            <div class="form-field">
+              <label>진행 중 표시</label>
+              <select data-font="${idx}" data-key="coming">
+                <option value="false" ${!f.coming ? 'selected' : ''}>아니오 (출시/예정)</option>
+                <option value="true" ${f.coming ? 'selected' : ''}>예 (TBA)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      `).join('');
+
+      // Bind inputs
+      list.querySelectorAll('[data-font]').forEach(el => {
+        el.addEventListener('input', e => {
+          const idx = parseInt(el.dataset.font);
+          const key = el.dataset.key;
+          let v = el.value;
+          if (key === 'coming') v = v === 'true';
+          state.fonts[idx][key] = v;
+          updatePreview();
+        });
+      });
+    }
+
+    function addFont() {
+      const num = state.fonts.length + 1;
+      state.fonts.push({
+        id: 'font-' + Date.now(),
+        number: `PTF · ${String(num).padStart(2, '0')}`,
+        year: '2026',
+        name: '새 폰트',
+        nameEn: 'New Font',
+        preview: '글자',
+        category: 'Display',
+        weights: '1 weight',
+        status: 'TBA',
+        statusDetail: '',
+        style: 'default',
+        theme: 'dark',
+        link: '#',
+        coming: false
+      });
+      renderFonts();
+      updatePreview();
+      toast('폰트가 추가되었습니다', 'success');
+    }
+
+    function removeFont(idx) {
+      if (!confirm('이 폰트를 삭제하시겠습니까?')) return;
+      state.fonts.splice(idx, 1);
+      renderFonts();
+      updatePreview();
+      toast('삭제되었습니다');
+    }
+
+    function moveFont(idx, dir) {
+      const tgt = idx + dir;
+      if (tgt < 0 || tgt >= state.fonts.length) return;
+      [state.fonts[idx], state.fonts[tgt]] = [state.fonts[tgt], state.fonts[idx]];
+      renderFonts();
+      updatePreview();
+    }
+
+    // ===== GRAPHICS =====
+    function renderGraphics() {
+      const list = document.getElementById('graphics-list');
+      if (state.graphics.length === 0) {
+        list.innerHTML = '<div class="empty-state">아직 그래픽 작업이 없습니다. 아래 버튼으로 추가하세요.</div>';
+        return;
+      }
+      list.innerHTML = state.graphics.map((g, idx) => `
+        <div class="form-card">
+          <h3>
+            <span>${g.title || '제목 없음'} — ${g.year || ''}</span>
+            <div style="display: flex; gap: 8px;">
+              ${idx > 0 ? `<button class="btn btn-mini" onclick="moveGraphic(${idx}, -1)">↑</button>` : ''}
+              ${idx < state.graphics.length - 1 ? `<button class="btn btn-mini" onclick="moveGraphic(${idx}, 1)">↓</button>` : ''}
+              <button class="btn btn-mini btn-danger" onclick="removeGraphic(${idx})">삭제</button>
+            </div>
+          </h3>
+          <div class="form-row">
+            <div class="form-field">
+              <label>제목</label>
+              <input type="text" data-graphic="${idx}" data-key="title" value="${g.title || ''}">
+            </div>
+            <div class="form-field">
+              <label>고유 ID</label>
+              <input type="text" data-graphic="${idx}" data-key="id" value="${g.id || ''}">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-field">
+              <label>연도</label>
+              <input type="text" data-graphic="${idx}" data-key="year" value="${g.year || ''}">
+            </div>
+            <div class="form-field">
+              <label>분야 <span class="hint">(Branding, Editorial 등)</span></label>
+              <input type="text" data-graphic="${idx}" data-key="category" value="${g.category || ''}">
+            </div>
+          </div>
+          <div class="form-row full">
+            <div class="form-field">
+              <label>이미지 경로 <span class="hint">(비우면 텍스트로 표시)</span></label>
+              <input type="text" data-graphic="${idx}" data-key="image" value="${g.image || ''}" placeholder="images/works/poster1.jpg">
+            </div>
+          </div>
+          <div class="form-row full">
+            <div class="form-field">
+              <label>미리보기 텍스트 <span class="hint">(이미지 없을 때 표시. 줄바꿈 가능)</span></label>
+              <textarea data-graphic="${idx}" data-key="previewText">${g.previewText || ''}</textarea>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-field">
+              <label>테마</label>
+              <select data-graphic="${idx}" data-key="theme">
+                <option value="dark" ${g.theme === 'dark' ? 'selected' : ''}>dark</option>
+                <option value="light" ${g.theme === 'light' ? 'selected' : ''}>light</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label>옵션</label>
+              <select data-graphic="${idx}" data-key="optionMix">
+                <option value="none" ${!g.skew && !g.serif ? 'selected' : ''}>일반</option>
+                <option value="skew" ${g.skew ? 'selected' : ''}>skew (삐딱)</option>
+                <option value="serif" ${g.serif ? 'selected' : ''}>serif (이태릭)</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row full">
+            <div class="form-field">
+              <label>링크 <span class="hint">(상세 페이지 또는 외부 URL)</span></label>
+              <input type="text" data-graphic="${idx}" data-key="link" value="${g.link || ''}">
+            </div>
+          </div>
+        </div>
+      `).join('');
+
+      list.querySelectorAll('[data-graphic]').forEach(el => {
+        el.addEventListener('input', e => {
+          const idx = parseInt(el.dataset.graphic);
+          const key = el.dataset.key;
+          if (key === 'optionMix') {
+            const v = el.value;
+            state.graphics[idx].skew = v === 'skew';
+            state.graphics[idx].serif = v === 'serif';
+          } else {
+            state.graphics[idx][key] = el.value;
+          }
+          updatePreview();
+        });
+      });
+    }
+
+    function addGraphic() {
+      state.graphics.push({
+        id: 'work-' + Date.now(),
+        title: '새 작업',
+        year: '2026',
+        category: 'Personal',
+        image: '',
+        previewText: '글자',
+        theme: 'dark',
+        skew: false,
+        serif: false,
+        link: '#'
+      });
+      renderGraphics();
+      updatePreview();
+      toast('그래픽 작업이 추가되었습니다', 'success');
+    }
+
+    function removeGraphic(idx) {
+      if (!confirm('이 작업을 삭제하시겠습니까?')) return;
+      state.graphics.splice(idx, 1);
+      renderGraphics();
+      updatePreview();
+      toast('삭제되었습니다');
+    }
+
+    function moveGraphic(idx, dir) {
+      const tgt = idx + dir;
+      if (tgt < 0 || tgt >= state.graphics.length) return;
+      [state.graphics[idx], state.graphics[tgt]] = [state.graphics[tgt], state.graphics[idx]];
+      renderGraphics();
+      updatePreview();
+    }
+
+    // ===== PREVIEW & DOWNLOAD =====
+    function updatePreview() {
+      document.getElementById('json-preview').textContent = JSON.stringify(state, null, 2);
+    }
+
+    function downloadJSON() {
+      const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'data.json';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      toast('data.json이 다운로드되었습니다', 'success');
+    }
+
+    // ===== TOAST =====
+    function toast(msg, type = '') {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.className = 'toast show ' + type;
+      setTimeout(() => t.classList.remove('show'), 2500);
+    }
+  </script>
+
+</body>
+</html>

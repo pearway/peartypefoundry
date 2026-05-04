@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pear Type Foundry</title>
+  <meta name="description" content="Pear Type Foundry — 한글 활자 파운드리. 서울, 2026.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #FCFCFA;
+      --ink: #0A0A09;
+      --ink-2: #1F1F1D;
+      --muted: #B5B3AC;
+      --muted-2: #75736E;
+      --hover: #2840E8;
+      --line: rgba(10, 10, 9, 0.06);
+
+      --en: 'Geist', sans-serif;
+      --mono: 'Geist Mono', monospace;
+      --kr: 'Pretendard', sans-serif;
+
+      --pad: 40px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--en);
+      font-weight: 400;
+      line-height: 1.5;
+      overflow-x: hidden;
+      letter-spacing: -0.012em;
+    }
+
+    .kr { font-family: var(--kr); letter-spacing: -0.02em; }
+    .mono { font-family: var(--mono); letter-spacing: 0; }
+
+    a { color: inherit; text-decoration: none; transition: color 0.3s ease; }
+    a:hover { color: var(--hover); }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      padding: 24px var(--pad);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+      transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+    }
+
+    nav.over-hero {
+      color: #FFFFFF;
+      background: transparent;
+      border-bottom: 1px solid transparent;
+    }
+
+    nav.scrolled {
+      color: var(--ink);
+      background: rgba(252, 252, 250, 0.85);
+      backdrop-filter: blur(16px) saturate(150%);
+      -webkit-backdrop-filter: blur(16px) saturate(150%);
+      border-bottom: 1px solid var(--line);
+    }
+
+    nav.over-hero .logo .small { color: rgba(255, 255, 255, 0.65); }
+
+    .logo {
+      font-family: var(--en);
+      font-weight: 500;
+      font-size: 15px;
+      letter-spacing: -0.02em;
+    }
+
+    .logo .small {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted-2);
+      margin-left: 8px;
+      font-weight: 400;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      font-family: var(--kr);
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+    }
+
+    /* HERO */
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      min-height: 600px;
+      overflow: hidden;
+      color: #FFFFFF;
+    }
+
+    .hero-image {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 1;
+    }
+
+    .hero-image-placeholder {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, #1a1a18 0%, #2a2a26 50%, #1a1a18 100%);
+      z-index: 1;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        180deg,
+        rgba(0,0,0,0.25) 0%,
+        rgba(0,0,0,0.05) 30%,
+        rgba(0,0,0,0.05) 70%,
+        rgba(0,0,0,0.4) 100%
+      );
+      z-index: 2;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 3;
+      width: 100%;
+      height: 100%;
+      padding: 110px var(--pad) 60px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .hero-eyebrow {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.85);
+    }
+
+    .hero-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 60px;
+    }
+
+    .hero-tagline {
+      font-family: var(--en);
+      font-weight: 400;
+      font-size: clamp(15px, 1.2vw, 17px);
+      line-height: 1.6;
+      max-width: 380px;
+      color: #FFFFFF;
+      letter-spacing: -0.012em;
+      white-space: pre-line;
+    }
+
+    .hero-meta {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.75);
+      text-align: right;
+      line-height: 1.7;
+    }
+
+    /* SECTIONS */
+    section { padding: 100px var(--pad); }
+
+    .section-tag {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted-2);
+      margin-bottom: 24px;
+    }
+
+    /* TYPE LIBRARY */
+    .type-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 32px;
+    }
+
+    .type-card {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      cursor: pointer;
+    }
+
+    .type-card-image {
+      aspect-ratio: 4 / 3;
+      background: var(--ink);
+      color: var(--bg);
+      padding: 60px 48px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .type-card:hover .type-card-image { transform: scale(0.98); }
+
+    .type-card-image.light { background: #F0EEE7; color: var(--ink); }
+    .type-card-image.dim { background: #2A2926; color: var(--muted); }
+
+    .type-card-preview {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--kr);
+      font-weight: 700;
+      font-size: clamp(80px, 9vw, 140px);
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .type-card[data-style="serif"] .type-card-preview {
+      font-family: 'Geist', serif;
+      font-weight: 300;
+      font-style: italic;
+      letter-spacing: -0.02em;
+    }
+
+    .type-card[data-style="display"] .type-card-preview {
+      transform: skewX(-8deg);
+    }
+
+    .type-card[data-style="display"]:hover .type-card-preview {
+      transform: skewX(-2deg);
+    }
+
+    .type-card-meta-top, .type-card-meta-bottom {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0;
+    }
+
+    .type-card-meta-bottom {
+      font-size: 11px;
+      text-transform: uppercase;
+      opacity: 0.7;
+    }
+
+    .type-card-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 16px;
+    }
+
+    .type-card-name {
+      font-family: var(--kr);
+      font-weight: 500;
+      font-size: 22px;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+    }
+
+    .type-card-name-en {
+      font-family: var(--en);
+      font-weight: 300;
+      font-size: 13px;
+      color: var(--muted-2);
+      margin-top: 4px;
+      letter-spacing: -0.01em;
+    }
+
+    .type-card-status {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted-2);
+      text-align: right;
+      line-height: 1.6;
+      white-space: nowrap;
+    }
+
+    .type-card-status .available { color: var(--ink); }
+
+    .type-card.coming { pointer-events: none; }
+    .type-card.coming .type-card-image { opacity: 0.5; }
+    .type-card.coming .type-card-preview { font-weight: 300; }
+
+    /* GRAPHIC */
+    .graphic-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    .graphic-item {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      cursor: pointer;
+    }
+
+    .graphic-visual {
+      aspect-ratio: 4 / 3;
+      background: var(--ink);
+      color: var(--bg);
+      padding: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--kr);
+      font-weight: 700;
+      font-size: clamp(48px, 6vw, 96px);
+      line-height: 0.9;
+      letter-spacing: -0.04em;
+      text-align: center;
+      overflow: hidden;
+      position: relative;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .graphic-visual.has-image { padding: 0; }
+
+    .graphic-visual img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .graphic-item:hover .graphic-visual { transform: scale(0.98); }
+
+    .graphic-visual.light { background: #F4F2EC; color: var(--ink); }
+
+    .graphic-visual.serif {
+      font-family: 'Geist', serif;
+      font-weight: 300;
+      font-style: italic;
+      letter-spacing: -0.02em;
+    }
+
+    .graphic-text-skew {
+      transform: skewX(-6deg);
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .graphic-item:hover .graphic-text-skew { transform: skewX(-2deg); }
+
+    .graphic-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 16px;
+    }
+
+    .graphic-title {
+      font-family: var(--kr);
+      font-weight: 500;
+      font-size: 16px;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+    }
+
+    .graphic-meta {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted-2);
+      white-space: nowrap;
+    }
+
+    /* CUSTOM */
+    .custom-content { max-width: 900px; }
+
+    .custom-statement {
+      font-family: var(--kr);
+      font-weight: 200;
+      font-size: clamp(32px, 5vw, 64px);
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      margin-bottom: 48px;
+    }
+
+    .custom-statement .accent { color: var(--muted); }
+
+    .custom-detail {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      max-width: 800px;
+      margin-bottom: 40px;
+    }
+
+    .custom-detail p {
+      font-family: var(--kr);
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--ink-2);
+    }
+
+    .custom-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-family: var(--kr);
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--ink);
+      transition: gap 0.3s ease;
+    }
+
+    .custom-cta:hover { gap: 20px; }
+    .custom-cta .arrow { transition: transform 0.3s ease; }
+    .custom-cta:hover .arrow { transform: translateX(4px); }
+
+    /* CONTACT */
+    .contact { padding: 140px var(--pad); text-align: center; }
+
+    .contact-eyebrow {
+      font-family: var(--kr);
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--muted-2);
+      margin-bottom: 40px;
+    }
+
+    .contact-mail {
+      font-family: var(--en);
+      font-weight: 300;
+      font-size: clamp(28px, 6vw, 88px);
+      letter-spacing: -0.04em;
+      line-height: 1;
+      color: var(--ink);
+      display: inline-block;
+      transition: color 0.4s ease;
+      word-break: break-all;
+    }
+
+    .contact-mail:hover { color: var(--hover); }
+
+    .contact-channels {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      margin-top: 60px;
+      font-family: var(--kr);
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    /* FOOTER */
+    footer {
+      padding: 60px var(--pad) 32px;
+      border-top: 1px solid var(--line);
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 60px;
+    }
+
+    .footer-brand {
+      font-family: var(--en);
+      font-weight: 500;
+      font-size: 15px;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+    }
+
+    .footer-tag {
+      font-family: var(--en);
+      font-weight: 400;
+      font-size: 13px;
+      color: var(--muted-2);
+      max-width: 280px;
+      line-height: 1.6;
+      letter-spacing: -0.012em;
+    }
+
+    .footer-col h4 {
+      font-family: var(--kr);
+      font-weight: 500;
+      font-size: 13px;
+      color: var(--muted-2);
+      margin-bottom: 16px;
+      letter-spacing: -0.02em;
+    }
+
+    .footer-col ul { list-style: none; }
+    .footer-col li {
+      margin-bottom: 8px;
+      font-family: var(--kr);
+      font-size: 14px;
+    }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      padding-top: 20px;
+      border-top: 1px solid var(--line);
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted-2);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      :root { --pad: 20px; }
+      nav { padding: 16px 20px; }
+      .logo .small { display: none; }
+      .nav-links { gap: 16px; font-size: 13px; }
+      .nav-links a:nth-child(2) { display: none; }
+      section { padding: 80px 20px; }
+      .hero { min-height: 500px; }
+      .hero-content { padding: 90px 20px 40px; }
+      .hero-bottom { flex-direction: column; align-items: flex-start; gap: 20px; }
+      .hero-meta { text-align: left; }
+      .type-grid { grid-template-columns: 1fr; gap: 32px; }
+      .type-card-image { padding: 40px 32px; }
+      .graphic-grid { grid-template-columns: 1fr; gap: 32px; }
+      .graphic-visual { padding: 32px; }
+      .custom-detail { grid-template-columns: 1fr; gap: 24px; }
+      .contact { padding: 100px 20px; }
+      .contact-mail { font-size: clamp(24px, 8vw, 56px); }
+      .contact-channels { gap: 16px; flex-wrap: wrap; }
+      .footer-grid { grid-template-columns: 1fr 1fr; margin-bottom: 32px; }
+      .footer-brand-col { grid-column: 1 / -1; }
+      .footer-bottom { flex-direction: column; gap: 8px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="over-hero" id="mainNav">
+    <a href="/" class="logo">
+      Pear Type Foundry<span class="small">PTF</span>
+    </a>
+    <div class="nav-links">
+      <a href="#type">폰트</a>
+      <a href="#graphic">그래픽</a>
+      <a href="#custom">의뢰</a>
+      <a href="#contact">문의</a>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="hero-image-placeholder" id="heroPlaceholder"></div>
+    <img class="hero-image" id="heroImage" src="" alt="" style="display:none;">
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content">
+      <div class="hero-eyebrow" id="heroEyebrow">EST. 2026 — Seoul</div>
+      <div class="hero-bottom">
+        <p class="hero-tagline" id="heroTagline">Pear Type Foundry.
+Seoul, 2026.</p>
+        <div class="hero-meta" id="heroMeta">
+          02 fonts released<br>
+          02 in development
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section id="type">
+    <div class="section-tag reveal">— 폰트 라이브러리</div>
+    <div class="type-grid" id="typeGrid"></div>
+  </section>
+
+  <section id="graphic">
+    <div class="section-tag reveal">— 그래픽 작업</div>
+    <div class="graphic-grid" id="graphicGrid"></div>
+  </section>
+
+  <section id="custom">
+    <div class="custom-content">
+      <div class="section-tag reveal">— 의뢰</div>
+      <h2 class="custom-statement kr reveal reveal-delay-1">
+        브랜드만의 결을 가진<br>
+        <span class="accent">전용 서체와 그래픽</span>을<br>
+        함께 만듭니다.
+      </h2>
+      <div class="custom-detail reveal reveal-delay-2">
+        <p>로고, 패키지, 광고, 사이니지 — 어디에 쓰일 글자든 그 자리에 어울리는 형태로. 컨셉부터 드로잉, 글리프 확장, 라이선스 정리까지 함께 진행합니다.</p>
+        <p>전용 서체 / 로고 타이프 / 에디토리얼 / 패키지 / 사이니지 / 레터링 모두 의뢰 가능합니다.</p>
+      </div>
+      <a href="#contact" class="custom-cta reveal reveal-delay-2">
+        <span>의뢰 문의</span>
+        <span class="arrow">→</span>
+      </a>
+    </div>
+  </section>
+
+  <section id="contact" class="contact">
+    <div class="contact-eyebrow reveal">문의</div>
+    <a href="" class="contact-mail reveal reveal-delay-1" id="contactMail"></a>
+    <div class="contact-channels reveal reveal-delay-2" id="contactChannels"></div>
+  </section>
+
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand-col">
+        <div class="footer-brand">Pear Type Foundry</div>
+        <p class="footer-tag" id="footerTag">Pear Type Foundry. Seoul, 2026.</p>
+      </div>
+
+      <div class="footer-col">
+        <h4>폰트</h4>
+        <ul id="footerFonts"></ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>스튜디오</h4>
+        <ul>
+          <li><a href="#graphic">그래픽</a></li>
+          <li><a href="#custom">의뢰</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>연결</h4>
+        <ul id="footerConnect"></ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© 2026 / Pear Type Foundry / 디스이즈페어웨이</span>
+      <span>Seoul, KR</span>
+    </div>
+  </footer>
+
+  <script>
+    // ====== LOAD DATA & RENDER ======
+    fetch('data.json')
+      .then(r => r.json())
+      .then(data => {
+        renderSite(data);
+      })
+      .catch(err => {
+        console.error('data.json을 불러올 수 없습니다:', err);
+      });
+
+    function renderSite(data) {
+      // Hero
+      const { site } = data;
+      document.getElementById('heroEyebrow').textContent = `EST. ${site.founded} — ${site.location}`;
+      document.getElementById('heroTagline').textContent = site.tagline;
+      document.getElementById('heroMeta').innerHTML = `${site.fontsReleased} fonts released<br>${site.fontsInDevelopment} in development`;
+
+      // Hero image
+      if (site.heroImage) {
+        const img = document.getElementById('heroImage');
+        const placeholder = document.getElementById('heroPlaceholder');
+        img.src = site.heroImage;
+        img.onload = () => {
+          img.style.display = 'block';
+          placeholder.style.display = 'none';
+        };
+        img.onerror = () => {
+          img.style.display = 'none';
+          placeholder.style.display = 'block';
+        };
+      }
+
+      // Contact
+      document.getElementById('contactMail').textContent = site.email;
+      document.getElementById('contactMail').href = `mailto:${site.email}`;
+
+      const channels = document.getElementById('contactChannels');
+      channels.innerHTML = '';
+      if (site.instagram) {
+        channels.innerHTML += `<a href="${site.instagram}" target="_blank" rel="noopener">Instagram ↗</a>`;
+      }
+      if (site.noonnu) {
+        channels.innerHTML += `<a href="${site.noonnu}" target="_blank" rel="noopener">눈누마켓 ↗</a>`;
+      }
+
+      // Footer
+      document.getElementById('footerTag').textContent = site.tagline;
+
+      // Footer fonts list
+      const footerFonts = document.getElementById('footerFonts');
+      footerFonts.innerHTML = data.fonts
+        .filter(f => !f.coming)
+        .map(f => `<li><a href="${f.link || '#'}">${f.name}</a></li>`)
+        .join('') + `<li><a href="#type">전체 보기 ↗</a></li>`;
+
+      // Footer connect
+      const footerConnect = document.getElementById('footerConnect');
+      footerConnect.innerHTML = `
+        <li><a href="mailto:${site.email}">Email</a></li>
+        ${site.instagram ? `<li><a href="${site.instagram}" target="_blank" rel="noopener">Instagram</a></li>` : ''}
+        ${site.noonnu ? `<li><a href="${site.noonnu}" target="_blank" rel="noopener">눈누마켓</a></li>` : ''}
+      `;
+
+      // Type cards
+      const typeGrid = document.getElementById('typeGrid');
+      typeGrid.innerHTML = data.fonts.map((f, i) => `
+        <a href="${f.coming ? '#' : (f.link || '#')}" class="type-card reveal ${i % 2 === 1 ? 'reveal-delay-1' : ''} ${f.coming ? 'coming' : ''}" data-style="${f.style}">
+          <div class="type-card-image ${f.theme || ''}">
+            <div class="type-card-meta-top">
+              <span>${f.number}</span>
+              <span>${f.year}</span>
+            </div>
+            <div class="type-card-preview">${f.preview}</div>
+            <div class="type-card-meta-bottom">
+              <span>${f.category}</span>
+              <span>${f.weights}</span>
+            </div>
+          </div>
+          <div class="type-card-info">
+            <div>
+              <div class="type-card-name">${f.name}</div>
+              <div class="type-card-name-en">${f.nameEn}</div>
+            </div>
+            <div class="type-card-status">
+              <span class="available">${f.status}</span>${f.statusDetail ? '<br>' + f.statusDetail : ''}
+            </div>
+          </div>
+        </a>
+      `).join('');
+
+      // Graphic cards
+      const graphicGrid = document.getElementById('graphicGrid');
+      graphicGrid.innerHTML = data.graphics.map((g, i) => {
+        const useImage = g.image && g.image.trim();
+        const visualClass = `graphic-visual ${g.theme === 'light' ? 'light' : ''} ${g.serif ? 'serif' : ''} ${useImage ? 'has-image' : ''}`.trim();
+        const innerContent = useImage
+          ? `<img src="${g.image}" alt="${g.title}">`
+          : (g.skew ? `<span class="graphic-text-skew">${(g.previewText || '').replace(/\n/g, '<br>')}</span>` : (g.previewText || '').replace(/\n/g, '<br>'));
+
+        return `
+          <a href="${g.link || '#'}" class="graphic-item reveal ${i % 2 === 1 ? 'reveal-delay-1' : ''}">
+            <div class="${visualClass}">
+              ${innerContent}
+            </div>
+            <div class="graphic-info">
+              <div class="graphic-title">${g.title}</div>
+              <div class="graphic-meta">${g.year} · ${g.category}</div>
+            </div>
+          </a>
+        `;
+      }).join('');
+
+      // Init scroll observers after DOM update
+      initScrollReveal();
+    }
+
+    function initScrollReveal() {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) entry.target.classList.add('visible');
+        });
+      }, { threshold: 0.1, rootMargin: '0px 0px -80px 0px' });
+
+      document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    }
+
+    // Nav scroll behavior
+    const nav = document.getElementById('mainNav');
+    const hero = document.querySelector('.hero');
+
+    function updateNav() {
+      const heroBottom = hero.offsetHeight - 80;
+      if (window.scrollY > heroBottom) {
+        nav.classList.remove('over-hero');
+        nav.classList.add('scrolled');
+      } else {
+        nav.classList.add('over-hero');
+        nav.classList.remove('scrolled');
+      }
+    }
+
+    window.addEventListener('scroll', updateNav, { passive: true });
+    window.addEventListener('resize', updateNav);
+    updateNav();
+  </script>
+
+</body>
+</html>
