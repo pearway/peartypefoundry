@@ -900,12 +900,21 @@ Seoul, 2026.</p>
 
   <script>
     // ============================================
-    // LOADER — Minimal
+    // LOADER — Minimal (shown once per session)
     // ============================================
     const LOAD_DURATION = 3000;
     const startTime = performance.now();
-
     const pct = document.getElementById('loaderPercent');
+    const loaderEl = document.getElementById('loader');
+
+    // If already shown in this session, skip loader
+    if (sessionStorage.getItem('ptf_loaded') === '1') {
+      loaderEl.style.display = 'none';
+      document.body.classList.remove('loading');
+      startSite();
+    } else {
+      requestAnimationFrame(tick);
+    }
 
     function tick() {
       const elapsed = performance.now() - startTime;
@@ -918,16 +927,15 @@ Seoul, 2026.</p>
         requestAnimationFrame(tick);
       } else {
         pct.textContent = '100';
+        sessionStorage.setItem('ptf_loaded', '1');
 
         setTimeout(() => {
-          document.getElementById('loader').classList.add('done');
+          loaderEl.classList.add('done');
           document.body.classList.remove('loading');
           startSite();
         }, 400);
       }
     }
-
-    requestAnimationFrame(tick);
 
     // ============================================
     // SITE INIT
