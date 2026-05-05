@@ -715,14 +715,14 @@
             <span class="arrow">·</span>
           </button>`;
       } else if (isFree && hasDownload) {
-        // Free font with file
+        // Free font with direct file
         downloadButton = `<a href="${font.downloadFile}" class="download-button" download>
             <span>${font.downloadLabel || '무료 다운로드'}</span>
             <span class="arrow">↓</span>
           </a>`;
-      } else if (!isFree && hasPurchaseLink) {
-        // Paid font - external link
-        const platformName = font.purchaseLabel || '구매 / 라이선스 보기';
+      } else if (hasPurchaseLink) {
+        // External link (works for both free-on-noonnu and paid)
+        const platformName = font.purchaseLabel || (isFree ? '외부 사이트에서 다운로드' : '구매 / 라이선스 보기');
         downloadButton = `<a href="${font.purchaseUrl}" class="download-button" target="_blank" rel="noopener">
             <span>${platformName}</span>
             <span class="arrow">↗</span>
@@ -802,6 +802,7 @@
             ${
               font.coming ? '곧 출시됩니다.' :
               (isFree && hasDownload) ? '지금 다운로드하세요.' :
+              (isFree && hasPurchaseLink) ? `${font.purchaseLabel || '외부 사이트'}에서<br><span class="accent">무료로 받으실 수 있습니다.</span>` :
               (!isFree && hasPurchaseLink) ? `${font.purchaseLabel || '구매처'}에서<br><span class="accent">라이선스를 확인하세요.</span>` :
               '곧 만나보실 수 있습니다.'
             }
