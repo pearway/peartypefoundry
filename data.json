@@ -19,7 +19,7 @@
       "nameEn": "",
       "preview": "우아하고 싶다면 이 폰트를",
       "image": "./grace.png",
-      "category": "Display",
+      "category": "serif",
       "weights": "1 weight",
       "status": "출시",
       "statusDetail": "",
@@ -39,7 +39,8 @@
         "./grace5.png",
         "./grace6.png"
       ],
-      "downloadFile": "./GraceSerif.Zip"
+      "downloadFile": "./GraceSerif.Zip",
+      "downloadLabel": "다운로드"
     },
     {
       "id": "font-1777889248307",
