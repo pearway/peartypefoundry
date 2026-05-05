@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pear Type Foundry — Font</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+
+  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+
+  <style>
+    :root {
+      --bg: #FCFCFA;
+      --ink: #0A0A09;
+      --ink-2: #1F1F1D;
+      --muted: #B5B3AC;
+      --muted-2: #75736E;
+      --hover: #2840E8;
+      --line: rgba(10, 10, 9, 0.06);
+      --line-strong: rgba(10, 10, 9, 0.12);
+
+      --en: 'Geist', sans-serif;
+      --mono: 'Geist Mono', monospace;
+      --kr: 'Pretendard', sans-serif;
+
+      --pad: 40px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+    html.lenis-smooth { scroll-behavior: auto; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--en);
+      font-weight: 400;
+      line-height: 1.5;
+      overflow-x: hidden;
+      letter-spacing: -0.012em;
+    }
+
+    .kr { font-family: var(--kr); letter-spacing: -0.02em; }
+    .mono { font-family: var(--mono); letter-spacing: 0; }
+
+    a { color: inherit; text-decoration: none; transition: color 0.3s ease; }
+    a:hover { color: var(--hover); }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      padding: 24px var(--pad);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+      background: rgba(252, 252, 250, 0.85);
+      backdrop-filter: blur(16px) saturate(150%);
+      -webkit-backdrop-filter: blur(16px) saturate(150%);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .logo {
+      font-family: var(--en);
+      font-weight: 500;
+      font-size: 15px;
+      letter-spacing: -0.02em;
+    }
+
+    .logo .small {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted-2);
+      margin-left: 8px;
+      font-weight: 400;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      font-family: var(--kr);
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+    }
+
+    /* SCROLL REVEAL */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+
+    /* HEADER */
+    .font-header {
+      padding: 140px var(--pad) 80px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .breadcrumb {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted-2);
+      margin-bottom: 60px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .breadcrumb-link {
+      transition: color 0.2s ease;
+    }
+
+    .font-header-meta {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted-2);
+      margin-bottom: 24px;
+      display: flex;
+      gap: 32px;
+    }
+
+    .font-title {
+      font-family: var(--kr);
+      font-weight: 200;
+      font-size: clamp(48px, 8vw, 128px);
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+      margin-bottom: 20px;
+    }
+
+    .font-title-en {
+      font-family: var(--en);
+      font-weight: 300;
+      font-size: clamp(20px, 2.5vw, 32px);
+      color: var(--muted-2);
+      letter-spacing: -0.02em;
+      margin-bottom: 60px;
+    }
+
+    /* HERO PREVIEW (큰 미리보기) */
+    .font-hero {
+      aspect-ratio: 16 / 9;
+      background: var(--ink);
+      color: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+      padding: 80px;
+      margin-bottom: 80px;
+    }
+
+    .font-hero.light { background: #F0EEE7; color: var(--ink); }
+    .font-hero.dim { background: #2A2926; color: var(--muted); }
+
+    .font-hero-text {
+      font-family: var(--kr);
+      font-weight: 700;
+      font-size: clamp(80px, 14vw, 240px);
+      line-height: 0.9;
+      letter-spacing: -0.04em;
+      text-align: center;
+    }
+
+    .font-hero[data-style="serif"] .font-hero-text {
+      font-family: 'Geist', serif;
+      font-weight: 300;
+      font-style: italic;
+      letter-spacing: -0.02em;
+    }
+
+    .font-hero[data-style="display"] .font-hero-text {
+      transform: skewX(-8deg);
+    }
+
+    .font-hero img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* INFO GRID */
+    .font-info {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 var(--pad) 100px;
+    }
+
+    .font-description {
+      font-family: var(--kr);
+      font-weight: 300;
+      font-size: clamp(18px, 1.6vw, 22px);
+      line-height: 1.6;
+      color: var(--ink-2);
+      letter-spacing: -0.02em;
+      white-space: pre-line;
+    }
+
+    .font-specs {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .spec-row {
+      padding: 16px 0;
+      border-top: 1px solid var(--line);
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 24px;
+      align-items: baseline;
+    }
+
+    .spec-row:last-child { border-bottom: 1px solid var(--line); }
+
+    .spec-label {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted-2);
+    }
+
+    .spec-value {
+      font-family: var(--kr);
+      font-size: 15px;
+      color: var(--ink);
+      letter-spacing: -0.01em;
+    }
+
+    /* GALLERY */
+    .font-gallery {
+      padding: 100px var(--pad);
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .section-tag {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted-2);
+      margin-bottom: 32px;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    .gallery-item {
+      width: 100%;
+      cursor: zoom-in;
+      overflow: hidden;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .gallery-item:hover { transform: scale(0.99); }
+
+    .gallery-item img {
+      width: 100%;
+      display: block;
+    }
+
+    .gallery-empty {
+      padding: 80px 40px;
+      text-align: center;
+      font-family: var(--kr);
+      color: var(--muted-2);
+      font-size: 14px;
+      border: 1px dashed var(--line-strong);
+    }
+
+    /* DOWNLOAD */
+    .font-download {
+      padding: 100px var(--pad);
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .download-statement {
+      font-family: var(--kr);
+      font-weight: 200;
+      font-size: clamp(28px, 4vw, 56px);
+      line-height: 1.2;
+      letter-spacing: -0.03em;
+    }
+
+    .download-statement .accent { color: var(--muted); }
+
+    .download-action {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .download-price {
+      font-family: var(--mono);
+      font-size: 14px;
+      color: var(--ink);
+    }
+
+    .download-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 20px 28px;
+      background: var(--ink);
+      color: var(--bg);
+      font-family: var(--kr);
+      font-size: 16px;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      border-radius: 8px;
+      transition: background 0.3s ease;
+      cursor: pointer;
+    }
+
+    .download-button:hover {
+      background: var(--hover);
+      color: var(--bg);
+    }
+
+    .download-button.disabled {
+      background: var(--muted);
+      pointer-events: none;
+      cursor: not-allowed;
+    }
+
+    .download-button .arrow {
+      transition: transform 0.3s ease;
+    }
+
+    .download-button:hover .arrow {
+      transform: translateX(4px);
+    }
+
+    .download-license {
+      font-family: var(--kr);
+      font-size: 13px;
+      color: var(--muted-2);
+      line-height: 1.7;
+      padding-top: 20px;
+      border-top: 1px solid var(--line);
+    }
+
+    /* RELATED */
+    .related {
+      padding: 100px var(--pad);
+      max-width: 1400px;
+      margin: 0 auto;
+      border-top: 1px solid var(--line);
+    }
+
+    .related h3 {
+      font-family: var(--kr);
+      font-weight: 300;
+      font-size: 24px;
+      letter-spacing: -0.02em;
+      margin-bottom: 40px;
+    }
+
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 32px;
+    }
+
+    .related-card {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      cursor: pointer;
+    }
+
+    .related-image {
+      aspect-ratio: 4 / 3;
+      background: var(--ink);
+      color: var(--bg);
+      padding: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--kr);
+      font-weight: 700;
+      font-size: clamp(48px, 6vw, 96px);
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      overflow: hidden;
+    }
+
+    .related-image.light { background: #F0EEE7; color: var(--ink); }
+    .related-image.dim { background: #2A2926; color: var(--muted); }
+
+    .related-card[data-style="serif"] .related-image {
+      font-family: 'Geist', serif;
+      font-weight: 300;
+      font-style: italic;
+    }
+
+    .related-card[data-style="display"] .related-image > span {
+      transform: skewX(-8deg);
+      display: inline-block;
+    }
+
+    .related-card:hover .related-image { transform: scale(0.98); }
+
+    .related-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .related-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+    }
+
+    .related-name {
+      font-family: var(--kr);
+      font-weight: 500;
+      font-size: 17px;
+      letter-spacing: -0.02em;
+    }
+
+    .related-meta {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted-2);
+    }
+
+    /* FOOTER */
+    footer {
+      padding: 60px var(--pad) 32px;
+      border-top: 1px solid var(--line);
+    }
+
+    .footer-grid {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 60px;
+    }
+
+    .footer-brand {
+      font-family: var(--en);
+      font-weight: 500;
+      font-size: 15px;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+    }
+
+    .footer-tag {
+      font-family: var(--en);
+      font-weight: 400;
+      font-size: 13px;
+      color: var(--muted-2);
+      max-width: 280px;
+      line-height: 1.6;
+      letter-spacing: -0.012em;
+    }
+
+    .footer-col h4 {
+      font-family: var(--kr);
+      font-weight: 500;
+      font-size: 13px;
+      color: var(--muted-2);
+      margin-bottom: 16px;
+      letter-spacing: -0.02em;
+    }
+
+    .footer-col ul { list-style: none; }
+    .footer-col li {
+      margin-bottom: 8px;
+      font-family: var(--kr);
+      font-size: 14px;
+    }
+
+    .footer-bottom {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      padding-top: 20px;
+      border-top: 1px solid var(--line);
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted-2);
+    }
+
+    /* LIGHTBOX (for gallery zoom) */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 10, 9, 0.95);
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+      cursor: zoom-out;
+    }
+
+    .lightbox.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .lightbox img {
+      max-width: 90vw;
+      max-height: 90vh;
+      object-fit: contain;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      color: rgba(255, 255, 255, 0.6);
+      font-family: var(--mono);
+      font-size: 12px;
+      cursor: pointer;
+      padding: 8px 12px;
+      transition: color 0.2s ease;
+    }
+
+    .lightbox-close:hover { color: white; }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      :root { --pad: 20px; }
+      nav { padding: 16px 20px; }
+      .logo .small { display: none; }
+      .nav-links { gap: 16px; font-size: 13px; }
+      .nav-links a:nth-child(2) { display: none; }
+
+      .font-header { padding: 100px 20px 60px; }
+      .font-header-meta { gap: 16px; flex-wrap: wrap; }
+
+      .font-hero { padding: 40px 20px; aspect-ratio: 4/3; margin-bottom: 60px; }
+      .font-info { grid-template-columns: 1fr; gap: 40px; padding: 0 20px 60px; }
+      .spec-row { grid-template-columns: 100px 1fr; gap: 16px; }
+
+      .font-gallery { padding: 60px 20px; }
+      .font-download { grid-template-columns: 1fr; gap: 40px; padding: 60px 20px; }
+      .related { padding: 60px 20px; }
+      .related-grid { grid-template-columns: 1fr; }
+
+      .footer-grid { grid-template-columns: 1fr 1fr; margin-bottom: 32px; }
+      .footer-brand-col { grid-column: 1 / -1; }
+      .footer-bottom { flex-direction: column; gap: 8px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal {
+        opacity: 1 !important;
+        transform: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="logo">
+      Pear Type Foundry<span class="small">PTF</span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html#type">폰트</a>
+      <a href="index.html#graphic">그래픽</a>
+      <a href="index.html#custom">의뢰</a>
+      <a href="index.html#contact">문의</a>
+    </div>
+  </nav>
+
+  <main id="content">
+    <!-- Rendered by JS -->
+  </main>
+
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand-col">
+        <div class="footer-brand">Pear Type Foundry</div>
+        <p class="footer-tag" id="footerTag">Pear Type Foundry. Seoul, 2026.</p>
+      </div>
+
+      <div class="footer-col">
+        <h4>폰트</h4>
+        <ul id="footerFonts"></ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>스튜디오</h4>
+        <ul>
+          <li><a href="https://pearway.kr" target="_blank" rel="noopener">Pearway 브랜딩 ↗</a></li>
+          <li><a href="index.html#graphic">그래픽</a></li>
+          <li><a href="index.html#custom">의뢰</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>연결</h4>
+        <ul id="footerConnect"></ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© 2026 / Pear Type Foundry / 디스이즈페어웨이</span>
+      <span>Seoul, KR</span>
+    </div>
+  </footer>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox">
+    <span class="lightbox-close" onclick="closeLightbox()">CLOSE ✕</span>
+    <img id="lightboxImg" src="" alt="">
+  </div>
+
+  <script>
+    // Lenis smooth scroll
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+    });
+
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+
+    document.documentElement.classList.add('lenis-smooth');
+
+    // Get font ID from URL
+    const params = new URLSearchParams(window.location.search);
+    const fontId = params.get('id');
+
+    fetch('data.json')
+      .then(r => r.json())
+      .then(data => {
+        const font = data.fonts.find(f => f.id === fontId);
+        if (!font) {
+          document.getElementById('content').innerHTML = `
+            <div style="padding: 200px 40px; text-align: center;">
+              <p style="font-family: var(--kr); color: var(--muted-2); margin-bottom: 24px;">폰트를 찾을 수 없습니다.</p>
+              <a href="index.html" style="font-family: var(--kr); color: var(--ink); text-decoration: underline;">← 메인으로 돌아가기</a>
+            </div>
+          `;
+          return;
+        }
+
+        document.title = `${font.name} — Pear Type Foundry`;
+        renderFont(font, data);
+      })
+      .catch(err => {
+        document.getElementById('content').innerHTML = `<div style="padding: 200px 40px; text-align: center; font-family: var(--kr);">데이터를 불러올 수 없습니다.</div>`;
+        console.error(err);
+      });
+
+    function renderFont(font, data) {
+      const useImage = font.image && font.image.trim();
+      const heroContent = useImage
+        ? `<img src="${font.image}" alt="${font.name}">`
+        : `<div class="font-hero-text">${font.preview}</div>`;
+
+      const specsHTML = (font.specs || []).map(s => `
+        <div class="spec-row">
+          <span class="spec-label">${s.label}</span>
+          <span class="spec-value">${s.value}</span>
+        </div>
+      `).join('');
+
+      const galleryHTML = (font.gallery || []).length > 0
+        ? font.gallery.map((img, i) => `
+            <div class="gallery-item reveal" onclick="openLightbox('${img}')">
+              <img src="${img}" alt="${font.name} 시안 ${i+1}" loading="lazy">
+            </div>
+          `).join('')
+        : `<div class="gallery-empty">시안 이미지가 아직 없습니다.</div>`;
+
+      const hasDownload = font.downloadFile && font.downloadFile.trim();
+      const downloadButton = hasDownload
+        ? `<a href="${font.downloadFile}" class="download-button" download>
+            <span>${font.downloadLabel || '다운로드'}</span>
+            <span class="arrow">↓</span>
+          </a>`
+        : `<button class="download-button disabled">
+            <span>${font.downloadLabel || '준비 중'}</span>
+            <span class="arrow">·</span>
+          </button>`;
+
+      // Related fonts (other fonts excluding current)
+      const related = data.fonts.filter(f => f.id !== font.id && !f.coming).slice(0, 2);
+      const relatedHTML = related.map(f => {
+        const rUseImage = f.image && f.image.trim();
+        const rContent = rUseImage
+          ? `<img src="${f.image}" alt="${f.name}">`
+          : `<span>${f.preview}</span>`;
+        return `
+          <a href="font.html?id=${f.id}" class="related-card" data-style="${f.style}">
+            <div class="related-image ${f.theme || ''}">
+              ${rContent}
+            </div>
+            <div class="related-info">
+              <div>
+                <div class="related-name">${f.name}</div>
+              </div>
+              <div class="related-meta">${f.number}</div>
+            </div>
+          </a>
+        `;
+      }).join('');
+
+      document.getElementById('content').innerHTML = `
+        <header class="font-header">
+          <div class="breadcrumb">
+            <a href="index.html" class="breadcrumb-link">Pear Type Foundry</a>
+            <span>/</span>
+            <a href="index.html#type" class="breadcrumb-link">폰트</a>
+            <span>/</span>
+            <span>${font.name}</span>
+          </div>
+
+          <div class="font-header-meta">
+            <span>${font.number}</span>
+            <span>${font.year}</span>
+            <span>${font.status}</span>
+          </div>
+
+          <h1 class="font-title kr">${font.name}</h1>
+          <div class="font-title-en">${font.nameEn}</div>
+        </header>
+
+        <div class="font-hero ${font.theme || ''}" data-style="${font.style}">
+          ${heroContent}
+        </div>
+
+        <section class="font-info">
+          <div class="font-description reveal">${font.description || '설명이 준비 중입니다.'}</div>
+          <div class="font-specs reveal reveal-delay-1">
+            ${specsHTML}
+          </div>
+        </section>
+
+        ${(font.gallery || []).length > 0 ? `
+          <section class="font-gallery">
+            <div class="section-tag reveal">— 사용 시안</div>
+            <div class="gallery-grid">
+              ${galleryHTML}
+            </div>
+          </section>
+        ` : ''}
+
+        <section class="font-download">
+          <h2 class="download-statement kr reveal">
+            ${font.coming ? '곧 출시됩니다.' : (hasDownload ? '지금 다운로드.' : '곧 다운로드 가능합니다.')}<br>
+            <span class="accent">${font.price === 'Free' ? '무료로 제공됩니다.' : (font.price && font.price !== 'TBA' ? font.price : '')}</span>
+          </h2>
+          <div class="download-action reveal reveal-delay-1">
+            <div class="download-price">${font.price || 'TBA'}</div>
+            ${downloadButton}
+            ${font.license ? `<p class="download-license">${font.license}</p>` : ''}
+          </div>
+        </section>
+
+        ${related.length > 0 ? `
+          <section class="related">
+            <h3 class="kr">다른 폰트도 보기</h3>
+            <div class="related-grid">
+              ${relatedHTML}
+            </div>
+          </section>
+        ` : ''}
+      `;
+
+      // Footer
+      document.getElementById('footerTag').textContent = data.site.tagline;
+      const footerFonts = document.getElementById('footerFonts');
+      footerFonts.innerHTML = data.fonts
+        .filter(f => !f.coming)
+        .map(f => `<li><a href="font.html?id=${f.id}">${f.name}</a></li>`)
+        .join('') + `<li><a href="index.html#type">전체 보기 ↗</a></li>`;
+
+      const footerConnect = document.getElementById('footerConnect');
+      footerConnect.innerHTML = `
+        <li><a href="mailto:${data.site.email}">Email</a></li>
+        ${data.site.instagram ? `<li><a href="${data.site.instagram}" target="_blank" rel="noopener">Instagram</a></li>` : ''}
+        ${data.site.noonnu ? `<li><a href="${data.site.noonnu}" target="_blank" rel="noopener">눈누마켓</a></li>` : ''}
+      `;
+
+      initScrollReveal();
+    }
+
+    function initScrollReveal() {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) entry.target.classList.add('visible');
+        });
+      }, { threshold: 0.1, rootMargin: '0px 0px -80px 0px' });
+
+      document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    }
+
+    // Lightbox
+    function openLightbox(src) {
+      document.getElementById('lightboxImg').src = src;
+      document.getElementById('lightbox').classList.add('show');
+    }
+
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('show');
+    }
+
+    document.getElementById('lightbox').addEventListener('click', (e) => {
+      if (e.target.id === 'lightbox' || e.target.id === 'lightboxImg') closeLightbox();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeLightbox();
+    });
+  </script>
+
+</body>
+</html>

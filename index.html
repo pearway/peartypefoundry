@@ -691,6 +691,81 @@
         transform: none !important;
       }
     }
+
+    /* LIGHTBOX */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 10, 9, 0.95);
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+      cursor: zoom-out;
+    }
+
+    .lightbox.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .lightbox img {
+      max-width: 90vw;
+      max-height: 90vh;
+      object-fit: contain;
+    }
+
+    .lightbox-empty {
+      max-width: 80vw;
+      padding: 80px 60px;
+      background: var(--bg);
+      color: var(--ink);
+      text-align: center;
+      font-family: var(--kr);
+    }
+
+    .lightbox-empty .empty-preview {
+      font-family: var(--kr);
+      font-weight: 700;
+      font-size: clamp(48px, 8vw, 128px);
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+      margin-bottom: 24px;
+    }
+
+    .lightbox-empty .empty-preview.serif {
+      font-family: 'Geist', serif;
+      font-weight: 300;
+      font-style: italic;
+    }
+
+    .lightbox-empty .empty-preview.skew {
+      transform: skewX(-6deg);
+      display: inline-block;
+    }
+
+    .lightbox-empty p {
+      color: var(--muted-2);
+      font-size: 14px;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      color: rgba(255, 255, 255, 0.6);
+      font-family: var(--mono);
+      font-size: 12px;
+      cursor: pointer;
+      padding: 8px 12px;
+      transition: color 0.2s ease;
+      z-index: 201;
+    }
+
+    .lightbox-close:hover { color: white; }
   </style>
 </head>
 <body class="loading">
@@ -782,6 +857,12 @@ Seoul, 2026.</p>
     <a href="" class="contact-mail reveal reveal-delay-1" id="contactMail"></a>
     <div class="contact-channels reveal reveal-delay-2" id="contactChannels"></div>
   </section>
+
+  <!-- Lightbox for graphic works -->
+  <div class="lightbox" id="lightbox">
+    <span class="lightbox-close" onclick="closeLightbox()">CLOSE ✕</span>
+    <div id="lightboxContent"></div>
+  </div>
 
   <!-- FOOTER -->
   <footer>
@@ -920,7 +1001,7 @@ Seoul, 2026.</p>
       const footerFonts = document.getElementById('footerFonts');
       footerFonts.innerHTML = data.fonts
         .filter(f => !f.coming)
-        .map(f => `<li><a href="${f.link || '#'}">${f.name}</a></li>`)
+        .map(f => `<li><a href="font.html?id=${f.id}">${f.name}</a></li>`)
         .join('') + `<li><a href="#type">전체 보기 ↗</a></li>`;
 
       const footerConnect = document.getElementById('footerConnect');
@@ -937,9 +1018,10 @@ Seoul, 2026.</p>
           ? `<img src="${f.image}" alt="${f.name}">`
           : f.preview;
         const previewClass = useImage ? 'type-card-preview has-image' : 'type-card-preview';
+        const href = f.coming ? '#' : `font.html?id=${f.id}`;
 
         return `
-        <a href="${f.coming ? '#' : (f.link || '#')}" class="type-card reveal ${i % 2 === 1 ? 'reveal-delay-1' : ''} ${f.coming ? 'coming' : ''}" data-style="${f.style}">
+        <a href="${href}" class="type-card reveal ${i % 2 === 1 ? 'reveal-delay-1' : ''} ${f.coming ? 'coming' : ''}" data-style="${f.style}">
           <div class="type-card-image ${f.theme || ''}">
             <div class="type-card-meta-top">
               <span>${f.number}</span>
@@ -973,7 +1055,7 @@ Seoul, 2026.</p>
           : (g.skew ? `<span class="graphic-text-skew">${(g.previewText || '').replace(/\n/g, '<br>')}</span>` : (g.previewText || '').replace(/\n/g, '<br>'));
 
         return `
-          <a href="${g.link || '#'}" class="graphic-item reveal ${i % 2 === 1 ? 'reveal-delay-1' : ''}">
+          <div class="graphic-item reveal ${i % 2 === 1 ? 'reveal-delay-1' : ''}" onclick='openGraphicLightbox(${JSON.stringify(g).replace(/'/g, "&#39;")})'>
             <div class="${visualClass}">
               ${innerContent}
             </div>
@@ -981,7 +1063,7 @@ Seoul, 2026.</p>
               <div class="graphic-title">${g.title}</div>
               <div class="graphic-meta">${g.year} · ${g.category}</div>
             </div>
-          </a>
+          </div>
         `;
       }).join('');
 
@@ -997,6 +1079,42 @@ Seoul, 2026.</p>
 
       document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
     }
+
+    // Lightbox for graphic works
+    function openGraphicLightbox(g) {
+      const lightbox = document.getElementById('lightbox');
+      const content = document.getElementById('lightboxContent');
+
+      if (g.image && g.image.trim()) {
+        content.innerHTML = `<img src="${g.image}" alt="${g.title}">`;
+      } else {
+        // No image - show text preview as fallback
+        const previewClass = `empty-preview ${g.serif ? 'serif' : ''} ${g.skew ? 'skew' : ''} kr`;
+        const text = (g.previewText || g.title || '').replace(/\n/g, '<br>');
+        content.innerHTML = `
+          <div class="lightbox-empty">
+            <div class="${previewClass}">${text}</div>
+            <p>${g.title} · ${g.year} · ${g.category}</p>
+          </div>
+        `;
+      }
+
+      lightbox.classList.add('show');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('show');
+      document.body.style.overflow = '';
+    }
+
+    document.getElementById('lightbox').addEventListener('click', (e) => {
+      if (e.target.id === 'lightbox' || e.currentTarget === e.target) closeLightbox();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeLightbox();
+    });
   </script>
 
 </body>

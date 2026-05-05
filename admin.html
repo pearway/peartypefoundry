@@ -227,6 +227,35 @@
       resize: vertical;
     }
 
+    /* SPECS EDITOR */
+    .specs-editor {
+      background: var(--bg);
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+    }
+
+    .specs-row {
+      display: grid;
+      grid-template-columns: 1fr 2fr auto;
+      gap: 8px;
+      margin-bottom: 8px;
+      align-items: center;
+    }
+
+    .specs-row input {
+      padding: 8px 10px;
+      font-size: 13px;
+      border: 1px solid var(--line);
+      border-radius: 5px;
+      background: var(--panel);
+    }
+
+    .specs-row input:focus {
+      outline: none;
+      border-color: var(--ink);
+    }
+
     /* TOAST */
     .toast {
       position: fixed;
@@ -399,9 +428,12 @@
       <p class="panel-desc">사이트의 폰트 카드로 표시되는 항목입니다. 위에서 아래 순서로 노출됩니다.</p>
 
       <div class="info-box">
-        <strong>대표 이미지 사용 시</strong>: <code>images/fonts/elegant-serif.jpg</code> 같은 경로 입력. 비워두면 미리보기 글자가 표시됩니다.<br>
-        <strong>스타일</strong> — serif (이태릭 표시) / display (skew 표시) / default (일반)<br>
-        <strong>테마</strong> — light (베이지 배경) / dark (검정 배경) / dim (어두운 회색, 진행 중)
+        <strong>폰트 클릭 시 상세 페이지로 이동</strong> (<code>font.html?id=...</code>)<br>
+        상세 페이지에는 소개 글, 스펙, 시안 갤러리, 다운로드 버튼이 표시됩니다.<br><br>
+        <strong>대표 이미지</strong>: 메인 카드에 표시 — <code>images/fonts/elegant-serif.jpg</code><br>
+        <strong>시안 갤러리</strong>: 상세 페이지에 세로 나열 — 한 줄에 하나씩 경로 입력<br>
+        <strong>다운로드 파일</strong>: GitHub에 ZIP 직접 업로드 후 경로 입력 — <code>fonts/elegant-serif.zip</code><br><br>
+        <strong>스타일</strong> — serif (이태릭) / display (skew) / default (일반) · <strong>테마</strong> — light / dark / dim
       </div>
 
       <div id="fonts-list"></div>
@@ -415,7 +447,8 @@
       <p class="panel-desc">사이트의 그래픽 카드로 표시되는 작업물입니다.</p>
 
       <div class="info-box">
-        <strong>대표 이미지 사용 시</strong>: <code>images/works/poster1.jpg</code> 같은 경로 입력. 비워두면 미리보기 텍스트가 표시됩니다.
+        <strong>그래픽 카드 클릭 시 라이트박스로 이미지 확대</strong>. 별도 상세 페이지 없습니다.<br>
+        이미지 경로 입력 시 라이트박스에 그 이미지가 표시되고, 비워두면 미리보기 텍스트가 큰 화면으로 표시됩니다.
       </div>
 
       <div id="graphics-list"></div>
@@ -595,15 +628,71 @@
             </div>
           </div>
 
+          <div class="form-row full">
+            <div class="form-field">
+              <label>폰트 소개 글 <span class="hint">(상세 페이지에 표시. 줄바꿈 가능)</span></label>
+              <textarea data-font="${idx}" data-key="description" rows="6" style="min-height: 140px;">${escapeText(f.description)}</textarea>
+            </div>
+          </div>
+
+          <div class="form-row full">
+            <div class="form-field">
+              <label>스펙 정보 <span class="hint">(상세 페이지 우측 표. 라벨 / 값 형식)</span></label>
+              <div class="specs-editor" data-font-idx="${idx}">
+                ${(f.specs || []).map((s, sIdx) => `
+                  <div class="specs-row" data-spec-idx="${sIdx}">
+                    <input type="text" placeholder="라벨 (예: Weights)" value="${escapeAttr(s.label)}" data-spec-key="label">
+                    <input type="text" placeholder="값 (예: Regular · Bold)" value="${escapeAttr(s.value)}" data-spec-key="value">
+                    <button type="button" class="btn btn-mini btn-danger" onclick="removeSpec(${idx}, ${sIdx})">×</button>
+                  </div>
+                `).join('')}
+                <button type="button" class="btn btn-mini" onclick="addSpec(${idx})" style="margin-top: 8px;">+ 스펙 추가</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row full">
+            <div class="form-field">
+              <label>시안 이미지 갤러리 <span class="hint">(상세 페이지에 세로로 나열. 경로 한 줄에 하나)</span></label>
+              <textarea data-font="${idx}" data-key="galleryText" rows="4" placeholder="images/fonts/elegant-serif/01.jpg&#10;images/fonts/elegant-serif/02.jpg&#10;images/fonts/elegant-serif/03.jpg">${(f.gallery || []).join('\n')}</textarea>
+            </div>
+          </div>
+
           <div class="form-row">
+            <div class="form-field">
+              <label>다운로드 파일 경로 <span class="hint">(GitHub에 직접 업로드 후 경로 입력)</span></label>
+              <input type="text" class="path-input" data-font="${idx}" data-key="downloadFile" value="${escapeAttr(f.downloadFile)}" placeholder="fonts/elegant-serif.zip">
+            </div>
+            <div class="form-field">
+              <label>다운로드 버튼 라벨</label>
+              <input type="text" data-font="${idx}" data-key="downloadLabel" value="${escapeAttr(f.downloadLabel)}" placeholder="무료 다운로드 / 구매하기">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-field">
+              <label>가격 표시</label>
+              <input type="text" data-font="${idx}" data-key="price" value="${escapeAttr(f.price)}" placeholder="Free / 49,000원 / TBA">
+            </div>
             <div class="form-field">
               <label>분류 <span class="hint">(Serif, Display 등)</span></label>
               <input type="text" data-font="${idx}" data-key="category" value="${escapeAttr(f.category)}">
             </div>
+          </div>
+
+          <div class="form-row full">
             <div class="form-field">
-              <label>웨이트 정보</label>
+              <label>라이선스 안내문 <span class="hint">(다운로드 버튼 아래)</span></label>
+              <textarea data-font="${idx}" data-key="license" rows="2" style="min-height: 60px;">${escapeText(f.license)}</textarea>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-field">
+              <label>웨이트 정보 <span class="hint">(카드에 표시)</span></label>
               <input type="text" data-font="${idx}" data-key="weights" value="${escapeAttr(f.weights)}">
             </div>
+            <div class="form-field"></div>
           </div>
 
           <div class="form-row">
@@ -644,16 +733,13 @@
 
           <div class="form-row">
             <div class="form-field">
-              <label>링크 <span class="hint">(상세 페이지 또는 외부 URL)</span></label>
-              <input type="text" data-font="${idx}" data-key="link" value="${escapeAttr(f.link)}">
-            </div>
-            <div class="form-field">
               <label>진행 중 표시</label>
               <select data-font="${idx}" data-key="coming">
                 <option value="false" ${!f.coming ? 'selected' : ''}>아니오 (출시/예정)</option>
                 <option value="true" ${f.coming ? 'selected' : ''}>예 (흐릿하게 표시)</option>
               </select>
             </div>
+            <div class="form-field"></div>
           </div>
         </div>
       `;
@@ -666,7 +752,12 @@
           const key = el.dataset.key;
           let v = el.value;
           if (key === 'coming') v = v === 'true';
-          state.fonts[idx][key] = v;
+          if (key === 'galleryText') {
+            // Split by newline, trim, filter empty
+            state.fonts[idx].gallery = v.split('\n').map(s => s.trim()).filter(s => s.length > 0);
+          } else {
+            state.fonts[idx][key] = v;
+          }
           updatePreview();
           // re-render header if name/number changed
           if (key === 'name' || key === 'number') {
@@ -678,6 +769,34 @@
           }
         });
       });
+
+      // Specs editor inputs
+      document.querySelectorAll('.specs-row input').forEach(el => {
+        el.addEventListener('input', () => {
+          const editor = el.closest('.specs-editor');
+          const fontIdx = parseInt(editor.dataset.fontIdx);
+          const row = el.closest('.specs-row');
+          const specIdx = parseInt(row.dataset.specIdx);
+          const key = el.dataset.specKey;
+          if (!state.fonts[fontIdx].specs) state.fonts[fontIdx].specs = [];
+          if (!state.fonts[fontIdx].specs[specIdx]) state.fonts[fontIdx].specs[specIdx] = { label: '', value: '' };
+          state.fonts[fontIdx].specs[specIdx][key] = el.value;
+          updatePreview();
+        });
+      });
+    }
+
+    function addSpec(fontIdx) {
+      if (!state.fonts[fontIdx].specs) state.fonts[fontIdx].specs = [];
+      state.fonts[fontIdx].specs.push({ label: '', value: '' });
+      renderFonts();
+      updatePreview();
+    }
+
+    function removeSpec(fontIdx, specIdx) {
+      state.fonts[fontIdx].specs.splice(specIdx, 1);
+      renderFonts();
+      updatePreview();
     }
 
     function addFont() {
@@ -696,7 +815,13 @@
         statusDetail: '',
         style: 'default',
         theme: '',
-        link: '#',
+        description: '',
+        specs: [],
+        gallery: [],
+        downloadFile: '',
+        downloadLabel: '',
+        price: 'TBA',
+        license: '',
         coming: false
       });
       renderFonts();
@@ -794,13 +919,6 @@
                 <option value="skew" ${g.skew ? 'selected' : ''}>skew (삐딱)</option>
                 <option value="serif" ${g.serif ? 'selected' : ''}>serif (이태릭)</option>
               </select>
-            </div>
-          </div>
-
-          <div class="form-row full">
-            <div class="form-field">
-              <label>링크 <span class="hint">(상세 페이지 또는 외부 URL)</span></label>
-              <input type="text" data-graphic="${idx}" data-key="link" value="${escapeAttr(g.link)}">
             </div>
           </div>
         </div>
