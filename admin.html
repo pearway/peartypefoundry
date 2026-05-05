@@ -402,6 +402,26 @@
       </div>
 
       <div class="form-card">
+        <h3>사업자 정보 <span class="hint" style="font-family: var(--kr); font-weight: 400; font-size: 12px; color: var(--muted); margin-left: 8px;">(푸터에 표시)</span></h3>
+        <div class="form-row full">
+          <div class="form-field">
+            <label>사업자명 <span class="hint">(영문 대문자 권장)</span></label>
+            <input type="text" id="site-businessName" placeholder="PEAR TYPE FOUNDRY">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label>대표자명 <span class="hint">(영문 대문자 권장)</span></label>
+            <input type="text" id="site-businessCEO" placeholder="LEE HEEBAE">
+          </div>
+          <div class="form-field">
+            <label>사업자 등록번호</label>
+            <input type="text" id="site-businessReg" placeholder="515-11-75407">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-card">
         <h3>연락처 / 소셜</h3>
         <div class="form-row full">
           <div class="form-field">
@@ -489,7 +509,10 @@
         heroImage: '',
         email: 'ppearwayy@gmail.com',
         instagram: '',
-        noonnu: ''
+        noonnu: '',
+        businessName: 'PEAR TYPE FOUNDRY',
+        businessCEO: '',
+        businessReg: ''
       },
       fonts: [],
       graphics: []
@@ -548,10 +571,13 @@
       document.getElementById('site-email').value = s.email || '';
       document.getElementById('site-instagram').value = s.instagram || '';
       document.getElementById('site-noonnu').value = s.noonnu || '';
+      document.getElementById('site-businessName').value = s.businessName || '';
+      document.getElementById('site-businessCEO').value = s.businessCEO || '';
+      document.getElementById('site-businessReg').value = s.businessReg || '';
     }
 
     function bindSiteInputs() {
-      const fields = ['founded','location','tagline','fontsReleased','fontsInDevelopment','heroImage','email','instagram','noonnu'];
+      const fields = ['founded','location','tagline','fontsReleased','fontsInDevelopment','heroImage','email','instagram','noonnu','businessName','businessCEO','businessReg'];
       fields.forEach(f => {
         const el = document.getElementById('site-' + f);
         if (!el) return;

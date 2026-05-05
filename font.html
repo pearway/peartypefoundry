@@ -487,6 +487,16 @@
       font-family: var(--mono);
       font-size: 11px;
       color: var(--muted-2);
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .footer-business {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted-2);
+      letter-spacing: 0;
+      line-height: 1.7;
     }
 
     /* LIGHTBOX (for gallery zoom) */
@@ -608,8 +618,11 @@
     </div>
 
     <div class="footer-bottom">
-      <span>© 2026 / Pear Type Foundry / 디스이즈페어웨이</span>
-      <span>Seoul, KR</span>
+      <div class="footer-business" id="footerBusiness">
+        © 2026 PEAR TYPE FOUNDRY · SEOUL, KR<br>
+        CEO LEE HEEBAE · BIZ REG. 515-11-75407
+      </div>
+      <span>Type Foundry · Seoul</span>
     </div>
   </footer>
 
@@ -804,6 +817,20 @@
 
       // Footer
       document.getElementById('footerTag').textContent = data.site.tagline;
+
+      // Footer business info
+      const bizName = data.site.businessName || 'PEAR TYPE FOUNDRY';
+      const bizCEO = data.site.businessCEO || '';
+      const bizReg = data.site.businessReg || '';
+      const year = new Date().getFullYear();
+      const businessLine2 = [
+        bizCEO ? `CEO ${bizCEO}` : '',
+        bizReg ? `BIZ REG. ${bizReg}` : ''
+      ].filter(Boolean).join(' · ');
+      document.getElementById('footerBusiness').innerHTML = `
+        © ${year} ${bizName} · SEOUL, KR${businessLine2 ? '<br>' + businessLine2 : ''}
+      `;
+
       const footerFonts = document.getElementById('footerFonts');
       footerFonts.innerHTML = data.fonts
         .filter(f => !f.coming)

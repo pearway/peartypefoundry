@@ -641,6 +641,16 @@
       font-family: var(--mono);
       font-size: 11px;
       color: var(--muted-2);
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .footer-business {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted-2);
+      letter-spacing: 0;
+      line-height: 1.7;
     }
 
     /* RESPONSIVE */
@@ -878,8 +888,11 @@ Seoul, 2026.</p>
     </div>
 
     <div class="footer-bottom">
-      <span>© 2026 / Pear Type Foundry / 디스이즈페어웨이</span>
-      <span>Seoul, KR</span>
+      <div class="footer-business" id="footerBusiness">
+        © 2026 PEAR TYPE FOUNDRY · SEOUL, KR<br>
+        CEO LEE HEEBAE · BIZ REG. 515-11-75407
+      </div>
+      <span>Type Foundry · Seoul</span>
     </div>
   </footer>
 
@@ -990,6 +1003,19 @@ Seoul, 2026.</p>
       if (site.noonnu) channels.innerHTML += `<a href="${site.noonnu}" target="_blank" rel="noopener">눈누마켓 ↗</a>`;
 
       document.getElementById('footerTag').textContent = site.tagline;
+
+      // Footer business info
+      const bizName = site.businessName || 'PEAR TYPE FOUNDRY';
+      const bizCEO = site.businessCEO || '';
+      const bizReg = site.businessReg || '';
+      const year = new Date().getFullYear();
+      const businessLine2 = [
+        bizCEO ? `CEO ${bizCEO}` : '',
+        bizReg ? `BIZ REG. ${bizReg}` : ''
+      ].filter(Boolean).join(' · ');
+      document.getElementById('footerBusiness').innerHTML = `
+        © ${year} ${bizName} · SEOUL, KR${businessLine2 ? '<br>' + businessLine2 : ''}
+      `;
 
       const footerFonts = document.getElementById('footerFonts');
       footerFonts.innerHTML = data.fonts
