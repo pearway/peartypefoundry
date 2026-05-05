@@ -70,5 +70,30 @@
       ]
     }
   ],
-  "graphics": []
+  "graphics": [
+    {
+      "id": "work-1777974543280",
+      "title": "꺼드럭",
+      "year": "2026",
+      "category": "Personal",
+      "image": "./꺼드럭-레터링.png",
+      "previewText": "",
+      "theme": "dark",
+      "skew": false,
+      "serif": false,
+      "link": "#"
+    },
+    {
+      "id": "work-1777974564297",
+      "title": "소풍가는날",
+      "year": "2026",
+      "category": "Personal",
+      "image": "./소풍가는날-레터링.png",
+      "previewText": "",
+      "theme": "dark",
+      "skew": false,
+      "serif": false,
+      "link": "#"
+    }
+  ]
 }
