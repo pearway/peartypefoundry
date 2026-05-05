@@ -428,11 +428,10 @@
       <p class="panel-desc">사이트의 폰트 카드로 표시되는 항목입니다. 위에서 아래 순서로 노출됩니다.</p>
 
       <div class="info-box">
-        <strong>폰트 클릭 시 상세 페이지로 이동</strong> (<code>font.html?id=...</code>)<br>
-        상세 페이지에는 소개 글, 스펙, 시안 갤러리, 다운로드 버튼이 표시됩니다.<br><br>
-        <strong>대표 이미지</strong>: 메인 카드에 표시 — <code>images/fonts/elegant-serif.jpg</code><br>
-        <strong>시안 갤러리</strong>: 상세 페이지에 세로 나열 — 한 줄에 하나씩 경로 입력<br>
-        <strong>다운로드 파일</strong>: GitHub에 ZIP 직접 업로드 후 경로 입력 — <code>fonts/elegant-serif.zip</code><br><br>
+        <strong>폰트 클릭 시 상세 페이지로 이동</strong> (<code>font.html?id=...</code>)<br><br>
+        <strong>무료 폰트</strong>: 가격을 <code>Free</code> 또는 <code>무료</code>로 입력 + 다운로드 파일 경로 입력 → 직접 다운로드 버튼<br>
+        <strong>유료 폰트</strong>: 가격을 다른 값으로 입력 + 외부 구매 URL 입력 → 구매처 링크 버튼 (눈누, 산돌 등)<br><br>
+        <strong>이미지/시안/ZIP은 GitHub에 직접 업로드</strong>. 어드민에선 경로만 입력합니다.<br>
         <strong>스타일</strong> — serif (이태릭) / display (skew) / default (일반) · <strong>테마</strong> — light / dark / dim
       </div>
 
@@ -660,18 +659,29 @@
 
           <div class="form-row">
             <div class="form-field">
-              <label>다운로드 파일 경로 <span class="hint">(GitHub에 직접 업로드 후 경로 입력)</span></label>
+              <label>다운로드 파일 경로 <span class="hint">(무료 폰트 — GitHub에 ZIP 업로드)</span></label>
               <input type="text" class="path-input" data-font="${idx}" data-key="downloadFile" value="${escapeAttr(f.downloadFile)}" placeholder="fonts/elegant-serif.zip">
             </div>
             <div class="form-field">
-              <label>다운로드 버튼 라벨</label>
-              <input type="text" data-font="${idx}" data-key="downloadLabel" value="${escapeAttr(f.downloadLabel)}" placeholder="무료 다운로드 / 구매하기">
+              <label>다운로드 버튼 라벨 <span class="hint">(무료일 때)</span></label>
+              <input type="text" data-font="${idx}" data-key="downloadLabel" value="${escapeAttr(f.downloadLabel)}" placeholder="무료 다운로드">
             </div>
           </div>
 
           <div class="form-row">
             <div class="form-field">
-              <label>가격 표시</label>
+              <label>외부 구매 URL <span class="hint">(유료 폰트 — 눈누/산돌 등)</span></label>
+              <input type="text" class="path-input" data-font="${idx}" data-key="purchaseUrl" value="${escapeAttr(f.purchaseUrl)}" placeholder="https://noonnu.cc/font_page/...">
+            </div>
+            <div class="form-field">
+              <label>구매처 이름 <span class="hint">(유료일 때 버튼 라벨)</span></label>
+              <input type="text" data-font="${idx}" data-key="purchaseLabel" value="${escapeAttr(f.purchaseLabel)}" placeholder="눈누마켓에서 구매">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-field">
+              <label>가격 표시 <span class="hint">(Free/무료 입력 시 무료 폰트로 처리)</span></label>
               <input type="text" data-font="${idx}" data-key="price" value="${escapeAttr(f.price)}" placeholder="Free / 49,000원 / TBA">
             </div>
             <div class="form-field">
@@ -820,6 +830,8 @@
         gallery: [],
         downloadFile: '',
         downloadLabel: '',
+        purchaseUrl: '',
+        purchaseLabel: '',
         price: 'TBA',
         license: '',
         coming: false

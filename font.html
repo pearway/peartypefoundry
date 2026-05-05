@@ -704,16 +704,36 @@
           `).join('')
         : `<div class="gallery-empty">시안 이미지가 아직 없습니다.</div>`;
 
+      const isFree = font.price === 'Free' || font.price === '무료';
       const hasDownload = font.downloadFile && font.downloadFile.trim();
-      const downloadButton = hasDownload
-        ? `<a href="${font.downloadFile}" class="download-button" download>
-            <span>${font.downloadLabel || '다운로드'}</span>
-            <span class="arrow">↓</span>
-          </a>`
-        : `<button class="download-button disabled">
+      const hasPurchaseLink = font.purchaseUrl && font.purchaseUrl.trim();
+
+      let downloadButton = '';
+      if (font.coming) {
+        downloadButton = `<button class="download-button disabled">
             <span>${font.downloadLabel || '준비 중'}</span>
             <span class="arrow">·</span>
           </button>`;
+      } else if (isFree && hasDownload) {
+        // Free font with file
+        downloadButton = `<a href="${font.downloadFile}" class="download-button" download>
+            <span>${font.downloadLabel || '무료 다운로드'}</span>
+            <span class="arrow">↓</span>
+          </a>`;
+      } else if (!isFree && hasPurchaseLink) {
+        // Paid font - external link
+        const platformName = font.purchaseLabel || '구매 / 라이선스 보기';
+        downloadButton = `<a href="${font.purchaseUrl}" class="download-button" target="_blank" rel="noopener">
+            <span>${platformName}</span>
+            <span class="arrow">↗</span>
+          </a>`;
+      } else {
+        // Not available yet
+        downloadButton = `<button class="download-button disabled">
+            <span>${font.downloadLabel || '준비 중'}</span>
+            <span class="arrow">·</span>
+          </button>`;
+      }
 
       // Related fonts (other fonts excluding current)
       const related = data.fonts.filter(f => f.id !== font.id && !f.coming).slice(0, 2);
@@ -779,8 +799,12 @@
 
         <section class="font-download">
           <h2 class="download-statement kr reveal">
-            ${font.coming ? '곧 출시됩니다.' : (hasDownload ? '지금 다운로드.' : '곧 다운로드 가능합니다.')}<br>
-            <span class="accent">${font.price === 'Free' ? '무료로 제공됩니다.' : (font.price && font.price !== 'TBA' ? font.price : '')}</span>
+            ${
+              font.coming ? '곧 출시됩니다.' :
+              (isFree && hasDownload) ? '지금 다운로드하세요.' :
+              (!isFree && hasPurchaseLink) ? `${font.purchaseLabel || '구매처'}에서<br><span class="accent">라이선스를 확인하세요.</span>` :
+              '곧 만나보실 수 있습니다.'
+            }
           </h2>
           <div class="download-action reveal reveal-delay-1">
             <div class="download-price">${font.price || 'TBA'}</div>
