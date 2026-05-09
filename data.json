@@ -30,10 +30,22 @@
       "theme": "light",
       "description": "우아한세리프는 본문과 제목 모두에 사용할 수 있는 정통 세리프 활자입니다. 클래식한 골격에 현대적 비례를 더해 어디에도 자연스럽게 어울립니다.\n\n각 글자의 두께와 곡선은 한글의 결을 살리되, 영문 세리프의 정제된 균형을 함께 담았습니다.",
       "specs": [
-        { "label": "Weights", "value": "Regular" },
-        { "label": "Glyphs", "value": "11,172자 + 영문 + 숫자" },
-        { "label": "Format", "value": "OTF · TTF · WOFF2" },
-        { "label": "License", "value": "개인 / 상업 사용 가능" }
+        {
+          "label": "Weights",
+          "value": "Regular"
+        },
+        {
+          "label": "Glyphs",
+          "value": "11,172자 + 영문 + 숫자"
+        },
+        {
+          "label": "Format",
+          "value": "OTF · TTF · WOFF2"
+        },
+        {
+          "label": "License",
+          "value": "개인 / 상업 사용 가능"
+        }
       ],
       "gallery": [],
       "downloadFile": "fonts/elegant-serif.zip",
@@ -60,11 +72,26 @@
       "theme": "dark",
       "description": "삐딱한글은 정자(正字)에서 의도적으로 비켜선 디스플레이 활자입니다. 4가지 웨이트와 가변 폰트로, 강렬한 표현이 필요한 브랜딩과 포스터에 어울립니다.\n\n태도가 있는 글자, 결이 있는 글자.",
       "specs": [
-        { "label": "Weights", "value": "Light · Regular · Bold · Black" },
-        { "label": "Variable", "value": "Variable Font 지원" },
-        { "label": "Glyphs", "value": "11,172자 + 영문 + 숫자" },
-        { "label": "Format", "value": "OTF · TTF · WOFF2 · Variable" },
-        { "label": "Features", "value": "ss01 (정자 모드) · ss02 (강조 모드)" }
+        {
+          "label": "Weights",
+          "value": "Light · Regular · Bold · Black"
+        },
+        {
+          "label": "Variable",
+          "value": "Variable Font 지원"
+        },
+        {
+          "label": "Glyphs",
+          "value": "11,172자 + 영문 + 숫자"
+        },
+        {
+          "label": "Format",
+          "value": "OTF · TTF · WOFF2 · Variable"
+        },
+        {
+          "label": "Features",
+          "value": "ss01 (정자 모드) · ss02 (강조 모드)"
+        }
       ],
       "gallery": [],
       "downloadFile": "",

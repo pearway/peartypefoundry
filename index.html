@@ -504,6 +504,147 @@
       white-space: nowrap;
     }
 
+    /* INSIGHT */
+    .insight-section {
+      padding: 100px var(--pad);
+      background: var(--ink);
+      color: var(--bg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .insight-section .section-tag {
+      color: rgba(252, 252, 250, 0.5);
+    }
+
+    .insight-content {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .insight-head {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: end;
+      margin-bottom: 60px;
+    }
+
+    .insight-headline {
+      font-family: var(--kr);
+      font-weight: 200;
+      font-size: clamp(36px, 5vw, 72px);
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+    }
+
+    .insight-headline .accent {
+      color: var(--muted);
+    }
+
+    .insight-intro {
+      font-family: var(--kr);
+      font-weight: 300;
+      font-size: 15px;
+      line-height: 1.7;
+      color: rgba(252, 252, 250, 0.75);
+      max-width: 380px;
+      letter-spacing: -0.01em;
+    }
+
+    .insight-list-home {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .insight-item-home {
+      padding: 32px 0;
+      border-top: 1px solid rgba(252, 252, 250, 0.12);
+      display: grid;
+      grid-template-columns: 80px 1fr 120px;
+      gap: 32px;
+      align-items: baseline;
+      transition: padding 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer;
+    }
+
+    .insight-item-home:last-child {
+      border-bottom: 1px solid rgba(252, 252, 250, 0.12);
+    }
+
+    .insight-item-home:hover {
+      padding-left: 12px;
+    }
+
+    .insight-num-home {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: rgba(252, 252, 250, 0.5);
+      letter-spacing: 0.05em;
+    }
+
+    .insight-title-home {
+      font-family: var(--kr);
+      font-weight: 400;
+      font-size: clamp(20px, 2vw, 28px);
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .insight-item-home:hover .insight-title-home {
+      transform: translateX(8px);
+    }
+
+    .insight-subtitle-home {
+      font-family: var(--kr);
+      font-weight: 300;
+      font-size: 14px;
+      color: rgba(252, 252, 250, 0.6);
+      line-height: 1.5;
+      letter-spacing: -0.01em;
+      max-width: 600px;
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .insight-item-home:hover .insight-subtitle-home {
+      transform: translateX(8px);
+    }
+
+    .insight-arrow-home {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: rgba(252, 252, 250, 0.5);
+      text-align: right;
+      letter-spacing: 0.05em;
+    }
+
+    .insight-item-home:hover .insight-arrow-home {
+      color: var(--bg);
+    }
+
+    .insight-item-home.coming {
+      opacity: 0.4;
+      pointer-events: none;
+    }
+
+    .insight-cta-home {
+      margin-top: 48px;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-family: var(--kr);
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--bg);
+      transition: gap 0.3s ease;
+    }
+
+    .insight-cta-home:hover { gap: 20px; color: var(--muted); }
+    .insight-cta-home .arrow { transition: transform 0.3s ease; }
+    .insight-cta-home:hover .arrow { transform: translateX(4px); }
+
     /* CUSTOM */
     .custom-content { max-width: 900px; }
 
@@ -669,6 +810,19 @@
       .type-card-image { padding: 40px 32px; }
       .graphic-grid { grid-template-columns: 1fr; gap: 32px; }
       .graphic-visual { padding: 32px; }
+
+      .insight-section { padding: 80px 20px; }
+      .insight-head { grid-template-columns: 1fr; gap: 24px; }
+      .insight-item-home {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        padding: 24px 0;
+      }
+      .insight-item-home:hover { padding-left: 0; }
+      .insight-item-home:hover .insight-title-home,
+      .insight-item-home:hover .insight-subtitle-home { transform: none; }
+      .insight-arrow-home { text-align: left; margin-top: 4px; }
+
       .custom-detail { grid-template-columns: 1fr; gap: 24px; }
       .contact { padding: 100px 20px; }
       .contact-mail { font-size: clamp(24px, 8vw, 56px); }
@@ -825,6 +979,31 @@ Seoul, 2026.</p>
   <section id="graphic">
     <div class="section-tag reveal">— 그래픽 작업</div>
     <div class="graphic-grid" id="graphicGrid"></div>
+  </section>
+
+  <!-- INSIGHT -->
+  <section id="insight" class="insight-section">
+    <div class="insight-content">
+      <div class="section-tag reveal">— 인사이트</div>
+
+      <div class="insight-head">
+        <h2 class="insight-headline kr reveal">
+          활자 디자이너의<br>
+          <span class="accent">노트.</span>
+        </h2>
+        <p class="insight-intro kr reveal reveal-delay-1">
+          폰트를 만들면서 정리한 시각보정, 자간, 글리프, 한글 구조에 대한 작은 노트.<br>
+          매 챕터는 PDF로 받아보실 수 있습니다.
+        </p>
+      </div>
+
+      <div class="insight-list-home" id="insightListHome"></div>
+
+      <a href="insight.html" class="insight-cta-home reveal">
+        <span>전체 인사이트 보기</span>
+        <span class="arrow">↗</span>
+      </a>
+    </div>
   </section>
 
   <!-- CUSTOM -->
@@ -1087,6 +1266,29 @@ Seoul, 2026.</p>
           </div>
         `;
       }).join('');
+
+      // INSIGHT (max 3 on home)
+      const insightListHome = document.getElementById('insightListHome');
+      const insights = (data.insights || []).slice(0, 3);
+      if (insights.length > 0) {
+        insightListHome.innerHTML = insights.map((c, i) => {
+          const isComing = c.coming;
+          const num = c.number || `CH.${String(i + 1).padStart(2, '0')}`;
+          const link = isComing ? '#' : `insight-detail.html?id=${c.id}`;
+          return `
+            <a href="${link}" class="insight-item-home reveal ${isComing ? 'coming' : ''}">
+              <div class="insight-num-home">${num}</div>
+              <div>
+                <div class="insight-title-home kr">${c.title || ''}</div>
+                <div class="insight-subtitle-home kr">${c.subtitle || ''}</div>
+              </div>
+              <div class="insight-arrow-home">${isComing ? 'COMING SOON' : 'READ ↗'}</div>
+            </a>
+          `;
+        }).join('');
+      } else {
+        insightListHome.innerHTML = '<div style="padding: 60px 0; color: rgba(252,252,250,0.5); font-family: var(--kr); text-align: center;">챕터가 곧 추가됩니다.</div>';
+      }
 
       initScrollReveal();
     }
