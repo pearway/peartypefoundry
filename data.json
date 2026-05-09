@@ -209,7 +209,7 @@
       "pages": "4",
       "format": "PDF",
       "coverImage": "",
-      "pdfFile": "pdfs/PTF_INSIGHT_01_시각보정.pdf",
+      "pdfFile": "./PTF_INSIGHT_01_optical.pdf",
       "body": "",
       "coming": false
     }
