@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Font Insight — Pear Type Foundry</title>
+  <meta name="description" content="활자 디자이너의 노트. Pear Type Foundry의 폰트 인사이트 시리즈.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+
+  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+
+  <style>
+    :root {
+      --bg: #FCFCFA;
+      --ink: #0A0A09;
+      --ink-2: #1F1F1D;
+      --muted: #B5B3AC;
+      --muted-2: #75736E;
+      --hover: #2840E8;
+      --line: rgba(10, 10, 9, 0.06);
+
+      --en: 'Geist', sans-serif;
+      --mono: 'Geist Mono', monospace;
+      --kr: 'Pretendard', sans-serif;
+
+      --pad: 40px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+    html.lenis-smooth { scroll-behavior: auto; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--en);
+      font-weight: 400;
+      line-height: 1.5;
+      overflow-x: hidden;
+      letter-spacing: -0.012em;
+    }
+
+    .kr { font-family: var(--kr); letter-spacing: -0.02em; }
+    .mono { font-family: var(--mono); letter-spacing: 0; }
+
+    a { color: inherit; text-decoration: none; transition: color 0.3s ease; }
+    a:hover { color: var(--hover); }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      padding: 24px var(--pad);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+      background: rgba(252, 252, 250, 0.85);
+      backdrop-filter: blur(16px) saturate(150%);
+      -webkit-backdrop-filter: blur(16px) saturate(150%);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .logo {
+      font-family: var(--en);
+      font-weight: 500;
+      font-size: 15px;
+      letter-spacing: -0.02em;
+    }
+
+    .logo .small {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted-2);
+      margin-left: 8px;
+      font-weight: 400;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      font-family: var(--kr);
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+    }
+
+    /* SCROLL REVEAL */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+
+    /* HEADER */
+    .insight-header {
+      padding: 140px var(--pad) 80px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .header-meta {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted-2);
+      margin-bottom: 60px;
+      letter-spacing: 0.05em;
+    }
+
+    .insight-title {
+      font-family: var(--kr);
+      font-weight: 200;
+      font-size: clamp(48px, 9vw, 144px);
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+      margin-bottom: 32px;
+    }
+
+    .insight-title .accent {
+      font-family: var(--en);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--muted);
+    }
+
+    .insight-subtitle {
+      font-family: var(--kr);
+      font-weight: 300;
+      font-size: clamp(18px, 1.6vw, 22px);
+      line-height: 1.6;
+      color: var(--ink-2);
+      max-width: 600px;
+      letter-spacing: -0.02em;
+    }
+
+    /* CHAPTER LIST */
+    .chapters {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 60px var(--pad) 100px;
+    }
+
+    .section-tag {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted-2);
+      margin-bottom: 32px;
+      letter-spacing: 0.05em;
+    }
+
+    .chapter-list {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .chapter-item {
+      padding: 48px 0;
+      border-top: 1px solid var(--line);
+      display: grid;
+      grid-template-columns: 80px 1fr 200px;
+      gap: 40px;
+      align-items: baseline;
+      transition: padding 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer;
+    }
+
+    .chapter-item:last-child { border-bottom: 1px solid var(--line); }
+
+    .chapter-item:hover { padding-left: 16px; }
+
+    .chapter-num {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted-2);
+      letter-spacing: 0.05em;
+    }
+
+    .chapter-content {
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .chapter-item:hover .chapter-content {
+      transform: translateX(8px);
+    }
+
+    .chapter-title {
+      font-family: var(--kr);
+      font-weight: 300;
+      font-size: clamp(28px, 3.5vw, 48px);
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      margin-bottom: 12px;
+    }
+
+    .chapter-subtitle {
+      font-family: var(--kr);
+      font-weight: 400;
+      font-size: 15px;
+      color: var(--muted-2);
+      line-height: 1.5;
+      letter-spacing: -0.01em;
+      max-width: 600px;
+    }
+
+    .chapter-meta {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted-2);
+      text-align: right;
+      line-height: 1.7;
+      letter-spacing: 0.03em;
+    }
+
+    .chapter-meta .read-more {
+      color: var(--ink);
+      font-weight: 500;
+    }
+
+    .chapter-item.coming { opacity: 0.4; pointer-events: none; }
+    .chapter-item.coming:hover { padding-left: 0; }
+    .chapter-item.coming .chapter-content { transform: none; }
+
+    /* INTRO BLOCK */
+    .intro-block {
+      background: var(--ink);
+      color: var(--bg);
+      padding: 80px var(--pad);
+      margin: 0;
+    }
+
+    .intro-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: end;
+    }
+
+    .intro-tag {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: rgba(252, 252, 250, 0.5);
+      letter-spacing: 0.1em;
+      margin-bottom: 24px;
+    }
+
+    .intro-quote {
+      font-family: var(--kr);
+      font-weight: 200;
+      font-size: clamp(24px, 3vw, 40px);
+      line-height: 1.3;
+      letter-spacing: -0.03em;
+    }
+
+    .intro-source {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: rgba(252, 252, 250, 0.5);
+      text-align: right;
+      letter-spacing: 0.05em;
+    }
+
+    /* FOOTER */
+    footer {
+      padding: 60px var(--pad) 32px;
+      border-top: 1px solid var(--line);
+    }
+
+    .footer-grid {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 60px;
+    }
+
+    .footer-brand {
+      font-family: var(--en);
+      font-weight: 500;
+      font-size: 15px;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+    }
+
+    .footer-tag {
+      font-family: var(--en);
+      font-weight: 400;
+      font-size: 13px;
+      color: var(--muted-2);
+      max-width: 280px;
+      line-height: 1.6;
+      letter-spacing: -0.012em;
+    }
+
+    .footer-col h4 {
+      font-family: var(--kr);
+      font-weight: 500;
+      font-size: 13px;
+      color: var(--muted-2);
+      margin-bottom: 16px;
+      letter-spacing: -0.02em;
+    }
+
+    .footer-col ul { list-style: none; }
+    .footer-col li {
+      margin-bottom: 8px;
+      font-family: var(--kr);
+      font-size: 14px;
+    }
+
+    .footer-bottom {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      padding-top: 20px;
+      border-top: 1px solid var(--line);
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted-2);
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .footer-business {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted-2);
+      letter-spacing: 0;
+      line-height: 1.7;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      :root { --pad: 20px; }
+      nav { padding: 16px 20px; }
+      .logo .small { display: none; }
+      .nav-links { gap: 16px; font-size: 13px; }
+      .nav-links a:nth-child(2),
+      .nav-links a:nth-child(3) { display: none; }
+
+      .insight-header { padding: 100px 20px 60px; }
+      .chapters { padding: 40px 20px 80px; }
+
+      .chapter-item {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        padding: 32px 0;
+      }
+      .chapter-item:hover { padding-left: 0; }
+      .chapter-item:hover .chapter-content { transform: none; }
+      .chapter-meta { text-align: left; }
+
+      .intro-block { padding: 60px 20px; }
+      .intro-content { grid-template-columns: 1fr; gap: 24px; }
+      .intro-source { text-align: left; }
+
+      .footer-grid { grid-template-columns: 1fr 1fr; margin-bottom: 32px; }
+      .footer-brand-col { grid-column: 1 / -1; }
+      .footer-bottom { flex-direction: column; gap: 8px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="logo">
+      Pear Type Foundry<span class="small">PTF</span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html#type">폰트</a>
+      <a href="index.html#graphic">그래픽</a>
+      <a href="insight.html">인사이트</a>
+      <a href="index.html#custom">의뢰</a>
+      <a href="index.html#contact">문의</a>
+    </div>
+  </nav>
+
+  <header class="insight-header">
+    <div class="header-meta reveal">F O N T &nbsp; I N S I G H T &nbsp; / &nbsp; @thisispearway</div>
+
+    <h1 class="insight-title reveal kr">
+      활자 디자이너의<br>
+      <span class="accent">노트.</span>
+    </h1>
+
+    <p class="insight-subtitle reveal reveal-delay-1">
+      폰트를 만들면서 정리한 시각보정, 자간, 글리프, 한글 구조에 대한 작은 노트.<br>
+      매 챕터는 PDF로 다운로드할 수 있습니다.
+    </p>
+  </header>
+
+  <section class="intro-block reveal">
+    <div class="intro-content">
+      <div>
+        <div class="intro-tag">— A QUOTE</div>
+        <p class="intro-quote kr">
+          "글자는 종이 위에서 단어로서가 아니라,<br>
+          설명하지 않아도 숨쉬는 것처럼<br>
+          존재해야 한다."
+        </p>
+      </div>
+      <div class="intro-source">— ADRIAN FRUTIGER</div>
+    </div>
+  </section>
+
+  <section class="chapters">
+    <div class="section-tag reveal">— CHAPTERS / 챕터 목록</div>
+    <div class="chapter-list" id="chapterList"></div>
+  </section>
+
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand-col">
+        <div class="footer-brand">Pear Type Foundry</div>
+        <p class="footer-tag" id="footerTag">Pear Type Foundry. Seoul, 2026.</p>
+      </div>
+
+      <div class="footer-col">
+        <h4>폰트</h4>
+        <ul id="footerFonts"></ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>스튜디오</h4>
+        <ul>
+          <li><a href="https://pearway.kr" target="_blank" rel="noopener">Pearway 브랜딩 ↗</a></li>
+          <li><a href="index.html#graphic">그래픽</a></li>
+          <li><a href="insight.html">인사이트</a></li>
+          <li><a href="index.html#custom">의뢰</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>연결</h4>
+        <ul id="footerConnect"></ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="footer-business" id="footerBusiness">
+        © 2026 PEAR TYPE FOUNDRY · SEOUL, KR<br>
+        CEO LEE HEEBAE · BIZ REG. 515-11-75407
+      </div>
+      <span>Type Foundry · Seoul</span>
+    </div>
+  </footer>
+
+  <script>
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+    });
+    function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+    requestAnimationFrame(raf);
+    document.documentElement.classList.add('lenis-smooth');
+
+    fetch('data.json')
+      .then(r => r.json())
+      .then(data => renderInsight(data))
+      .catch(err => console.error(err));
+
+    function renderInsight(data) {
+      const chapters = data.insights || [];
+      const list = document.getElementById('chapterList');
+
+      if (chapters.length === 0) {
+        list.innerHTML = '<div style="padding: 60px 0; text-align: center; color: var(--muted-2); font-family: var(--kr);">챕터가 곧 추가됩니다.</div>';
+      } else {
+        list.innerHTML = chapters.map((c, i) => {
+          const isComing = c.coming;
+          const num = c.number || `CH.${String(i + 1).padStart(2, '0')}`;
+          const link = isComing ? '#' : `insight-detail.html?id=${c.id}`;
+
+          return `
+            <a href="${link}" class="chapter-item reveal ${isComing ? 'coming' : ''}">
+              <div class="chapter-num">${num}</div>
+              <div class="chapter-content">
+                <h2 class="chapter-title kr">${c.title || ''}</h2>
+                <p class="chapter-subtitle kr">${c.subtitle || ''}</p>
+              </div>
+              <div class="chapter-meta">
+                ${c.date || ''}<br>
+                ${isComing ? 'COMING SOON' : '<span class="read-more">READ ↗</span>'}
+              </div>
+            </a>
+          `;
+        }).join('');
+      }
+
+      // Footer
+      document.getElementById('footerTag').textContent = data.site.tagline;
+
+      const bizName = data.site.businessName || 'PEAR TYPE FOUNDRY';
+      const bizCEO = data.site.businessCEO || '';
+      const bizReg = data.site.businessReg || '';
+      const year = new Date().getFullYear();
+      const businessLine2 = [
+        bizCEO ? `CEO ${bizCEO}` : '',
+        bizReg ? `BIZ REG. ${bizReg}` : ''
+      ].filter(Boolean).join(' · ');
+      document.getElementById('footerBusiness').innerHTML = `
+        © ${year} ${bizName} · SEOUL, KR${businessLine2 ? '<br>' + businessLine2 : ''}
+      `;
+
+      const footerFonts = document.getElementById('footerFonts');
+      footerFonts.innerHTML = (data.fonts || [])
+        .filter(f => !f.coming)
+        .map(f => `<li><a href="font.html?id=${f.id}">${f.name}</a></li>`)
+        .join('') + `<li><a href="index.html#type">전체 보기 ↗</a></li>`;
+
+      const footerConnect = document.getElementById('footerConnect');
+      footerConnect.innerHTML = `
+        <li><a href="mailto:${data.site.email}">Email</a></li>
+        ${data.site.instagram ? `<li><a href="${data.site.instagram}" target="_blank" rel="noopener">Instagram</a></li>` : ''}
+        ${data.site.noonnu ? `<li><a href="${data.site.noonnu}" target="_blank" rel="noopener">눈누마켓</a></li>` : ''}
+      `;
+
+      initScrollReveal();
+    }
+
+    function initScrollReveal() {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) entry.target.classList.add('visible');
+        });
+      }, { threshold: 0.1, rootMargin: '0px 0px -80px 0px' });
+      document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    }
+  </script>
+
+</body>
+</html>

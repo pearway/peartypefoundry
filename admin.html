@@ -350,6 +350,7 @@
     <button class="tab active" data-tab="site">사이트 정보</button>
     <button class="tab" data-tab="fonts">폰트</button>
     <button class="tab" data-tab="graphics">그래픽 작업</button>
+    <button class="tab" data-tab="insights">인사이트</button>
     <button class="tab" data-tab="preview">JSON 미리보기</button>
   </div>
 
@@ -475,6 +476,25 @@
       <button class="btn-primary btn" onclick="addGraphic()" style="margin-top: 12px;">+ 그래픽 작업 추가</button>
     </section>
 
+    <!-- INSIGHTS -->
+    <section class="panel-section" id="panel-insights">
+      <h1 class="panel-title">인사이트 챕터</h1>
+      <p class="panel-desc">Font Insight 시리즈 — 카드뉴스/PDF 콘텐츠 챕터를 관리합니다.</p>
+
+      <div class="info-box">
+        <strong>워크플로우</strong><br>
+        1. PDF 파일을 GitHub <code>pdfs/</code> 폴더에 업로드 (예: <code>pdfs/insight-01.pdf</code>)<br>
+        2. 표지 이미지(PDF 첫 페이지 캡처)를 <code>images/insight/</code>에 업로드<br>
+        3. 여기서 챕터 정보 입력 + 두 파일의 경로 입력<br>
+        4. data.json 다운로드 → GitHub에 푸시<br><br>
+        <strong>본문 글</strong>: HTML 입력 가능. 비워두면 표지 + 다운로드만 표시됩니다.
+      </div>
+
+      <div id="insights-list"></div>
+
+      <button class="btn-primary btn" onclick="addInsight()" style="margin-top: 12px;">+ 챕터 추가</button>
+    </section>
+
     <!-- PREVIEW -->
     <section class="panel-section" id="panel-preview">
       <h1 class="panel-title">배포 가이드</h1>
@@ -515,7 +535,8 @@
         businessReg: ''
       },
       fonts: [],
-      graphics: []
+      graphics: [],
+      insights: []
     };
 
     // ===== INIT =====
@@ -555,6 +576,7 @@
       renderSite();
       renderFonts();
       renderGraphics();
+      renderInsights();
       updatePreview();
       bindSiteInputs();
     }
@@ -1019,6 +1041,158 @@
       if (tgt < 0 || tgt >= state.graphics.length) return;
       [state.graphics[idx], state.graphics[tgt]] = [state.graphics[tgt], state.graphics[idx]];
       renderGraphics();
+      updatePreview();
+    }
+
+    // ===== INSIGHTS =====
+    function renderInsights() {
+      const list = document.getElementById('insights-list');
+      if (!list) return;
+      if (!state.insights || state.insights.length === 0) {
+        list.innerHTML = '<div class="empty-state">아직 인사이트 챕터가 없습니다. 아래 버튼으로 추가하세요.</div>';
+        return;
+      }
+      list.innerHTML = state.insights.map((c, idx) => insightCardHTML(c, idx)).join('');
+      bindInsightInputs();
+    }
+
+    function insightCardHTML(c, idx) {
+      return `
+        <div class="form-card">
+          <h3>
+            <span>${escapeText(c.number || 'CH.??')} — ${escapeText(c.title || '제목 없음')}</span>
+            <div class="head-actions">
+              ${idx > 0 ? `<button class="btn btn-mini" onclick="moveInsight(${idx}, -1)">↑</button>` : ''}
+              ${idx < state.insights.length - 1 ? `<button class="btn btn-mini" onclick="moveInsight(${idx}, 1)">↓</button>` : ''}
+              <button class="btn btn-mini btn-danger" onclick="removeInsight(${idx})">삭제</button>
+            </div>
+          </h3>
+
+          <div class="form-row">
+            <div class="form-field">
+              <label>챕터 번호 <span class="hint">(CH.01)</span></label>
+              <input type="text" data-insight="${idx}" data-key="number" value="${escapeAttr(c.number)}" placeholder="CH.01">
+            </div>
+            <div class="form-field">
+              <label>고유 ID <span class="hint">(영문, 하이픈)</span></label>
+              <input type="text" data-insight="${idx}" data-key="id" value="${escapeAttr(c.id)}" placeholder="01-optical-adjustment">
+            </div>
+          </div>
+
+          <div class="form-row full">
+            <div class="form-field">
+              <label>제목</label>
+              <input type="text" data-insight="${idx}" data-key="title" value="${escapeAttr(c.title)}" placeholder="시각보정">
+            </div>
+          </div>
+
+          <div class="form-row full">
+            <div class="form-field">
+              <label>부제 / 한 줄 소개</label>
+              <textarea data-insight="${idx}" data-key="subtitle" rows="2">${escapeText(c.subtitle)}</textarea>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-field">
+              <label>발행일 / 연도</label>
+              <input type="text" data-insight="${idx}" data-key="date" value="${escapeAttr(c.date)}" placeholder="2026">
+            </div>
+            <div class="form-field">
+              <label>페이지 수</label>
+              <input type="text" data-insight="${idx}" data-key="pages" value="${escapeAttr(c.pages)}" placeholder="4">
+            </div>
+          </div>
+
+          <div class="form-row full">
+            <div class="form-field">
+              <label>표지 이미지 경로 <span class="hint">(PDF 첫 페이지 캡처 권장)</span></label>
+              <input type="text" class="path-input" data-insight="${idx}" data-key="coverImage" value="${escapeAttr(c.coverImage)}" placeholder="images/insight/01-optical.jpg">
+            </div>
+          </div>
+
+          <div class="form-row full">
+            <div class="form-field">
+              <label>PDF 파일 경로 <span class="hint">(GitHub에 직접 업로드 후 경로 입력)</span></label>
+              <input type="text" class="path-input" data-insight="${idx}" data-key="pdfFile" value="${escapeAttr(c.pdfFile)}" placeholder="pdfs/insight-01-optical.pdf">
+            </div>
+          </div>
+
+          <div class="form-row full">
+            <div class="form-field">
+              <label>본문 HTML <span class="hint">(상세 페이지에 표시. 비우면 표지 + PDF만 노출)</span></label>
+              <textarea data-insight="${idx}" data-key="body" rows="8" style="min-height: 180px; font-family: var(--mono); font-size: 12px;" placeholder="<h2>섹션 제목</h2>\n<p>본문 내용...</p>\n<blockquote>인용구<span class='source'>— 출처</span></blockquote>">${escapeText(c.body)}</textarea>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-field">
+              <label>준비 중 표시</label>
+              <select data-insight="${idx}" data-key="coming">
+                <option value="false" ${!c.coming ? 'selected' : ''}>아니오 (공개)</option>
+                <option value="true" ${c.coming ? 'selected' : ''}>예 (Coming Soon 표시)</option>
+              </select>
+            </div>
+            <div class="form-field"></div>
+          </div>
+        </div>
+      `;
+    }
+
+    function bindInsightInputs() {
+      document.querySelectorAll('[data-insight]').forEach(el => {
+        el.addEventListener('input', e => {
+          const idx = parseInt(el.dataset.insight);
+          const key = el.dataset.key;
+          let v = el.value;
+          if (key === 'coming') v = v === 'true';
+          state.insights[idx][key] = v;
+          updatePreview();
+          if (key === 'title' || key === 'number') {
+            const card = el.closest('.form-card');
+            if (card) {
+              const h3 = card.querySelector('h3 span');
+              if (h3) h3.textContent = `${state.insights[idx].number || 'CH.??'} — ${state.insights[idx].title || '제목 없음'}`;
+            }
+          }
+        });
+      });
+    }
+
+    function addInsight() {
+      if (!state.insights) state.insights = [];
+      const num = state.insights.length + 1;
+      state.insights.push({
+        id: 'insight-' + Date.now(),
+        number: `CH.${String(num).padStart(2, '0')}`,
+        title: '새 챕터',
+        subtitle: '',
+        date: '2026',
+        pages: '',
+        format: 'PDF',
+        coverImage: '',
+        pdfFile: '',
+        body: '',
+        coming: false
+      });
+      renderInsights();
+      updatePreview();
+      toast('챕터가 추가되었습니다', 'success');
+    }
+
+    function removeInsight(idx) {
+      if (!confirm('이 챕터를 삭제하시겠습니까?')) return;
+      state.insights.splice(idx, 1);
+      renderInsights();
+      updatePreview();
+      toast('삭제되었습니다');
+    }
+
+    function moveInsight(idx, dir) {
+      const tgt = idx + dir;
+      if (tgt < 0 || tgt >= state.insights.length) return;
+      [state.insights[idx], state.insights[tgt]] = [state.insights[tgt], state.insights[idx]];
+      renderInsights();
       updatePreview();
     }
 
