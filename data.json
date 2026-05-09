@@ -94,6 +94,18 @@
       "skew": false,
       "serif": false,
       "link": "#"
+    },
+    {
+      "id": "work-1778323444214",
+      "title": "들쭉날쭉",
+      "year": "2026",
+      "category": "Personal",
+      "image": "./들쭉날쭉.png",
+      "previewText": "",
+      "theme": "dark",
+      "skew": false,
+      "serif": false,
+      "link": "#"
     }
   ]
 }
