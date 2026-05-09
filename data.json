@@ -5,9 +5,9 @@
     "tagline": "Pear Type Foundry. Seoul, 2026.",
     "fontsReleased": 2,
     "fontsInDevelopment": 2,
-    "heroImage": "",
+    "heroImage": "./hero.png",
     "email": "ppearwayy@gmail.com",
-    "instagram": "",
+    "instagram": "https://www.instagram.com/thisispearway/",
     "noonnu": "",
     "businessName": "PEAR TYPE FOUNDRY",
     "businessCEO": "LEE HEEBAE",
@@ -15,15 +15,15 @@
   },
   "fonts": [
     {
-      "id": "elegant-serif",
+      "id": "",
       "number": "PTF · 01",
       "year": "2025",
       "name": "우아한세리프",
       "nameEn": "Elegant Serif",
       "preview": "우아함",
-      "image": "",
+      "image": "./grace.png",
       "category": "Serif",
-      "weights": "1 weight",
+      "weights": "2 weight",
       "status": "출시",
       "statusDetail": "다운로드 ↗",
       "style": "serif",
@@ -32,23 +32,30 @@
       "specs": [
         {
           "label": "Weights",
-          "value": "Regular"
+          "value": "Regular · Bold"
         },
         {
           "label": "Glyphs",
-          "value": "11,172자 + 영문 + 숫자"
+          "value": "11,172자 + 숫자"
         },
         {
           "label": "Format",
-          "value": "OTF · TTF · WOFF2"
+          "value": "OTF · TTF"
         },
         {
           "label": "License",
           "value": "개인 / 상업 사용 가능"
         }
       ],
-      "gallery": [],
-      "downloadFile": "fonts/elegant-serif.zip",
+      "gallery": [
+        "./grace1.png",
+        "./grace2.png",
+        "./grace3.png",
+        "./grace4.png",
+        "./grace5.png",
+        "./grace6.png"
+      ],
+      "downloadFile": "./GraceSerif.Zip",
       "downloadLabel": "무료 다운로드",
       "purchaseUrl": "",
       "purchaseLabel": "",
@@ -57,24 +64,24 @@
       "coming": false
     },
     {
-      "id": "ssiddak",
+      "id": "",
       "number": "PTF · 02",
       "year": "2026",
       "name": "삐딱한글",
       "nameEn": "Ssiddak Hangeul",
       "preview": "삐딱하게",
-      "image": "",
+      "image": "./crked1.png",
       "category": "Display · 4 Weights",
       "weights": "Variable",
       "status": "출시 예정",
       "statusDetail": "2026년 가을",
       "style": "display",
       "theme": "dark",
-      "description": "삐딱한글은 정자(正字)에서 의도적으로 비켜선 디스플레이 활자입니다. 4가지 웨이트와 가변 폰트로, 강렬한 표현이 필요한 브랜딩과 포스터에 어울립니다.\n\n태도가 있는 글자, 결이 있는 글자.",
+      "description": "삐딱한글은 정자에서 의도적으로 비켜선 디스플레이 활자입니다. 3가지 웨이트와 가변 폰트로, 강렬한 표현이 필요한 브랜딩과 포스터에 어울립니다.\n\n태도가 있는 글자, 결이 있는 글자.",
       "specs": [
         {
           "label": "Weights",
-          "value": "Light · Regular · Bold · Black"
+          "value": "Regular · SemiBold · ExtraBold"
         },
         {
           "label": "Variable",
@@ -87,13 +94,15 @@
         {
           "label": "Format",
           "value": "OTF · TTF · WOFF2 · Variable"
-        },
-        {
-          "label": "Features",
-          "value": "ss01 (정자 모드) · ss02 (강조 모드)"
         }
       ],
-      "gallery": [],
+      "gallery": [
+        "./croked.png",
+        "./croked1.png",
+        "./croked2.png",
+        "./croked3.png",
+        "./croked4.png"
+      ],
       "downloadFile": "",
       "downloadLabel": "",
       "purchaseUrl": "",
@@ -101,52 +110,6 @@
       "price": "TBA",
       "license": "출시 시점에 공개됩니다.",
       "coming": false
-    },
-    {
-      "id": "in-progress",
-      "number": "PTF · 03",
-      "year": "TBA",
-      "name": "진행 중",
-      "nameEn": "In Progress",
-      "preview": "다음",
-      "image": "",
-      "category": "In Progress",
-      "weights": "—",
-      "status": "개발 중",
-      "statusDetail": "",
-      "style": "default",
-      "theme": "dim",
-      "description": "",
-      "specs": [],
-      "gallery": [],
-      "downloadFile": "",
-      "downloadLabel": "",
-      "price": "TBA",
-      "license": "",
-      "coming": true
-    },
-    {
-      "id": "planned",
-      "number": "PTF · 04",
-      "year": "TBA",
-      "name": "예정",
-      "nameEn": "Planned",
-      "preview": "그다음",
-      "image": "",
-      "category": "Planned",
-      "weights": "—",
-      "status": "예정",
-      "statusDetail": "",
-      "style": "default",
-      "theme": "dim",
-      "description": "",
-      "specs": [],
-      "gallery": [],
-      "downloadFile": "",
-      "downloadLabel": "",
-      "price": "TBA",
-      "license": "",
-      "coming": true
     }
   ],
   "graphics": [
@@ -155,48 +118,36 @@
       "title": "Lettering / Poster",
       "year": "2026",
       "category": "Personal",
-      "image": "",
-      "previewText": "제가요\n왜요",
+      "image": "./ter1.png",
+      "previewText": "",
       "theme": "dark",
       "skew": true,
       "serif": false,
       "link": ""
     },
     {
-      "id": "studio-mark",
-      "title": "Studio Mark",
+      "id": "work-1778325938409",
+      "title": "Lettering / Poster",
       "year": "2026",
-      "category": "Branding",
-      "image": "",
-      "previewText": "Pear",
-      "theme": "light",
-      "skew": false,
-      "serif": true,
-      "link": ""
-    },
-    {
-      "id": "editorial-spread",
-      "title": "Editorial Spread",
-      "year": "2026",
-      "category": "Magazine",
-      "image": "",
-      "previewText": "결을\n가진\n글자",
-      "theme": "light",
-      "skew": false,
-      "serif": false,
-      "link": ""
-    },
-    {
-      "id": "ssiddak-specimen",
-      "title": "Ssiddak Specimen",
-      "year": "2026",
-      "category": "Type Specimen",
-      "image": "",
-      "previewText": "싫\n어\n요",
+      "category": "Personal",
+      "image": "./Font2.png",
+      "previewText": "",
       "theme": "dark",
-      "skew": true,
+      "skew": false,
       "serif": false,
-      "link": ""
+      "link": "#"
+    },
+    {
+      "id": "work-1778325959409",
+      "title": "Lettering / Poster",
+      "year": "2026",
+      "category": "Personal",
+      "image": "./Font3.png",
+      "previewText": "",
+      "theme": "dark",
+      "skew": false,
+      "serif": false,
+      "link": "#"
     }
   ],
   "insights": [
