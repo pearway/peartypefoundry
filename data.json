@@ -191,6 +191,19 @@
       "pdfFile": "./PTF_INSIGHT_01_optical.pdf",
       "body": "",
       "coming": false
+    },
+    {
+      "id": "insight-1778411558772",
+      "number": "CH.02",
+      "title": "한글 구조",
+      "subtitle": "한글은 자모를 그리지 않고, 음절을 그린다. 폰트 디자이너와 호기심 많은 눈을 위한, 한글 음절꼴 6가지 패턴",
+      "date": "2026",
+      "pages": "4",
+      "format": "PDF",
+      "coverImage": "",
+      "pdfFile": "./PTF_INSIGHT_02_Hangeul.pdf",
+      "body": "",
+      "coming": false
     }
   ]
 }
