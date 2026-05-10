@@ -15,7 +15,7 @@
   },
   "fonts": [
     {
-      "id": "",
+      "id": "elegant-serif",
       "number": "PTF · 01",
       "year": "2025",
       "name": "우아한세리프",
@@ -64,7 +64,7 @@
       "coming": false
     },
     {
-      "id": "",
+      "id": "ssiddak",
       "number": "PTF · 02",
       "year": "2026",
       "name": "삐딱한글",
