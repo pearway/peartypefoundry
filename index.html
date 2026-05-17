@@ -117,26 +117,26 @@
     .marquee {
       display: flex;
       width: max-content;
-      animation: marquee-scroll 25s linear infinite;
+      animation: marquee-scroll 35s linear infinite;
       white-space: nowrap;
       flex-shrink: 0;
     }
 
     .marquee.reverse {
-      animation: marquee-scroll-reverse 30s linear infinite;
+      animation: marquee-scroll-reverse 40s linear infinite;
     }
 
     .marquee-content {
       font-family: var(--kr);
       font-weight: 200;
-      font-size: clamp(60px, 10vw, 140px);
+      font-size: clamp(100px, 16vw, 240px);
       line-height: 1;
-      letter-spacing: -0.04em;
+      letter-spacing: -0.05em;
       color: var(--bg);
-      padding-right: 60px;
+      padding-right: 80px;
       display: inline-flex;
       align-items: center;
-      gap: 40px;
+      gap: 60px;
     }
 
     .marquee.reverse .marquee-content {
@@ -144,13 +144,13 @@
       font-weight: 300;
       font-style: italic;
       color: rgba(252, 252, 250, 0.35);
-      font-size: clamp(40px, 7vw, 100px);
+      font-size: clamp(72px, 12vw, 180px);
     }
 
     .marquee-content .dot {
       display: inline-block;
-      width: 12px;
-      height: 12px;
+      width: 16px;
+      height: 16px;
       border-radius: 50%;
       background: rgba(252, 252, 250, 0.4);
       flex-shrink: 0;
@@ -158,6 +158,8 @@
 
     .marquee.reverse .marquee-content .dot {
       background: rgba(252, 252, 250, 0.2);
+      width: 12px;
+      height: 12px;
     }
 
     @keyframes marquee-scroll {
@@ -466,7 +468,7 @@
     }
 
     .type-card-image {
-      aspect-ratio: 4 / 3;
+      aspect-ratio: 3 / 4;
       background: var(--ink);
       color: var(--bg);
       padding: 60px 48px;
@@ -576,7 +578,7 @@
     }
 
     .graphic-visual {
-      aspect-ratio: 4 / 3;
+      aspect-ratio: 3 / 4;
       background: var(--ink);
       color: var(--bg);
       padding: 40px;
@@ -1254,33 +1256,25 @@ Seoul, 2026.</p>
     const pct = document.getElementById('loaderPercent');
     const loaderEl = document.getElementById('loader');
 
-    // Populate marquee content (immediately, then enhance with data.json if available)
-    populateMarquee(null);
-
-    // Try to load data.json for richer marquee
-    fetch('data.json')
-      .then(r => r.json())
-      .then(data => populateMarquee(data))
-      .catch(() => {/* keep fallback */});
+    // Populate marquee content (static brand statements)
+    populateMarquee();
 
     function populateMarquee(data) {
-      // Korean items (large, top row)
-      let krItems = ['Pear Type Foundry', '활자 파운드리'];
+      // Korean items (large, top row) - brand statements only, no font names
+      const krItems = [
+        'Pear Type Foundry',
+        '활자에도 결이 있다',
+        '한글 활자 파운드리',
+        'Seoul · Korea'
+      ];
+
       // English/italic items (smaller, bottom row, reverse)
-      let enItems = ['EST. 2026', 'SEOUL · KR', 'Type Foundry'];
-
-      if (data && data.fonts) {
-        const releasedFonts = data.fonts.filter(f => !f.coming);
-        const krNames = releasedFonts.map(f => f.name).filter(Boolean);
-        const enNames = releasedFonts.map(f => f.nameEn).filter(Boolean);
-
-        if (krNames.length > 0) {
-          krItems = ['Pear Type Foundry', ...krNames, '활자 파운드리'];
-        }
-        if (enNames.length > 0) {
-          enItems = ['EST. 2026', ...enNames, 'SEOUL · KR'];
-        }
-      }
+      const enItems = [
+        'EST. 2026',
+        'Type · Lettering · Graphic',
+        'Seoul, KR',
+        'Pear Type Foundry'
+      ];
 
       // Build marquee strings - duplicate for seamless loop
       const buildContent = (items) => {
@@ -1293,6 +1287,8 @@ Seoul, 2026.</p>
       document.getElementById('marqueeMainContent').innerHTML = buildContent(krItems);
       document.getElementById('marqueeSubContent').innerHTML = buildContent(enItems);
     }
+
+    // No need to fetch data.json for marquee anymore (static brand statements)
 
     // If already shown in this session, skip loader
     if (sessionStorage.getItem('ptf_loaded') === '1') {
