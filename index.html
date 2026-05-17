@@ -6,6 +6,9 @@
   <title>Pear Type Foundry</title>
   <meta name="description" content="Pear Type Foundry — 한글 활자 파운드리. 서울, 2026.">
 
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="apple-touch-icon" href="favicon.svg">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -60,7 +63,7 @@
     a:hover { color: var(--hover); }
 
     /* ====================================
-       LOADER — Dark Minimal
+       LOADER — Horizontal Marquee
        ==================================== */
     .loader {
       position: fixed;
@@ -70,13 +73,15 @@
       z-index: 1000;
       display: flex;
       flex-direction: column;
-      transition: opacity 1.2s cubic-bezier(0.7, 0, 0.3, 1), visibility 1.2s;
+      transition: opacity 1.2s cubic-bezier(0.7, 0, 0.3, 1), visibility 1.2s, transform 1.4s cubic-bezier(0.7, 0, 0.3, 1);
+      overflow: hidden;
     }
 
     .loader.done {
       opacity: 0;
       visibility: hidden;
       pointer-events: none;
+      transform: translateY(-30px);
     }
 
     .loader-header {
@@ -98,11 +103,71 @@
       letter-spacing: -0.02em;
     }
 
+    /* MARQUEE - center stage */
     .loader-stage {
       flex: 1;
       display: flex;
-      align-items: center;
+      flex-direction: column;
       justify-content: center;
+      overflow: hidden;
+      position: relative;
+      gap: 8px;
+    }
+
+    .marquee {
+      display: flex;
+      width: max-content;
+      animation: marquee-scroll 25s linear infinite;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .marquee.reverse {
+      animation: marquee-scroll-reverse 30s linear infinite;
+    }
+
+    .marquee-content {
+      font-family: var(--kr);
+      font-weight: 200;
+      font-size: clamp(60px, 10vw, 140px);
+      line-height: 1;
+      letter-spacing: -0.04em;
+      color: var(--bg);
+      padding-right: 60px;
+      display: inline-flex;
+      align-items: center;
+      gap: 40px;
+    }
+
+    .marquee.reverse .marquee-content {
+      font-family: var(--en);
+      font-weight: 300;
+      font-style: italic;
+      color: rgba(252, 252, 250, 0.35);
+      font-size: clamp(40px, 7vw, 100px);
+    }
+
+    .marquee-content .dot {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(252, 252, 250, 0.4);
+      flex-shrink: 0;
+    }
+
+    .marquee.reverse .marquee-content .dot {
+      background: rgba(252, 252, 250, 0.2);
+    }
+
+    @keyframes marquee-scroll {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    @keyframes marquee-scroll-reverse {
+      from { transform: translateX(-50%); }
+      to { transform: translateX(0); }
     }
 
     .loader-footer {
@@ -141,14 +206,87 @@
       letter-spacing: 0.05em;
     }
 
+    /* CIRCULAR PROGRESS RING */
+    .loader-progress-ring {
+      position: relative;
+      width: clamp(100px, 12vw, 140px);
+      height: clamp(100px, 12vw, 140px);
+      flex-shrink: 0;
+    }
+
+    .loader-progress-ring svg {
+      width: 100%;
+      height: 100%;
+      transform: rotate(-90deg);
+    }
+
+    .loader-progress-ring .ring-bg {
+      fill: none;
+      stroke: rgba(252, 252, 250, 0.1);
+      stroke-width: 1.5;
+    }
+
+    .loader-progress-ring .ring-fill {
+      fill: none;
+      stroke: var(--bg);
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      transition: stroke-dashoffset 0.1s linear;
+    }
+
+    .loader-percent-wrap {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+    }
+
     .loader-percent {
       font-family: var(--mono);
-      font-size: clamp(48px, 6vw, 80px);
+      font-size: clamp(28px, 3.5vw, 44px);
       font-weight: 400;
       color: var(--bg);
-      line-height: 0.9;
+      line-height: 1;
       letter-spacing: -0.04em;
-      text-align: right;
+    }
+
+    .loader-percent-label {
+      font-family: var(--mono);
+      font-size: 9px;
+      color: rgba(252, 252, 250, 0.4);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* ====================================
+       HERO ENTRANCE — staggered reveal
+       ==================================== */
+    .hero-enter {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    body.entered .hero-enter {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    body.entered .hero-enter-1 { transition-delay: 0.3s; }
+    body.entered .hero-enter-2 { transition-delay: 0.6s; }
+    body.entered .hero-enter-3 { transition-delay: 0.9s; }
+
+    /* Nav slides down */
+    nav {
+      transform: translateY(-100%);
+      transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1) 0.1s, background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+    }
+
+    body.entered nav {
+      transform: translateY(0);
     }
 
     /* ====================================
@@ -839,6 +977,16 @@
         opacity: 1 !important;
         transform: none !important;
       }
+      .hero-enter {
+        opacity: 1 !important;
+        transform: none !important;
+      }
+      nav {
+        transform: none !important;
+      }
+      .marquee {
+        animation: none !important;
+      }
     }
 
     /* LIGHTBOX */
@@ -919,21 +1067,41 @@
 </head>
 <body class="loading">
 
-  <!-- LOADER — Minimal -->
+  <!-- LOADER — Marquee -->
   <div class="loader" id="loader">
     <div class="loader-header">
       <div class="brand">Pear Type Foundry</div>
       <div>EST. 2026 — Seoul</div>
     </div>
 
-    <div class="loader-stage"></div>
+    <div class="loader-stage">
+      <div class="marquee" id="marqueeMain">
+        <div class="marquee-content" id="marqueeMainContent"></div>
+      </div>
+      <div class="marquee reverse" id="marqueeSub">
+        <div class="marquee-content" id="marqueeSubContent"></div>
+      </div>
+    </div>
 
     <div class="loader-footer">
       <div class="loader-footer-left">
         <div class="loader-spinner"></div>
         <span class="loader-footer-label">Loading</span>
       </div>
-      <span class="loader-percent" id="loaderPercent">000</span>
+
+      <div class="loader-progress-ring">
+        <svg viewBox="0 0 100 100">
+          <circle class="ring-bg" cx="50" cy="50" r="47"></circle>
+          <circle class="ring-fill" cx="50" cy="50" r="47"
+            stroke-dasharray="295.31"
+            stroke-dashoffset="295.31"
+            id="ringFill"></circle>
+        </svg>
+        <div class="loader-percent-wrap">
+          <span class="loader-percent" id="loaderPercent">000</span>
+          <span class="loader-percent-label">PERCENT</span>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -957,11 +1125,11 @@
     <div class="hero-overlay"></div>
 
     <div class="hero-content">
-      <div class="hero-eyebrow" id="heroEyebrow">EST. 2026 — Seoul</div>
+      <div class="hero-eyebrow hero-enter hero-enter-1" id="heroEyebrow">EST. 2026 — Seoul</div>
       <div class="hero-bottom">
-        <p class="hero-tagline" id="heroTagline">Pear Type Foundry.
+        <p class="hero-tagline hero-enter hero-enter-2" id="heroTagline">Pear Type Foundry.
 Seoul, 2026.</p>
-        <div class="hero-meta" id="heroMeta">
+        <div class="hero-meta hero-enter hero-enter-3" id="heroMeta">
           02 fonts released<br>
           02 in development
         </div>
@@ -1079,17 +1247,60 @@ Seoul, 2026.</p>
 
   <script>
     // ============================================
-    // LOADER — Minimal (shown once per session)
+    // LOADER — Marquee (shown once per session)
     // ============================================
     const LOAD_DURATION = 3000;
     const startTime = performance.now();
     const pct = document.getElementById('loaderPercent');
     const loaderEl = document.getElementById('loader');
 
+    // Populate marquee content (immediately, then enhance with data.json if available)
+    populateMarquee(null);
+
+    // Try to load data.json for richer marquee
+    fetch('data.json')
+      .then(r => r.json())
+      .then(data => populateMarquee(data))
+      .catch(() => {/* keep fallback */});
+
+    function populateMarquee(data) {
+      // Korean items (large, top row)
+      let krItems = ['Pear Type Foundry', '활자 파운드리'];
+      // English/italic items (smaller, bottom row, reverse)
+      let enItems = ['EST. 2026', 'SEOUL · KR', 'Type Foundry'];
+
+      if (data && data.fonts) {
+        const releasedFonts = data.fonts.filter(f => !f.coming);
+        const krNames = releasedFonts.map(f => f.name).filter(Boolean);
+        const enNames = releasedFonts.map(f => f.nameEn).filter(Boolean);
+
+        if (krNames.length > 0) {
+          krItems = ['Pear Type Foundry', ...krNames, '활자 파운드리'];
+        }
+        if (enNames.length > 0) {
+          enItems = ['EST. 2026', ...enNames, 'SEOUL · KR'];
+        }
+      }
+
+      // Build marquee strings - duplicate for seamless loop
+      const buildContent = (items) => {
+        const dot = '<span class="dot"></span>';
+        const single = items.map(s => `<span>${s}</span>`).join(dot);
+        // Duplicate the whole string to enable infinite scroll
+        return single + dot + single + dot;
+      };
+
+      document.getElementById('marqueeMainContent').innerHTML = buildContent(krItems);
+      document.getElementById('marqueeSubContent').innerHTML = buildContent(enItems);
+    }
+
     // If already shown in this session, skip loader
     if (sessionStorage.getItem('ptf_loaded') === '1') {
       loaderEl.style.display = 'none';
       document.body.classList.remove('loading');
+      setTimeout(() => {
+        document.body.classList.add('entered');
+      }, 50);
       startSite();
     } else {
       requestAnimationFrame(tick);
@@ -1102,15 +1313,26 @@ Seoul, 2026.</p>
       const value = Math.floor(progress * 100);
       pct.textContent = String(value).padStart(3, '0');
 
+      // Update circular progress ring
+      // Circumference of r=47 circle: 2 * π * 47 ≈ 295.31
+      const circumference = 295.31;
+      const offset = circumference * (1 - progress);
+      const ringFill = document.getElementById('ringFill');
+      if (ringFill) ringFill.setAttribute('stroke-dashoffset', offset);
+
       if (progress < 1) {
         requestAnimationFrame(tick);
       } else {
         pct.textContent = '100';
+        if (ringFill) ringFill.setAttribute('stroke-dashoffset', 0);
         sessionStorage.setItem('ptf_loaded', '1');
 
         setTimeout(() => {
           loaderEl.classList.add('done');
           document.body.classList.remove('loading');
+          setTimeout(() => {
+            document.body.classList.add('entered');
+          }, 300);
           startSite();
         }, 400);
       }

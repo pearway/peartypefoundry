@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PTF Admin</title>
 
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
 
@@ -342,6 +344,10 @@
     </div>
     <div class="header-actions">
       <button class="btn" onclick="loadJSON()">불러오기</button>
+      <label class="btn" style="cursor: pointer;">
+        파일에서 불러오기
+        <input type="file" accept=".json,application/json" onchange="loadJSONFromFile(event)" style="display: none;">
+      </label>
       <button class="btn-primary btn" onclick="downloadJSON()">data.json 다운로드</button>
     </div>
   </header>
@@ -564,12 +570,47 @@
         if (!r.ok) throw new Error('not found');
         const data = await r.json();
         state = data;
+        // Ensure new fields exist
+        if (!state.insights) state.insights = [];
+        if (!state.site.businessName) state.site.businessName = 'PEAR TYPE FOUNDRY';
+        if (!state.site.businessCEO) state.site.businessCEO = '';
+        if (!state.site.businessReg) state.site.businessReg = '';
         renderAll();
         toast('data.json을 불러왔습니다', 'success');
       } catch (e) {
         renderAll();
         toast('빈 상태로 시작합니다');
       }
+    }
+
+    function loadJSONFromFile(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const data = JSON.parse(e.target.result);
+          state = data;
+          // Ensure new fields exist (forward compatibility)
+          if (!state.insights) state.insights = [];
+          if (!state.site.businessName) state.site.businessName = 'PEAR TYPE FOUNDRY';
+          if (!state.site.businessCEO) state.site.businessCEO = '';
+          if (!state.site.businessReg) state.site.businessReg = '';
+          renderAll();
+          toast('파일에서 불러왔습니다', 'success');
+        } catch (err) {
+          toast('JSON 파일을 읽을 수 없습니다', 'error');
+          console.error(err);
+        }
+      };
+      reader.onerror = function() {
+        toast('파일 읽기 실패', 'error');
+      };
+      reader.readAsText(file);
+
+      // Reset input so the same file can be loaded again
+      event.target.value = '';
     }
 
     function renderAll() {
