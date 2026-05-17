@@ -80,6 +80,7 @@
       "description": "큰부리새로부터 영감을 얻어 만든 디스플레이 활자입니다. 2가지 웨이트와 가변 폰트까지 \n다양한 곳에서 활용할 수 있습니다.",
       "specs": [],
       "gallery": [
+        "./bbird3.png",
         "./bbird2.png",
         "./bbird1.png"
       ],
@@ -92,44 +93,7 @@
       "coming": false
     }
   ],
-  "graphics": [
-    {
-      "id": "lettering-poster",
-      "title": "Lettering / Poster",
-      "year": "2026",
-      "category": "Personal",
-      "image": "./ter1.png",
-      "previewText": "",
-      "theme": "dark",
-      "skew": true,
-      "serif": false,
-      "link": ""
-    },
-    {
-      "id": "work-1778325938409",
-      "title": "Lettering / Poster",
-      "year": "2026",
-      "category": "Personal",
-      "image": "./park.png",
-      "previewText": "",
-      "theme": "dark",
-      "skew": false,
-      "serif": false,
-      "link": "#"
-    },
-    {
-      "id": "work-1778325959409",
-      "title": "Lettering / Poster",
-      "year": "2026",
-      "category": "Personal",
-      "image": "./Font3.png",
-      "previewText": "",
-      "theme": "dark",
-      "skew": false,
-      "serif": false,
-      "link": "#"
-    }
-  ],
+  "graphics": [],
   "insights": [
     {
       "id": "01-optical-adjustment",
