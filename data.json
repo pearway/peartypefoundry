@@ -7,9 +7,11 @@
     "fontsInDevelopment": 2,
     "heroImage": "",
     "email": "ppearwayy@gmail.com",
-    "instagram": "https://www.instagram.com/thisispearway/",
+    "instagram": "",
     "noonnu": "",
     "businessName": "PEAR TYPE FOUNDRY",
+    "businessTag": "TYPE RESEARCH LAB",
+    "businessAddress": "SEOUL · GANGDONG-GU, KR",
     "businessCEO": "LEE HEEBAE",
     "businessReg": "515-11-75407"
   },
@@ -21,41 +23,22 @@
       "name": "우아한세리프",
       "nameEn": "Elegant Serif",
       "preview": "우아함",
-      "image": "./grace.png",
+      "image": "",
       "category": "Serif",
-      "weights": "2 weight",
+      "weights": "1 weight",
       "status": "출시",
       "statusDetail": "다운로드 ↗",
       "style": "serif",
       "theme": "light",
       "description": "우아한세리프는 본문과 제목 모두에 사용할 수 있는 정통 세리프 활자입니다. 클래식한 골격에 현대적 비례를 더해 어디에도 자연스럽게 어울립니다.\n\n각 글자의 두께와 곡선은 한글의 결을 살리되, 영문 세리프의 정제된 균형을 함께 담았습니다.",
       "specs": [
-        {
-          "label": "Weights",
-          "value": "Regular · Bold"
-        },
-        {
-          "label": "Glyphs",
-          "value": "11,172자 + 숫자"
-        },
-        {
-          "label": "Format",
-          "value": "OTF · TTF"
-        },
-        {
-          "label": "License",
-          "value": "개인 / 상업 사용 가능"
-        }
+        { "label": "Weights", "value": "Regular" },
+        { "label": "Glyphs", "value": "11,172자 + 영문 + 숫자" },
+        { "label": "Format", "value": "OTF · TTF · WOFF2" },
+        { "label": "License", "value": "개인 / 상업 사용 가능" }
       ],
-      "gallery": [
-        "./grace1.png",
-        "./grace2.png",
-        "./grace3.png",
-        "./grace4.png",
-        "./grace5.png",
-        "./grace6.png"
-      ],
-      "downloadFile": "./GraceSerif.Zip",
+      "gallery": [],
+      "downloadFile": "fonts/elegant-serif.zip",
       "downloadLabel": "무료 다운로드",
       "purchaseUrl": "",
       "purchaseLabel": "",
@@ -64,36 +47,133 @@
       "coming": false
     },
     {
-      "id": "font-1778407111263",
-      "number": "PTF · 03",
+      "id": "ssiddak",
+      "number": "PTF · 02",
       "year": "2026",
-      "name": "큰부리새",
-      "nameEn": "",
-      "preview": "",
-      "image": "./bbird.png",
-      "category": "Display",
-      "weights": "2 weight",
-      "status": "개발 중",
-      "statusDetail": "",
-      "style": "default",
-      "theme": "",
-      "description": "큰부리새로부터 영감을 얻어 만든 디스플레이 활자입니다. 2가지 웨이트와 가변 폰트까지 \n다양한 곳에서 활용할 수 있습니다.",
-      "specs": [],
-      "gallery": [
-        "./bbird3.png",
-        "./bbird2.png",
-        "./bbird1.png"
+      "name": "삐딱한글",
+      "nameEn": "Ssiddak Hangeul",
+      "preview": "삐딱하게",
+      "image": "",
+      "category": "Display · 4 Weights",
+      "weights": "Variable",
+      "status": "출시 예정",
+      "statusDetail": "2026년 가을",
+      "style": "display",
+      "theme": "dark",
+      "description": "삐딱한글은 정자(正字)에서 의도적으로 비켜선 디스플레이 활자입니다. 4가지 웨이트와 가변 폰트로, 강렬한 표현이 필요한 브랜딩과 포스터에 어울립니다.\n\n태도가 있는 글자, 결이 있는 글자.",
+      "specs": [
+        { "label": "Weights", "value": "Light · Regular · Bold · Black" },
+        { "label": "Variable", "value": "Variable Font 지원" },
+        { "label": "Glyphs", "value": "11,172자 + 영문 + 숫자" },
+        { "label": "Format", "value": "OTF · TTF · WOFF2 · Variable" },
+        { "label": "Features", "value": "ss01 (정자 모드) · ss02 (강조 모드)" }
       ],
+      "gallery": [],
       "downloadFile": "",
       "downloadLabel": "",
       "purchaseUrl": "",
-      "purchaseLabel": "",
+      "purchaseLabel": "눈누마켓에서 구매",
+      "price": "TBA",
+      "license": "출시 시점에 공개됩니다.",
+      "coming": false
+    },
+    {
+      "id": "in-progress",
+      "number": "PTF · 03",
+      "year": "TBA",
+      "name": "진행 중",
+      "nameEn": "In Progress",
+      "preview": "다음",
+      "image": "",
+      "category": "In Progress",
+      "weights": "—",
+      "status": "개발 중",
+      "statusDetail": "",
+      "style": "default",
+      "theme": "dim",
+      "description": "",
+      "specs": [],
+      "gallery": [],
+      "downloadFile": "",
+      "downloadLabel": "",
       "price": "TBA",
       "license": "",
-      "coming": false
+      "coming": true
+    },
+    {
+      "id": "planned",
+      "number": "PTF · 04",
+      "year": "TBA",
+      "name": "예정",
+      "nameEn": "Planned",
+      "preview": "그다음",
+      "image": "",
+      "category": "Planned",
+      "weights": "—",
+      "status": "예정",
+      "statusDetail": "",
+      "style": "default",
+      "theme": "dim",
+      "description": "",
+      "specs": [],
+      "gallery": [],
+      "downloadFile": "",
+      "downloadLabel": "",
+      "price": "TBA",
+      "license": "",
+      "coming": true
     }
   ],
-  "graphics": [],
+  "graphics": [
+    {
+      "id": "lettering-poster",
+      "title": "Lettering / Poster",
+      "year": "2026",
+      "category": "Personal",
+      "image": "",
+      "previewText": "제가요\n왜요",
+      "theme": "dark",
+      "skew": true,
+      "serif": false,
+      "link": ""
+    },
+    {
+      "id": "studio-mark",
+      "title": "Studio Mark",
+      "year": "2026",
+      "category": "Branding",
+      "image": "",
+      "previewText": "Pear",
+      "theme": "light",
+      "skew": false,
+      "serif": true,
+      "link": ""
+    },
+    {
+      "id": "editorial-spread",
+      "title": "Editorial Spread",
+      "year": "2026",
+      "category": "Magazine",
+      "image": "",
+      "previewText": "결을\n가진\n글자",
+      "theme": "light",
+      "skew": false,
+      "serif": false,
+      "link": ""
+    },
+    {
+      "id": "ssiddak-specimen",
+      "title": "Ssiddak Specimen",
+      "year": "2026",
+      "category": "Type Specimen",
+      "image": "",
+      "previewText": "싫\n어\n요",
+      "theme": "dark",
+      "skew": true,
+      "serif": false,
+      "link": ""
+    }
+  ],
   "insights": [
     {
       "id": "01-optical-adjustment",
@@ -104,21 +184,8 @@
       "pages": "4",
       "format": "PDF",
       "coverImage": "",
-      "pdfFile": "./PTF_INSIGHT_01_optical.pdf",
-      "body": "",
-      "coming": false
-    },
-    {
-      "id": "insight-1778411558772",
-      "number": "CH.02",
-      "title": "한글 구조",
-      "subtitle": "한글은 자모를 그리지 않고, 음절을 그린다. 폰트 디자이너와 호기심 많은 눈을 위한, 한글 음절꼴 6가지 패턴",
-      "date": "2026",
-      "pages": "4",
-      "format": "PDF",
-      "coverImage": "",
-      "pdfFile": "./PTF_INSIGHT_02_Hangeul.pdf",
-      "body": "",
+      "pdfFile": "pdfs/PTF_INSIGHT_01_optical.pdf",
+      "body": "<h2>시각보정.</h2><p>같아 보이게 만드는, 같지 않은 그리기. 폰트 디자이너와 호기심 많은 눈을 위한, 6가지 시각보정 노트.</p><h3>01 받침 보정</h3><p>한글에서 받침 ㅇ은 초성 ㅇ보다 약 80~85% 크기로 그린다. 같은 모양이라도 위치가 다르면 다르게. 초성·중성·종성이 글자판 안에서 비례를 맞추는 것이 한글 시각보정의 핵심.</p><h3>02 자간 보정 (Kerning)</h3><p>A·V, T·o, W·a, L·T 같은 페어는 일반 자간으로 두면 사이가 떠 보인다. 글자별로 음수 자간을 적용 (보통 -30~-100 units, 1000 단위 기준). 트래킹과 달리 페어 단위로 작동.</p><h3>03 곡선 두께 보정</h3><p>O 같은 곡선 글자는 H 같은 직선 글자보다 약 5~15% 굵게 그린다. 곡선은 시각적으로 가늘어 보이는 착시 — 같은 두께면 약해 보임. 한글에선 ㅇ·ㅎ·ㅁ의 곡선 부분도 동일.</p><h3>04 교차점 두께 보정</h3><p>X · K · R · W 같이 획이 만나는 지점은 다른 부분보다 약 5~15% 가늘게. 그대로 두면 교차점이 두꺼워 보이는 착시 (ink-spread). 세리프에선 의도적 패임 '잉크 트랩'으로 발전.</p><h3>05 광학 중심 (Optical Center)</h3><p>컨테이너 정중앙에 둔 글자는 살짝 아래로 처져 보임 — 글자 무게가 아래쪽에 쌓이는 착시. 시각 중심은 기하학 중심보다 약 1~3% 위. 글자뿐 아니라 로고·아이콘·UI 정렬에도 동일.</p><h3>06 한글 음절 압축</h3><p>받침이 있는 글자는 초성·중성을 위로 압축. 같은 'ㅗ'라도 '모'와 '못'에서 가로획 위치가 다르다. 디지털 한글 폰트는 음절별 글리프를 따로 그리거나 동적 변형으로 해결.</p><h2>실무 레퍼런스.</h2><p>디자인 마무리 전 체크하는 13가지.</p><ul><li>둥근 글자가 사각 글자보다 살짝 큰가</li><li>뾰족한 글자가 베이스라인을 살짝 넘는가</li><li>가로획이 세로획보다 5~10% 가는가</li><li>한글 받침이 초성보다 작은가</li><li>AV, To, Wo 페어 자간이 좁혀졌는가</li><li>곡선 글자가 직선 글자보다 살짝 굵은가</li><li>X · K · R 교차점이 다른 부분보다 가는가</li><li>광학 중심으로 글자가 정렬됐는가</li><li>받침 있는 글자의 ㅗㅜ가 위로 올라갔는가</li><li>곡선과 직선이 만나는 지점이 자연스러운가</li><li>같은 weight 안에서 가독성이 일관되는가</li><li>구두점·부호의 광학 위치가 맞는가</li><li>한글·영문 혼용 시 시각 크기가 같은가</li></ul><h3>알아두면 좋은 용어</h3><p><strong>Cap-height (캡높이)</strong> · baseline에서 평평한 대문자(H, I) 꼭대기까지의 높이. 라틴 폰트 기본 측정값.</p><p><strong>Baseline (베이스라인)</strong> · 글자가 앉는 가상 수평선. 모든 측정의 기준점.</p><p><strong>X-height (엑스높이)</strong> · baseline에서 소문자 'x' 꼭대기까지의 높이. 어센더·디센더 제외. 가독성에 큰 영향.</p><p><strong>Ascender / Descender</strong> · x-height 위로 올라가는 부분 (b·d·h·k·l) / baseline 아래로 내려가는 부분 (g·j·p·q·y).</p><p><strong>Overshoot (오버슈트)</strong> · 둥근·뾰족한 글자가 시각보정을 위해 가상 라인을 살짝 넘어가는 것.</p><p><strong>Kerning (커닝)</strong> · 특정 글자 페어의 간격 미세 조정. 자간(전체)과 달리 페어 단위로 작동.</p><p><strong>Tracking (자간)</strong> · 텍스트 전체의 글자 간격 일괄 조정.</p><p><strong>Counter (카운터)</strong> · 글자 안 빈 공간 (O 안쪽, ㅇ 안쪽 등). 가독성 핵심.</p><p><strong>Stroke contrast (획 대비)</strong> · 한 글자 안에서 굵은 획과 얇은 획의 두께 차이. 모던 세리프(Didone)에서 가장 강함.</p><p><strong>Ink trap (잉크 트랩)</strong> · 획이 만나는 부분의 의도적 패임. 작게 인쇄될 때 잉크 번짐 방지.</p><h3>시각보정이 잘 적용된 한글 서체</h3><ol><li><strong>Pretendard</strong> — 디지털 환경 최적화. Inter 메트릭 기반의 모던 산세리프.</li><li><strong>Spoqa Han Sans Neo</strong> — 균형감 있는 본문용. 자간·받침 보정이 잘 잡혀있음.</li><li><strong>Apple SD 산돌고딕 Neo</strong> — macOS·iOS 시스템 폰트. 본문 가독성의 기준.</li><li><strong>산돌 정체 / 명조</strong> — 본문용 명조의 정통. 획 대비와 광학적 보정의 표본.</li><li><strong>윤고딕 700 시리즈</strong> — 디스플레이용. 큰 사이즈에서의 보정이 정교함.</li></ol><h2>결국.</h2><p>규칙은 규칙일 뿐, 만드는 건 디자이너의 눈.</p><p>앞의 규칙들은 반드시 지켜야 할 정답이 아니다. 무시한 채로 만들어진 폰트도 많고, 그 자체로 매력 있는 것들도 많다. 시각보정은 디자이너가 가진 도구일 뿐 — 의도에 따라 쓰이거나 버려진다.</p><p>결국 시각보정은, 디자이너의 의도와 눈이 만들어내는 것.</p><blockquote>\"글자는 종이 위에서 단어로서가 아니라, 설명하지 않아도 숨쉬는 것처럼 존재해야 한다.\"<span class=\"source\">— Adrian Frutiger</span></blockquote><p>이미 잘 만들어진 본문 폰트는 충분히 많다. 앞으로는 더 개성 있는 타이틀 폰트가 많이 나오면 좋겠다. 설명 없이 숨쉬는, 그런 글자들이.</p>",
       "coming": false
     }
   ]

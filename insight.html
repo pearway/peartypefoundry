@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Font Insight — Pear Type Foundry</title>
-  <meta name="description" content="활자 디자이너의 노트. Pear Type Foundry의 폰트 인사이트 시리즈.">
+  <meta name="description" content="활자 노트. Pear Type Foundry의 폰트 인사이트 시리즈.">
 
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="apple-touch-icon" href="favicon.svg">
@@ -18,13 +18,13 @@
 
   <style>
     :root {
-      --bg: #FCFCFA;
-      --ink: #0A0A09;
-      --ink-2: #1F1F1D;
-      --muted: #B5B3AC;
-      --muted-2: #75736E;
-      --hover: #2840E8;
-      --line: rgba(10, 10, 9, 0.06);
+      --bg: #0A0A09;
+      --ink: #FCFCFA;
+      --ink-2: #E8E6DF;
+      --muted: #5C5A55;
+      --muted-2: #8A8782;
+      --hover: #6B8AFF;
+      --line: rgba(252, 252, 250, 0.08);
 
       --en: 'Geist', sans-serif;
       --mono: 'Geist Mono', monospace;
@@ -62,7 +62,7 @@
       justify-content: space-between;
       align-items: center;
       z-index: 100;
-      background: rgba(252, 252, 250, 0.85);
+      background: rgba(10, 10, 9, 0.85);
       backdrop-filter: blur(16px) saturate(150%);
       -webkit-backdrop-filter: blur(16px) saturate(150%);
       border-bottom: 1px solid var(--line);
@@ -233,10 +233,12 @@
 
     /* INTRO BLOCK */
     .intro-block {
-      background: var(--ink);
-      color: var(--bg);
+      background: #050504;
+      color: var(--ink);
       padding: 80px var(--pad);
       margin: 0;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
     }
 
     .intro-content {
@@ -397,7 +399,7 @@
     <div class="header-meta reveal">F O N T &nbsp; I N S I G H T &nbsp; / &nbsp; @thisispearway</div>
 
     <h1 class="insight-title reveal kr">
-      활자 디자이너의<br>
+      활자
       <span class="accent">노트.</span>
     </h1>
 
@@ -510,16 +512,20 @@
       document.getElementById('footerTag').textContent = data.site.tagline;
 
       const bizName = data.site.businessName || 'PEAR TYPE FOUNDRY';
+      const bizTag = data.site.businessTag || '';
+      const bizAddress = data.site.businessAddress || 'SEOUL, KR';
       const bizCEO = data.site.businessCEO || '';
       const bizReg = data.site.businessReg || '';
       const year = new Date().getFullYear();
-      const businessLine2 = [
+
+      const line1 = `© ${year} ${bizName}${bizTag ? ' · ' + bizTag : ''}`;
+      const line2 = bizAddress;
+      const line3 = [
         bizCEO ? `CEO ${bizCEO}` : '',
         bizReg ? `BIZ REG. ${bizReg}` : ''
       ].filter(Boolean).join(' · ');
-      document.getElementById('footerBusiness').innerHTML = `
-        © ${year} ${bizName} · SEOUL, KR${businessLine2 ? '<br>' + businessLine2 : ''}
-      `;
+
+      document.getElementById('footerBusiness').innerHTML = [line1, line2, line3].filter(Boolean).join('<br>');
 
       const footerFonts = document.getElementById('footerFonts');
       footerFonts.innerHTML = (data.fonts || [])

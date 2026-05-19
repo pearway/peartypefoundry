@@ -17,13 +17,13 @@
 
   <style>
     :root {
-      --bg: #FCFCFA;
-      --ink: #0A0A09;
-      --ink-2: #1F1F1D;
-      --muted: #B5B3AC;
-      --muted-2: #75736E;
-      --hover: #2840E8;
-      --line: rgba(10, 10, 9, 0.06);
+      --bg: #0A0A09;
+      --ink: #FCFCFA;
+      --ink-2: #E8E6DF;
+      --muted: #5C5A55;
+      --muted-2: #8A8782;
+      --hover: #6B8AFF;
+      --line: rgba(252, 252, 250, 0.08);
 
       --en: 'Geist', sans-serif;
       --mono: 'Geist Mono', monospace;
@@ -61,7 +61,7 @@
       justify-content: space-between;
       align-items: center;
       z-index: 100;
-      background: rgba(252, 252, 250, 0.85);
+      background: rgba(10, 10, 9, 0.85);
       backdrop-filter: blur(16px) saturate(150%);
       -webkit-backdrop-filter: blur(16px) saturate(150%);
       border-bottom: 1px solid var(--line);
@@ -167,9 +167,10 @@
     .cover-image {
       width: 100%;
       aspect-ratio: 4 / 3;
-      background: var(--ink);
+      background: #050504;
       overflow: hidden;
       position: relative;
+      border: 1px solid var(--line);
     }
 
     .cover-image img {
@@ -194,7 +195,7 @@
 
     .cover-fallback .big {
       font-size: clamp(80px, 10vw, 160px);
-      color: var(--bg);
+      color: #FCFCFA;
       font-weight: 400;
       letter-spacing: -0.04em;
       line-height: 0.9;
@@ -209,68 +210,119 @@
 
     .body-content h2 {
       font-family: var(--kr);
-      font-weight: 400;
-      font-size: clamp(24px, 3vw, 36px);
-      letter-spacing: -0.03em;
-      margin: 80px 0 24px;
-      line-height: 1.2;
+      font-weight: 200;
+      font-size: clamp(36px, 5vw, 64px);
+      letter-spacing: -0.04em;
+      margin: 120px 0 32px;
+      line-height: 1;
+      padding-top: 32px;
+      border-top: 1px solid var(--line);
+    }
+
+    .body-content h2:first-child {
+      margin-top: 0;
+      padding-top: 0;
+      border-top: none;
     }
 
     .body-content h3 {
-      font-family: var(--kr);
+      font-family: var(--mono);
       font-weight: 500;
-      font-size: 18px;
-      letter-spacing: -0.02em;
-      margin: 48px 0 12px;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      color: var(--ink);
+      text-transform: uppercase;
+      margin: 56px 0 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--line);
     }
 
     .body-content p {
       font-family: var(--kr);
       font-size: 16px;
-      line-height: 1.75;
+      line-height: 1.8;
       color: var(--ink-2);
       letter-spacing: -0.01em;
       margin-bottom: 20px;
+    }
+
+    .body-content p strong {
+      color: var(--ink);
+      font-weight: 500;
     }
 
     .body-content ul, .body-content ol {
       font-family: var(--kr);
-      font-size: 16px;
-      line-height: 1.75;
+      font-size: 15px;
+      line-height: 1.8;
       color: var(--ink-2);
       letter-spacing: -0.01em;
       margin-bottom: 20px;
-      padding-left: 20px;
+      padding-left: 0;
+      list-style: none;
     }
 
-    .body-content li { margin-bottom: 8px; }
+    .body-content li {
+      margin-bottom: 12px;
+      padding-left: 24px;
+      position: relative;
+    }
+
+    .body-content ul li::before {
+      content: "—";
+      position: absolute;
+      left: 0;
+      color: var(--muted-2);
+    }
+
+    .body-content ol {
+      counter-reset: item;
+    }
+
+    .body-content ol li {
+      counter-increment: item;
+    }
+
+    .body-content ol li::before {
+      content: "0" counter(item);
+      position: absolute;
+      left: 0;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted-2);
+      top: 4px;
+    }
 
     .body-content blockquote {
-      border-left: 2px solid var(--ink);
-      padding-left: 20px;
-      margin: 32px 0;
+      border-left: 1px solid var(--ink);
+      padding: 8px 0 8px 24px;
+      margin: 48px 0;
       font-family: var(--kr);
-      font-weight: 300;
-      font-size: 18px;
-      line-height: 1.6;
+      font-weight: 200;
+      font-size: clamp(22px, 2.5vw, 28px);
+      line-height: 1.4;
       color: var(--ink);
       letter-spacing: -0.02em;
     }
 
     .body-content blockquote .source {
       display: block;
-      margin-top: 12px;
+      margin-top: 16px;
       font-family: var(--mono);
-      font-size: 12px;
+      font-size: 11px;
+      font-weight: 400;
       color: var(--muted-2);
-      letter-spacing: 0.05em;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
     }
 
     /* DOWNLOAD CTA */
     .download-section {
-      background: var(--ink);
-      color: var(--bg);
+      background: #050504;
+      color: var(--ink);
       padding: 100px var(--pad);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
     }
 
     .download-content {
@@ -285,7 +337,7 @@
     .download-tag {
       font-family: var(--mono);
       font-size: 11px;
-      color: rgba(252, 252, 250, 0.5);
+      color: var(--muted-2);
       letter-spacing: 0.1em;
       margin-bottom: 24px;
     }
@@ -299,7 +351,7 @@
     }
 
     .download-statement .accent {
-      color: var(--muted);
+      color: var(--muted-2);
     }
 
     .download-action {
@@ -311,7 +363,7 @@
     .download-meta {
       font-family: var(--mono);
       font-size: 12px;
-      color: rgba(252, 252, 250, 0.6);
+      color: var(--muted-2);
       letter-spacing: 0.05em;
     }
 
@@ -321,8 +373,8 @@
       justify-content: space-between;
       gap: 16px;
       padding: 24px 32px;
-      background: var(--bg);
-      color: var(--ink);
+      background: #FCFCFA;
+      color: #0A0A09;
       font-family: var(--kr);
       font-size: 17px;
       font-weight: 500;
@@ -334,12 +386,12 @@
 
     .download-button:hover {
       background: var(--hover);
-      color: var(--bg);
+      color: #FCFCFA;
     }
 
     .download-button.disabled {
-      background: rgba(252, 252, 250, 0.15);
-      color: rgba(252, 252, 250, 0.5);
+      background: rgba(252, 252, 250, 0.1);
+      color: rgba(252, 252, 250, 0.4);
       pointer-events: none;
     }
 
@@ -592,13 +644,29 @@
     function renderChapter(c, data) {
       const num = c.number || 'CH.??';
       const useImage = c.coverImage && c.coverImage.trim();
-      const coverContent = useImage
-        ? `<img src="${c.coverImage}" alt="${c.title}">`
-        : `<div class="cover-fallback">
-            <div>F O N T &nbsp; I N S I G H T &nbsp; / &nbsp; ${num}</div>
-            <div class="big kr">${c.title || ''}</div>
-            <div>@thisispearway · 2026</div>
-          </div>`;
+      const hasBody = c.body && c.body.trim();
+
+      // Cover section only shown when image exists
+      const coverSection = useImage ? `
+        <section class="cover-section reveal">
+          <div class="cover-image">
+            <img src="${c.coverImage}" alt="${c.title}">
+          </div>
+        </section>
+      ` : '';
+
+      // If no image AND no body, show text fallback as cover
+      const fallbackCover = (!useImage && !hasBody) ? `
+        <section class="cover-section reveal">
+          <div class="cover-image">
+            <div class="cover-fallback">
+              <div>F O N T &nbsp; I N S I G H T &nbsp; / &nbsp; ${num}</div>
+              <div class="big kr">${c.title || ''}</div>
+              <div>@thisispearway · 2026</div>
+            </div>
+          </div>
+        </section>
+      ` : '';
 
       const hasPdf = c.pdfFile && c.pdfFile.trim();
       const downloadButton = hasPdf
@@ -656,11 +724,8 @@
           </div>
         </header>
 
-        <section class="cover-section reveal">
-          <div class="cover-image">
-            ${coverContent}
-          </div>
-        </section>
+        ${coverSection}
+        ${fallbackCover}
 
         ${bodyHTML}
 
@@ -687,16 +752,20 @@
       document.getElementById('footerTag').textContent = data.site.tagline;
 
       const bizName = data.site.businessName || 'PEAR TYPE FOUNDRY';
+      const bizTag = data.site.businessTag || '';
+      const bizAddress = data.site.businessAddress || 'SEOUL, KR';
       const bizCEO = data.site.businessCEO || '';
       const bizReg = data.site.businessReg || '';
       const year = new Date().getFullYear();
-      const businessLine2 = [
+
+      const line1 = `© ${year} ${bizName}${bizTag ? ' · ' + bizTag : ''}`;
+      const line2 = bizAddress;
+      const line3 = [
         bizCEO ? `CEO ${bizCEO}` : '',
         bizReg ? `BIZ REG. ${bizReg}` : ''
       ].filter(Boolean).join(' · ');
-      document.getElementById('footerBusiness').innerHTML = `
-        © ${year} ${bizName} · SEOUL, KR${businessLine2 ? '<br>' + businessLine2 : ''}
-      `;
+
+      document.getElementById('footerBusiness').innerHTML = [line1, line2, line3].filter(Boolean).join('<br>');
 
       const footerFonts = document.getElementById('footerFonts');
       footerFonts.innerHTML = (data.fonts || [])

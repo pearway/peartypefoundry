@@ -410,10 +410,20 @@
 
       <div class="form-card">
         <h3>사업자 정보 <span class="hint" style="font-family: var(--kr); font-weight: 400; font-size: 12px; color: var(--muted); margin-left: 8px;">(푸터에 표시)</span></h3>
-        <div class="form-row full">
+        <div class="form-row">
           <div class="form-field">
             <label>사업자명 <span class="hint">(영문 대문자 권장)</span></label>
             <input type="text" id="site-businessName" placeholder="PEAR TYPE FOUNDRY">
+          </div>
+          <div class="form-field">
+            <label>보조 태그 <span class="hint">(연구소 등 부가 정체성)</span></label>
+            <input type="text" id="site-businessTag" placeholder="TYPE RESEARCH LAB">
+          </div>
+        </div>
+        <div class="form-row full">
+          <div class="form-field">
+            <label>주소 <span class="hint">(영문 대문자 권장)</span></label>
+            <input type="text" id="site-businessAddress" placeholder="SEOUL · GANGDONG-GU, KR">
           </div>
         </div>
         <div class="form-row">
@@ -537,6 +547,8 @@
         instagram: '',
         noonnu: '',
         businessName: 'PEAR TYPE FOUNDRY',
+        businessTag: 'TYPE RESEARCH LAB',
+        businessAddress: 'SEOUL · GANGDONG-GU, KR',
         businessCEO: '',
         businessReg: ''
       },
@@ -570,17 +582,22 @@
         if (!r.ok) throw new Error('not found');
         const data = await r.json();
         state = data;
-        // Ensure new fields exist
-        if (!state.insights) state.insights = [];
-        if (!state.site.businessName) state.site.businessName = 'PEAR TYPE FOUNDRY';
-        if (!state.site.businessCEO) state.site.businessCEO = '';
-        if (!state.site.businessReg) state.site.businessReg = '';
+        ensureCompat();
         renderAll();
         toast('data.json을 불러왔습니다', 'success');
       } catch (e) {
         renderAll();
         toast('빈 상태로 시작합니다');
       }
+    }
+
+    function ensureCompat() {
+      if (!state.insights) state.insights = [];
+      if (!state.site.businessName) state.site.businessName = 'PEAR TYPE FOUNDRY';
+      if (!state.site.businessTag) state.site.businessTag = '';
+      if (!state.site.businessAddress) state.site.businessAddress = 'SEOUL, KR';
+      if (!state.site.businessCEO) state.site.businessCEO = '';
+      if (!state.site.businessReg) state.site.businessReg = '';
     }
 
     function loadJSONFromFile(event) {
@@ -592,11 +609,7 @@
         try {
           const data = JSON.parse(e.target.result);
           state = data;
-          // Ensure new fields exist (forward compatibility)
-          if (!state.insights) state.insights = [];
-          if (!state.site.businessName) state.site.businessName = 'PEAR TYPE FOUNDRY';
-          if (!state.site.businessCEO) state.site.businessCEO = '';
-          if (!state.site.businessReg) state.site.businessReg = '';
+          ensureCompat();
           renderAll();
           toast('파일에서 불러왔습니다', 'success');
         } catch (err) {
@@ -635,12 +648,14 @@
       document.getElementById('site-instagram').value = s.instagram || '';
       document.getElementById('site-noonnu').value = s.noonnu || '';
       document.getElementById('site-businessName').value = s.businessName || '';
+      document.getElementById('site-businessTag').value = s.businessTag || '';
+      document.getElementById('site-businessAddress').value = s.businessAddress || '';
       document.getElementById('site-businessCEO').value = s.businessCEO || '';
       document.getElementById('site-businessReg').value = s.businessReg || '';
     }
 
     function bindSiteInputs() {
-      const fields = ['founded','location','tagline','fontsReleased','fontsInDevelopment','heroImage','email','instagram','noonnu','businessName','businessCEO','businessReg'];
+      const fields = ['founded','location','tagline','fontsReleased','fontsInDevelopment','heroImage','email','instagram','noonnu','businessName','businessTag','businessAddress','businessCEO','businessReg'];
       fields.forEach(f => {
         const el = document.getElementById('site-' + f);
         if (!el) return;
